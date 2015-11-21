@@ -1,3 +1,5 @@
 source https://nuget.org/api/v2
 nuget fsharp.data
 nuget MarkdownDeep.NET
+nuget WebSharper
+nuget WebSharper.Html
