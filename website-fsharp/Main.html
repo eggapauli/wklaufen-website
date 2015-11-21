@@ -9,7 +9,7 @@
     <meta name="keywords" content="WK Laufen, Blasmusik, Blaskapelle, Symphonisches Blasorchester" />
     <meta name="description" content="Homepage der Werkskapelle Laufen Gmunden-Engelhof" />
     <title>${title} - WK Laufen</title>
-    <link href="css/master.css" rel="stylesheet" />
+    <link href="assets/css/master.css" rel="stylesheet" />
     <template data-replace="css"></template>
 </head>
 <body>
@@ -17,7 +17,9 @@
         <div class="content-background visible" style="background-image: url(${bgUrl})">
             <div class="horizontal-outer-border">
                 <div class="vertical-outer-border">
-                    <div id="${contentId}" class="inner-main" data-hole="body" />
+                    <div id="${contentId}" class="inner-main">
+                        <div data-replace="body" />
+                    </div>
                 </div>
             </div>
         </div>

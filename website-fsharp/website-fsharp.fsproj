@@ -38,19 +38,18 @@
     <StartArguments>$(WebSharperHtmlDirectory)</StartArguments>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Data.fs" />
-    <Compile Include="Asset.fs" />
-    <Compile Include="Client.fs" />
-    <Compile Include="Main.fs" />
     <None Include="data\activities.json" />
     <None Include="data\member-groups.json" />
     <None Include="data\menu-items.json" />
     <None Include="data\pages.json" />
+    <Compile Include="Data.fs" />
+    <Compile Include="Asset.fs" />
+    <Compile Include="Client.fs" />
+    <Compile Include="Main.fs" />
     <None Include="extra.files" />
     <Content Include="Main.html" />
-    <Content Include="css\master.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="assets\css\master.css" />
+    <Content Include="assets\css\home.css" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Data">

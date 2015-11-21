@@ -47,9 +47,9 @@ let private resizeImpl sourcePath (desiredWidth, desiredHeight) =
     let fileName = sprintf "%s_%dx%d%s" (Path.GetFileNameWithoutExtension sourcePath) width height (Path.GetExtension sourcePath)
     let targetPath = Path.Combine(Path.GetDirectoryName sourcePath, fileName)
     destImage.Save targetPath
-    targetPath
+    fileName
 
 let resize container name size =
-    let sourcePath = Path.Combine("assets", container, name)
-    sourcePath
-//    resizeImpl sourcePath size
+    let sourcePath = Path.Combine("assets", "images", container, name)
+    resizeImpl sourcePath size
+    |> (sprintf "assets/images/%s/%s" container)
