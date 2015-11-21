@@ -17,3 +17,19 @@ type private Pages = JsonProvider<PagesPath>
 
 let getPages() =
     Pages.GetSample()
+
+[<Literal>]
+let MembersPath = @"data\members.json"
+
+type private Members = JsonProvider<MembersPath>
+
+let getMembers() =
+    Members.GetSamples()
+
+[<Literal>]
+let ActivitiesPath = @"data\activities.json"
+
+type private Activities = JsonProvider<ActivitiesPath>
+
+let getActivities() =
+    Activities.GetSamples()

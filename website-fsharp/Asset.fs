@@ -5,6 +5,7 @@ open System.Drawing
 open System.Drawing.Drawing2D
 open System.Drawing.Imaging
 open System.IO
+open WebSharper.Html.Server
 
 let private computeSize (imageWidth, imageHeight) (desiredWidthOpt, desiredHeightOpt) =
     let desiredWidth =
@@ -47,9 +48,16 @@ let private resizeImpl sourcePath (desiredWidth, desiredHeight) =
     let fileName = sprintf "%s_%dx%d%s" (Path.GetFileNameWithoutExtension sourcePath) width height (Path.GetExtension sourcePath)
     let targetPath = Path.Combine(Path.GetDirectoryName sourcePath, fileName)
     destImage.Save targetPath
-    fileName
+    fileName, (width, height)
 
 let resize container name size =
     let sourcePath = Path.Combine("assets", "images", container, name)
     resizeImpl sourcePath size
+    |> fst
     |> (sprintf "assets/images/%s/%s" container)
+
+let htmlImage container name size =
+    let sourcePath = Path.Combine("assets", "images", container, name)
+    resizeImpl sourcePath size
+    |> fun (fileName, (width, height)) ->
+        Img [ Src (sprintf "assets/images/%s/%s" container fileName); Width (string width ); Height (string height) ]
