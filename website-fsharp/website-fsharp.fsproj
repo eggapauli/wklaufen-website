@@ -42,6 +42,7 @@
     <Content Include="assets\css\home.css" />
     <Content Include="assets\css\contacts.css" />
     <Content Include="assets\css\activities.css" />
+    <Content Include="assets\css\bmf-2017.css" />
     <None Include="data\activities.json" />
     <None Include="data\member-groups.json" />
     <None Include="data\menu-items.json" />

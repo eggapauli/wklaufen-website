@@ -8,6 +8,7 @@ type EndPoint =
     | [<EndPoint "GET /">] Home
     | [<EndPoint "GET /kontakte">] Contacts
     | [<EndPoint "GET /termine">] Activities
+    | [<EndPoint "GET /bmf-2017">] BMF2017
 
 module Templating =
     open System.Web
@@ -205,6 +206,22 @@ module Site =
                 ]
             }
 
+    let BMF2017Page ctx =
+        Templating.Main ctx EndPoint.Activities
+            {
+                Id = "bmf-2017"
+                Title = pages.Bmf2017.Title
+                Css = [ "bmf-2017.css" ]
+                BackgroundImageUrl = pages.Bmf2017.BackgroundImage
+                Body =
+                [
+                    Div [Class "text"] -< [
+                        H1 [Text pages.Bmf2017.Headline]
+                        VerbatimContent (md.Transform pages.Bmf2017.Content)
+                    ]
+                ]
+            }
+
     [<Website>]
     let Main =
         Application.MultiPage (fun ctx action ->
@@ -212,13 +229,14 @@ module Site =
             | Home -> HomePage ctx
             | Contacts -> ContactsPage ctx
             | Activities -> ActivitiesPage ctx
+            | BMF2017 -> BMF2017Page ctx
         )
 
 [<Sealed>]
 type Website() =
     interface IWebsite<EndPoint> with
         member this.Sitelet = Site.Main
-        member this.Actions = [Home; Contacts; Activities]
+        member this.Actions = [Home; Contacts; Activities; BMF2017]
 
 [<assembly: Website(typeof<Website>)>]
 do ()
