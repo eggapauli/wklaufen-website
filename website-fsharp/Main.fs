@@ -7,8 +7,13 @@ open WebSharper.Sitelets
 type EndPoint =
     | [<EndPoint "GET /">] Home
     | [<EndPoint "GET /kontakte">] Contacts
+    | [<EndPoint "GET /news">] News
     | [<EndPoint "GET /termine">] Activities
     | [<EndPoint "GET /bmf-2017">] BMF2017
+    | [<EndPoint "GET /wir-ueber-uns">] AboutUs
+    | [<EndPoint "GET /vision-2020">] Vision2020
+    | [<EndPoint "GET /wertungen">] Contests
+    | [<EndPoint "GET /jugend">] Youths
 
 module Templating =
     open System.Web
@@ -70,7 +75,7 @@ module Site =
         slug text
         |> sprintf "%s.html"
 
-    let private md = new MarkdownDeep.Markdown();
+    let private md = new MarkdownDeep.Markdown(ExtraMode = true)
 
     let private random = new Random();
     let private obfuscate (text: string) =
@@ -83,6 +88,15 @@ module Site =
                 Span [Text (string ch)]
             ]
         )
+        |> List.concat
+
+    let private obfuscatePhone phoneNumber =
+        phoneNumber |> string |> obfuscate
+
+    let private obfuscateEmail emailAddress =
+        emailAddress
+        |> Option.map obfuscate
+        |> Option.toList
         |> List.concat
 
     let HomePage ctx =
@@ -113,28 +127,6 @@ module Site =
             }
 
     let ContactsPage ctx =
-        let contactNodes =
-            pages.Contacts.Members
-            |> Seq.map (fun memberId ->
-                let m =
-                    memberLookup
-                    |> Map.find memberId
-                Div [Class "contact"] -< [
-                    Div [Class "image"] -<
-                        (m.Photo
-                        |> Option.map (fun p -> Asset.htmlImage "members" p (Some 100, Some 150))
-                        |> Option.toList)
-                    Span [Text (sprintf "%s %s" m.FirstName m.LastName)]
-                    Br []
-                    Span [Text (m.Roles |> String.concat ", ")]
-                    Br []
-                    Span [] -< obfuscate (string m.Phone)
-                    Br []
-                    Span [] -< (m.Email |> Option.map obfuscate |> Option.toList |> List.concat)
-                ]
-            )
-            |> Seq.toList
-
         Templating.Main ctx EndPoint.Contacts
             {
                 Id = "contacts"
@@ -147,7 +139,56 @@ module Site =
                         H1 [Text pages.Contacts.Title]
                         Div [VerbatimContent (md.Transform pages.Contacts.Address)]
                     ]
-                    Div [Class "contacts"] -< contactNodes
+                    Div [Class "contacts"] -< (
+                        pages.Contacts.Members
+                        |> Seq.map (fun memberId ->
+                            let m =
+                                memberLookup
+                                |> Map.find memberId
+                            Div [Class "contact"] -< [
+                                Div [Class "image"] -<
+                                    (m.Photo
+                                    |> Option.map (fun p -> Asset.htmlImage "members" p (Some 100, Some 150))
+                                    |> Option.toList)
+                                Span [Text (sprintf "%s %s" m.FirstName m.LastName)]
+                                Br []
+                                Span [Text (m.Roles |> String.concat ", ")]
+                                Br []
+                                Span [] -< obfuscatePhone m.Phone
+                                Br []
+                                Span [] -< obfuscateEmail m.Email
+                            ]
+                        )
+                    )
+                ]
+            }
+
+    let NewsPage ctx =
+        Templating.Main ctx EndPoint.News
+            {
+                Id = "news"
+                Title = pages.News.Title
+                Css = [ "news.css" ]
+                BackgroundImageUrl = pages.News.BackgroundImage
+                Body =
+                [
+                    H1 [Text pages.News.Title]
+                    Div [Id "news-frame"; Class "rich-text"] -< [
+                        Div [Id "news-container"; Class "carousel"] -< (
+                            Data.getNews()
+                            |> Seq.map (fun news ->
+                                Div [Class "news"] -< [
+                                    VerbatimContent (md.Transform news.Content)
+                                ]
+                            )
+                        )
+                    ]
+                    A [Id "facebook-news-hint"; HRef "https://www.facebook.com/Werkskapelle-Laufen-Gmunden-Engelhof-890998107646493"] -< [
+                        Text "Aktuelle Infos"
+                        Br []
+                        Text "auch auf "
+                        Img [Src "assets/images/fb-logo.png"]
+                    ]
                 ]
             }
 
@@ -167,26 +208,6 @@ module Site =
                 else beginTime.ToString(dateTimeFormat) + " - " + endTime.ToString(dateTimeFormat)
             formattedTime
 
-        let activityRows =
-            Data.getActivities()
-            |> Seq.filter (fun act -> act.IsPublic)
-            |> Seq.filter (fun act -> act.BeginTime.IsSome)
-            |> Seq.groupBy (fun act -> act.BeginTime.Value.Year)
-            |> Seq.map (fun (year, entries) ->
-                let entryNodes =
-                    entries
-                    |> Seq.map (fun entry ->
-                        TR [] -< [
-                            TD [ Text (formatTime entry.BeginTime.Value entry.EndTime)]
-                            TD [ Text entry.Title]
-                            TD [ Text entry.Location]
-                        ]
-                    )
-                    |> Seq.toList
-                TR [] -< (TH [ColSpan "3"] -< [Text (string year)] :: entryNodes)
-            )
-            |> Seq.toList
-
         Templating.Main ctx EndPoint.Activities
             {
                 Id = "activities"
@@ -199,7 +220,25 @@ module Site =
                         H1 [Text pages.Activities.Title]
                         Div [Class "list"] -< [
                             Table [] -< [
-                                TBody [] -< activityRows
+                                TBody [] -< (
+                                    Data.getActivities()
+                                    |> Seq.filter (fun act -> act.IsPublic)
+                                    |> Seq.filter (fun act -> act.BeginTime.IsSome)
+                                    |> Seq.groupBy (fun act -> act.BeginTime.Value.Year)
+                                    |> Seq.map (fun (year, entries) ->
+                                        let entryNodes =
+                                            entries
+                                            |> Seq.map (fun entry ->
+                                                TR [] -< [
+                                                    TD [ Text (formatTime entry.BeginTime.Value entry.EndTime)]
+                                                    TD [ Text entry.Title]
+                                                    TD [ Text entry.Location]
+                                                ]
+                                            )
+                                            |> Seq.toList
+                                        TR [] -< (TH [ColSpan "3"] -< [Text (string year)] :: entryNodes)
+                                    )
+                                )
                             ]
                         ]
                     ]
@@ -222,21 +261,127 @@ module Site =
                 ]
             }
 
+    let AboutUsPage ctx =
+        Templating.Main ctx EndPoint.AboutUs
+            {
+                Id = "about-us"
+                Title = pages.AboutUs.Title
+                Css = [ "about-us.css" ]
+                BackgroundImageUrl = pages.AboutUs.BackgroundImage
+                Body =
+                [
+                    H1 [Text pages.AboutUs.Title]
+                    Div [Class "characteristics rich-text"] -< [
+                        H2 [Text pages.AboutUs.Characteristics.Title]
+                        Div [Class "carousel"] -< (
+                            pages.AboutUs.Characteristics.Items
+                            |> Seq.map (fun item ->
+                                Div [Class "about-us-section"] -< [
+                                    H3 [Text item.Title]
+                                    Div [VerbatimContent (md.Transform item.Text)]
+                                ]
+                            )
+                        )
+                    ]
+                    Div [Class "samples rich-text"] -< [
+                        VerbatimContent (md.Transform pages.AboutUs.Videos)
+                    ]
+                ]
+            }
+
+    let Vision2020Page ctx =
+        Templating.Main ctx EndPoint.Vision2020
+            {
+                Id = "vision-2020"
+                Title = pages.Vision2020.Title
+                Css = [ "vision-2020.css" ]
+                BackgroundImageUrl = pages.Vision2020.BackgroundImage
+                Body =
+                [
+                    H1 [Text pages.Vision2020.Title]
+                    Div [Class "rich-text"] -< [
+                        Div [Class "rich-text-content"] -< [
+                            VerbatimContent (md.Transform pages.Vision2020.Content)
+                        ]
+                    ]
+                ]
+            }
+
+    let ContestsPage ctx =
+        Templating.Main ctx EndPoint.Contests
+            {
+                Id = "contests"
+                Title = pages.Contests.Title
+                Css = [ "contests.css" ]
+                BackgroundImageUrl = pages.Contests.BackgroundImage
+                Body =
+                [
+                    Div [Class "rich-text contest-container"] -< [
+                        H1 [Text pages.Contests.Title]
+                        Div [Class "rich-text-content"] -< (
+                            pages.Contests.Results
+                            |> Seq.map (fun item ->
+                                Div [Class "contest"] -< [
+                                    H2 [Text item.Title]
+                                    VerbatimContent (md.Transform item.Content)
+                                ]
+                            )
+                        )
+                    ]
+                ]
+            }
+
+    let YouthsPage ctx =
+        Templating.Main ctx EndPoint.Youths
+            {
+                Id = "youths"
+                Title = pages.Youths.Title
+                Css = [ "youths.css" ]
+                BackgroundImageUrl = pages.Youths.BackgroundImage
+                Body =
+                [
+                    Div [Class "rich-text text"] -< [
+                        H1 [Text pages.Youths.Title]
+                        Div [VerbatimContent (md.Transform pages.Youths.Content)]
+                    ]
+
+                    Div [Class "contacts-container"] -< [
+                        Div [Class "rich-text contacts"] -< (
+                            pages.Youths.Members
+                            |> Seq.map (fun memberId ->
+                                let m = memberLookup |> Map.find memberId
+                                Div [Class "contact"] -< [
+                                    Strong [Text (sprintf "%s %s" m.FirstName m.LastName)]
+                                    Text (sprintf "(%s): " (m.Roles |> String.concat ", "))
+                                    Span [] -< obfuscatePhone m.Phone
+                                    Span [] -< obfuscateEmail m.Email
+                                ]
+                            )
+                        )
+                    ]
+                ]
+            }
+
     [<Website>]
     let Main =
         Application.MultiPage (fun ctx action ->
             match action with
             | Home -> HomePage ctx
             | Contacts -> ContactsPage ctx
+            | News -> NewsPage ctx
             | Activities -> ActivitiesPage ctx
             | BMF2017 -> BMF2017Page ctx
+            | AboutUs -> AboutUsPage ctx
+            | Vision2020 -> Vision2020Page ctx
+            | Contests -> ContestsPage ctx
+            | Youths -> YouthsPage ctx
         )
 
 [<Sealed>]
 type Website() =
     interface IWebsite<EndPoint> with
         member this.Sitelet = Site.Main
-        member this.Actions = [Home; Contacts; Activities; BMF2017]
+        member this.Actions = [Home; Contacts; News; Activities; BMF2017; AboutUs; Vision2020; Contests; Youths]
 
 [<assembly: Website(typeof<Website>)>]
 do ()

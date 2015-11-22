@@ -33,3 +33,11 @@ type private Activities = JsonProvider<ActivitiesPath>
 
 let getActivities() =
     Activities.GetSamples()
+
+[<Literal>]
+let NewsPath = @"data\news.json"
+
+type private News = JsonProvider<NewsPath>
+
+let getNews() =
+    News.GetSamples()

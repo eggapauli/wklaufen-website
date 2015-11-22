@@ -43,6 +43,11 @@
     <Content Include="assets\css\contacts.css" />
     <Content Include="assets\css\activities.css" />
     <Content Include="assets\css\bmf-2017.css" />
+    <Content Include="assets\css\news.css" />
+    <Content Include="assets\css\about-us.css" />
+    <Content Include="assets\css\vision-2020.css" />
+    <Content Include="assets\css\contests.css" />
+    <Content Include="assets\css\youths.css" />
     <None Include="data\activities.json" />
     <None Include="data\member-groups.json" />
     <None Include="data\menu-items.json" />
