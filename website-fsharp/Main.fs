@@ -10,6 +10,7 @@ type EndPoint =
     | [<EndPoint "GET /news">] News
     | [<EndPoint "GET /termine">] Activities
     | [<EndPoint "GET /musiker">] MemberGroups
+    | [<EndPoint "GET /">] Members of string
     | [<EndPoint "GET /bmf-2017">] BMF2017
     | [<EndPoint "GET /wir-ueber-uns">] AboutUs
     | [<EndPoint "GET /vision-2020">] Vision2020
@@ -33,7 +34,11 @@ module Templating =
         Content.Template<Page>("~/Main.html")
             .With("title", fun x -> x.Title)
             .With("contentId", fun x -> x.Id)
-            .With("css", fun x -> x.Css |> List.map (fun path -> Link [HRef (sprintf "assets/css/%s" path); Rel "stylesheet"]))
+            .With("css", fun x ->
+                x.Css
+                |> List.map (sprintf "assets/css/%s")
+                |> List.map (fun href -> Link [HRef href; Rel "stylesheet"])
+            )
             .With("bgUrl", fun x -> sprintf "assets/images/pages/%s" x.BackgroundImageUrl)
             .With("body", fun x -> x.Body)
 
@@ -264,6 +269,49 @@ module Site =
                 ]
             }
 
+    let MembersPage ctx groupId =
+        let (group, members) = members |> List.find (fun (g, _) -> g.Id = groupId)
+
+        Templating.Main (ctx: Context<EndPoint>) EndPoint.Members
+            {
+                Id = "members"
+                Title = group.Name
+                Css = [ "members.css" ]
+                BackgroundImageUrl = pages.Members.BackgroundImage
+                Body =
+                [
+                    H1 [Text group.Name]
+                    Div [Class "rich-text"] -< [
+                        Div [Class "carousel"] -< (
+                            members
+                            |> Seq.map (fun m ->
+                                Div [Class "member"] -< seq {
+                                    yield H2 [Text (sprintf "%s %s" m.FirstName m.LastName)]
+                                    match m.Photo with
+                                    | Some photo -> yield Div [Class "image"] -< [Asset.htmlImage "members" photo (None, Some 270)]
+                                    | None -> ()
+                                    yield UL [] -< seq {
+                                        if m.Instruments |> Array.isEmpty |> not
+                                        then
+                                            yield LI [Text (if m.Instruments.Length = 1 then "Instrument: " else "Instrumente: ")] -< [
+                                                Text (m.Instruments |> String.concat ", ")
+                                            ]
+                                        if m.Roles |> Array.isEmpty |> not
+                                        then
+                                            yield LI [Text (if m.Roles.Length = 1 then "Funktion: " else "Funktionen: ")] -< [
+                                                Text (m.Roles |> String.concat ", ")
+                                            ]
+                                        yield LI [Text (sprintf "Aktiv seit: %d" (DateTime.Parse(m.MemberSince).Year))]
+                                        yield LI [Text (sprintf "Wohnort: %s" m.City)]
+                                    }
+                                    yield Div [Class "clear"]
+                                }
+                            )
+                        )
+                    ]
+                ]
+            }
+
     let BMF2017Page ctx =
         Templating.Main ctx EndPoint.Activities
             {
@@ -405,6 +453,7 @@ module Site =
             | News -> NewsPage ctx
             | Activities -> ActivitiesPage ctx
             | MemberGroups -> MemberGroupsPage ctx
+            | Members groupId -> MembersPage ctx groupId
             | BMF2017 -> BMF2017Page ctx
             | AboutUs -> AboutUsPage ctx
             | Vision2020 -> Vision2020Page ctx
@@ -423,6 +472,14 @@ type Website() =
             News
             Activities
             MemberGroups
+            Members "vorstandsteam"
+            Members "saxophon"
+            Members "klarinette-und-fagott"
+            Members "marketenderinnen"
+            Members "tiefes-blech"
+            Members "hohes-blech"
+            Members "schlagzeug"
+            Members "querfloete"
             BMF2017
             AboutUs
             Vision2020

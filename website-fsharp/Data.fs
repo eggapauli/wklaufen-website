@@ -42,14 +42,14 @@ module Members =
             |> Set.isEmpty
             |> not
         match groupId with
-        | "Vorstand" -> m.Roles |> Array.isEmpty |> not
-        | "Saxophon" -> hasAnyInstrument [ "Saxophon" ]
-        | "KlarinetteFagott" -> hasAnyInstrument [ "B-Klarinette"; "Fagott" ]
-        | "Marketenderinnen" -> m.Instruments |> Array.isEmpty || hasAnyInstrument [ "Sonstige" ]
-        | "TiefesBlech" -> hasAnyInstrument [ "Tenorhorn"; "Tuba"; "Posaune"; "Horn" ]
-        | "HohesBlech" -> hasAnyInstrument [ "Fl\u00fcgelhorn"; "Trompete" ]
-        | "Schlagzeug" -> hasAnyInstrument [ "Schlagzeug" ]
-        | "Querfloete" -> hasAnyInstrument [ "Querfl\u00F6te" ]
+        | "vorstandsteam" -> m.Roles |> Array.isEmpty |> not
+        | "saxophon" -> hasAnyInstrument [ "Saxophon" ]
+        | "klarinette-und-fagott" -> hasAnyInstrument [ "B-Klarinette"; "Fagott" ]
+        | "marketenderinnen" -> m.Instruments |> Array.isEmpty || hasAnyInstrument [ "Sonstige" ]
+        | "tiefes-blech" -> hasAnyInstrument [ "Tenorhorn"; "Tuba"; "Posaune"; "Horn" ]
+        | "hohes-blech" -> hasAnyInstrument [ "Fl\u00fcgelhorn"; "Trompete" ]
+        | "schlagzeug" -> hasAnyInstrument [ "Schlagzeug" ]
+        | "querfloete" -> hasAnyInstrument [ "Querfl\u00F6te" ]
         | _ -> false
 
     let getIndexed() =

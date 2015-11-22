@@ -1,41 +1,41 @@
 [
   {
-    "Id": "Querfloete",
+    "Id": "querfloete",
     "Name": "Querflöte",
     "Photo": "querfloete.png"
   },
   {
-    "Id": "KlarinetteFagott",
+    "Id": "klarinette-und-fagott",
     "Name": "Klarinette & Fagott",
     "Photo": "klarinette-fagott.png"
   },
   {
-    "Id": "Saxophon",
+    "Id": "saxophon",
     "Name": "Saxophon",
     "Photo": "saxophon.png"
   },
   {
-    "Id": "HohesBlech",
+    "Id": "hohes-blech",
     "Name": "Hohes Blech",
     "Photo": "hohes-blech.png"
   },
   {
-    "Id": "Vorstand",
+    "Id": "vorstandsteam",
     "Name": "Vorstandsteam",
     "Photo": "vorstandsteam.png"
   },
   {
-    "Id": "TiefesBlech",
+    "Id": "tiefes-blech",
     "Name": "Tiefes Blech",
     "Photo": "tiefes-blech.png"
   },
   {
-    "Id": "Schlagzeug",
+    "Id": "schlagzeug",
     "Name": "Schlagzeug",
     "Photo": "schlagzeug.png"
   },
   {
-    "Id": "Marketenderinnen",
+    "Id": "marketenderinnen",
     "Name": "Marketenderinnen",
     "Photo": "marketenderinnen.jpg"
   }
