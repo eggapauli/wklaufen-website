@@ -50,7 +50,9 @@
     <Content Include="assets\css\youths.css" />
     <None Include="data\activities.json" />
     <None Include="data\member-groups.json" />
+    <None Include="data\members.json" />
     <None Include="data\menu-items.json" />
+    <None Include="data\news.json" />
     <None Include="data\pages.json" />
     <Compile Include="Data.fs" />
     <Compile Include="Asset.fs" />
