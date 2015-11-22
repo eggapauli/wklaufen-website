@@ -9,11 +9,13 @@ type EndPoint =
     | [<EndPoint "GET /kontakte">] Contacts
     | [<EndPoint "GET /news">] News
     | [<EndPoint "GET /termine">] Activities
+    | [<EndPoint "GET /musiker">] MemberGroups
     | [<EndPoint "GET /bmf-2017">] BMF2017
     | [<EndPoint "GET /wir-ueber-uns">] AboutUs
     | [<EndPoint "GET /vision-2020">] Vision2020
     | [<EndPoint "GET /wertungen">] Contests
     | [<EndPoint "GET /jugend">] Youths
+    | [<EndPoint "GET /floetenkids">] RecorderKids
 
 module Templating =
     open System.Web
@@ -42,12 +44,9 @@ module Site =
     open System
     open System.Text.RegularExpressions
 
-    let private pages = Data.getPages()
-    let private members = Data.getMembers()
-    let private memberLookup =
-        members
-        |> Array.map (fun m -> m.OoebvId, m)
-        |> Map.ofArray
+    let private pages = Data.Pages.getAll()
+    let private members = Data.Members.getGroups()
+    let private memberLookup = Data.Members.getIndexed()
 
     let private menuItem title href bgImage =
         LI [] -< [
@@ -101,7 +100,7 @@ module Site =
 
     let HomePage ctx =
         let (topMenuItems, bottomMenuItems) =
-            Data.getMenuItems()
+            Data.MenuItems.getAll()
             |> Array.partition (fun i -> i.Location = "Top")
 
         Templating.Main ctx EndPoint.Home
@@ -175,7 +174,7 @@ module Site =
                     H1 [Text pages.News.Title]
                     Div [Id "news-frame"; Class "rich-text"] -< [
                         Div [Id "news-container"; Class "carousel"] -< (
-                            Data.getNews()
+                            Data.News.getAll()
                             |> Seq.map (fun news ->
                                 Div [Class "news"] -< [
                                     VerbatimContent (md.Transform news.Content)
@@ -221,7 +220,7 @@ module Site =
                         Div [Class "list"] -< [
                             Table [] -< [
                                 TBody [] -< (
-                                    Data.getActivities()
+                                    Data.Activities.getAll()
                                     |> Seq.filter (fun act -> act.IsPublic)
                                     |> Seq.filter (fun act -> act.BeginTime.IsSome)
                                     |> Seq.groupBy (fun act -> act.BeginTime.Value.Year)
@@ -242,6 +241,26 @@ module Site =
                             ]
                         ]
                     ]
+                ]
+            }
+
+    let MemberGroupsPage ctx =
+        Templating.Main ctx EndPoint.MemberGroups
+            {
+                Id = "member-groups"
+                Title = pages.Members.Title
+                Css = [ "member-groups.css" ]
+                BackgroundImageUrl = pages.Members.BackgroundImage
+                Body =
+                [
+                    H1 [Text pages.Members.Title]
+                    UL [Class "menu"] -< (
+                        members
+                        |> List.map (fun (group, _) ->
+                            Asset.resize "member-groups" group.Photo (Some 200, Some 130)
+                            |> menuItem group.Name (getHref group.Name)
+                        )
+                    )
                 ]
             }
 
@@ -352,13 +371,28 @@ module Site =
                                 let m = memberLookup |> Map.find memberId
                                 Div [Class "contact"] -< [
                                     Strong [Text (sprintf "%s %s" m.FirstName m.LastName)]
-                                    Text (sprintf "(%s): " (m.Roles |> String.concat ", "))
+                                    Text (sprintf " (%s): " (m.Roles |> String.concat ", "))
                                     Span [] -< obfuscatePhone m.Phone
+                                    VerbatimContent "&nbsp;"
                                     Span [] -< obfuscateEmail m.Email
                                 ]
                             )
                         )
                     ]
+                ]
+            }
+
+    let RecorderKidsPage ctx =
+        Templating.Main ctx EndPoint.RecorderKids
+            {
+                Id = "recorder-kids"
+                Title = pages.RecorderKids.Title
+                Css = [ "recorder-kids.css" ]
+                BackgroundImageUrl = pages.RecorderKids.BackgroundImage
+                Body =
+                [
+                    H1 [Text pages.RecorderKids.Title]
+                    Tags.Object [Class "flyer"; Deprecated.Data ("assets/" + pages.RecorderKids.Flyer); Attr.Type "application/pdf"]
                 ]
             }
 
@@ -370,18 +404,32 @@ module Site =
             | Contacts -> ContactsPage ctx
             | News -> NewsPage ctx
             | Activities -> ActivitiesPage ctx
+            | MemberGroups -> MemberGroupsPage ctx
             | BMF2017 -> BMF2017Page ctx
             | AboutUs -> AboutUsPage ctx
             | Vision2020 -> Vision2020Page ctx
             | Contests -> ContestsPage ctx
             | Youths -> YouthsPage ctx
+            | RecorderKids -> RecorderKidsPage ctx
         )
 
 [<Sealed>]
 type Website() =
     interface IWebsite<EndPoint> with
         member this.Sitelet = Site.Main
-        member this.Actions = [Home; Contacts; News; Activities; BMF2017; AboutUs; Vision2020; Contests; Youths]
+        member this.Actions = [
+            Home
+            Contacts
+            News
+            Activities
+            MemberGroups
+            BMF2017
+            AboutUs
+            Vision2020
+            Contests
+            Youths
+            RecorderKids
+        ]
 
 [<assembly: Website(typeof<Website>)>]
 do ()

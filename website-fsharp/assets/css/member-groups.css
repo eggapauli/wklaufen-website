@@ -1,0 +1,8 @@
+﻿#member-groups h1 {
+  text-align: center;
+}
+#member-groups ul.menu li {
+  margin: 10px 30px;
+  width: 200px;
+  height: 130px;
+}

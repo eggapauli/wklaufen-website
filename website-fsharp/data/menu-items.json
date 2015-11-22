@@ -1,60 +1,62 @@
-[{
+[
+  {
     "Id": "contacts",
-	"Title": "Kontakte",
-	"BackgroundImage": "kontakte.png",
+    "Title": "Kontakte",
+    "BackgroundImage": "kontakte.png",
     "Location": "Top"
-},
-{
+  },
+  {
     "Id": "news",
-	"Title": "News",
-	"BackgroundImage": "news.jpg",
+    "Title": "News",
+    "BackgroundImage": "news.jpg",
     "Location": "Top"
-},
-{
+  },
+  {
     "Id": "activities",
-	"Title": "Termine",
-	"BackgroundImage": "termine.png",
+    "Title": "Termine",
+    "BackgroundImage": "termine.png",
     "Location": "Top"
-},
-{
+  },
+  {
     "Id": "members",
-	"Title": "Musiker",
-	"BackgroundImage": "musiker.png",
+    "Title": "Musiker",
+    "BackgroundImage": "musiker.png",
     "Location": "Top"
-},
-{
+  },
+  {
     "Id": "bmf2017",
-	"Title": "BMF 2017",
-	"BackgroundImage": "bmf-2017.png",
+    "Title": "BMF 2017",
+    "BackgroundImage": "bmf-2017.png",
     "Location": "Top"
-},
-{
+  },
+  {
     "Id": "about-us",
-	"Title": "Wir über uns",
-	"BackgroundImage": "wir-ueber-uns.jpg",
+    "Title": "Wir über uns",
+    "BackgroundImage": "wir-ueber-uns.jpg",
     "Location": "Bottom"
-},
-{
+  },
+  {
     "Id": "vision2020",
-	"Title": "Vision 2020",
-	"BackgroundImage": "vision-2020.png",
+    "Title": "Vision 2020",
+    "BackgroundImage": "vision-2020.png",
     "Location": "Bottom"
-},
-{
+  },
+  {
     "Id": "contests",
-	"Title": "Wertungen",
-	"BackgroundImage": "wertungen.png",
+    "Title": "Wertungen",
+    "BackgroundImage": "wertungen.png",
     "Location": "Bottom"
-},
-{
+  },
+  {
     "Id": "youths",
-	"Title": "Jugend",
-	"BackgroundImage": "jugend.png",
+    "Title": "Jugend",
+    "BackgroundImage": "jugend.png",
     "Location": "Bottom"
-},
-{
+  },
+  {
     "Id": "recorder-kids",
-	"Title": "Flötenkids",
-	"BackgroundImage": "floetenkids.png",
+    "Title": "Flötenkids",
+    "BackgroundImage": "floetenkids.png",
     "Location": "Bottom"
-}]
+  }
+]

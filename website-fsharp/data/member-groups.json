@@ -1,34 +1,42 @@
-{
-	"Querfloete": {
-		"Name": "Querflöte",
-		"Photo": "querfloete.png"
-	},
-	"KlarinetteFagott": {
-		"Name": "Klarinette & Fagott",
-		"Photo": "klarinette-fagott.png"
-	},
-	"Saxophon": {
-		"Name": "Saxophon",
-		"Photo": "saxophon.png"
-	},
-	"HohesBlech": {
-		"Name": "Hohes Blech",
-		"Photo": "hohes-blech.png"
-	},
-	"Vorstand": {
-		"Name": "Vorstandsteam",
-		"Photo": "vorstandsteam.png"
-	},
-	"TiefesBlech": {
-		"Name": "Tiefes Blech",
-		"Photo": "tiefes-blech.png"
-	},
-	"Schlagzeug": {
-		"Name": "Schlagzeug",
-		"Photo": "schlagzeug.png"
-	},
-	"Marketenderinnen": {
-		"Name": "Marketenderinnen",
-		"Photo": "marketenderinnen.jpg"
-	}
-}
+[
+  {
+    "Id": "Querfloete",
+    "Name": "Querflöte",
+    "Photo": "querfloete.png"
+  },
+  {
+    "Id": "KlarinetteFagott",
+    "Name": "Klarinette & Fagott",
+    "Photo": "klarinette-fagott.png"
+  },
+  {
+    "Id": "Saxophon",
+    "Name": "Saxophon",
+    "Photo": "saxophon.png"
+  },
+  {
+    "Id": "HohesBlech",
+    "Name": "Hohes Blech",
+    "Photo": "hohes-blech.png"
+  },
+  {
+    "Id": "Vorstand",
+    "Name": "Vorstandsteam",
+    "Photo": "vorstandsteam.png"
+  },
+  {
+    "Id": "TiefesBlech",
+    "Name": "Tiefes Blech",
+    "Photo": "tiefes-blech.png"
+  },
+  {
+    "Id": "Schlagzeug",
+    "Name": "Schlagzeug",
+    "Photo": "schlagzeug.png"
+  },
+  {
+    "Id": "Marketenderinnen",
+    "Name": "Marketenderinnen",
+    "Photo": "marketenderinnen.jpg"
+  }
+]

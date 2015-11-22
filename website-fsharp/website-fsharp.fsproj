@@ -48,6 +48,9 @@
     <Content Include="assets\css\vision-2020.css" />
     <Content Include="assets\css\contests.css" />
     <Content Include="assets\css\youths.css" />
+    <Content Include="assets\css\recorder-kids.css" />
+    <Content Include="assets\css\members.css" />
+    <Content Include="assets\css\member-groups.css" />
     <None Include="data\activities.json" />
     <None Include="data\member-groups.json" />
     <None Include="data\members.json" />
