@@ -1,0 +1,22 @@
+﻿#activities .activities {
+  position: absolute;
+  bottom: 0;
+  padding: 20px;
+}
+#activities .activities .list {
+  font-size: 130%;
+  height: 300px;
+  overflow-y: auto;
+}
+#activities .activities .list table {
+  border-collapse: collapse;
+  margin-right: 30px;
+}
+#activities .activities .list table td,
+#activities .activities .list table th {
+  border: 1px solid #222;
+  white-space: nowrap;
+}
+#activities .activities .list table td {
+  padding: 0 20px 0 5px;
+}

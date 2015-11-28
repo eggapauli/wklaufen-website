@@ -1,0 +1,98 @@
+{
+  "Home": {
+    "Title": "Home",
+    "BackgroundImage": "home.jpg",
+    "Content": "Willkommen bei der  \r\nWerkskapelle Laufen Gmunden-Engelhof"
+  },
+  "News": {
+    "Title": "News",
+    "BackgroundImage": "news.jpg"
+  },
+  "Contacts": {
+    "Title": "Kontakte",
+    "BackgroundImage": "kontakte.jpg",
+    "Address": "WK Laufen Gmunden-Engelhof  \r\nEngelhofstraße 7-9  \r\n4810 Gmunden am Traunsee",
+    "Members": [
+      "31180",
+      "600"
+    ]
+  },
+  "Contests": {
+    "Title": "Wertungsergebnisse",
+    "BackgroundImage": "wertungsergebnisse.jpg",
+    "Results": [
+      {
+        "Title": "Konzertwertungen",
+        "Content": "| Jahr  | Leistungsstufe | Punkteanzahl | Ergebnis               |\r\n| ----- | ---------------| ------------ | ---------------------- |\r\n| 2010  | B              | 91,25        | Ausgezeichneter Erfolg |\r\n| 2011  | C              | 93,50        | Ausgezeichneter Erfolg |\r\n| 2012  | C              | 92,00        | Ausgezeichneter Erfolg |\r\n| 2013  | C              | 92,25        | Ausgezeichneter Erfolg |\r\n| 2014  | C              | 141          |                        |\r\n| 2015  | C              | 148          |                        |"
+      },
+      {
+        "Title": "Marschwertungen",
+        "Content": "| Jahr  | Leistungsstufe | Punkteanzahl | Ergebnis               |\r\n| ----- | ---------------| ------------ | ---------------------- |\r\n| 2010  | C              | 89,00        | Sehr gut               |\r\n| 2011  | C              | 92,93        | Ausgezeichneter Erfolg |\r\n| 2012  | D              | 91,05        | Ausgezeichneter Erfolg |\r\n| 2013  | D              | 91,88        | Ausgezeichneter Erfolg |\r\n| 2014  | D              | 94,23        | Ausgezeichneter Erfolg |\r\n| 2015  | D              | 90,29        | Ausgezeichneter Erfolg |"
+      }
+    ]
+  },
+  "AboutUs": {
+    "Title": "Wir über uns",
+    "BackgroundImage": "wir-ueber-uns.jpg",
+    "Videos": "## Videos & Hörproben\r\n[The Dream of Freedom](https://www.youtube.com/watch?v=WKsrP1cfs8Q)  \r\n[Schönbrunn Suite](https://www.youtube.com/watch?v=o63IJHlv4Ik)  \r\n[Saxpack](https://www.youtube.com/watch?v=k4sBY68C0_o)  \r\n[Cape Horn](https://www.youtube.com/watch?v=kMNL4Y4XMhc)  \r\n[Children of Sanchez](https://www.youtube.com/watch?v=f48X0KubvnQ)  \r\n[Montana Fanfare](https://www.youtube.com/watch?v=R-c4AGNEGx4)  \r\n[Ouverture Festive](https://www.youtube.com/watch?v=TNoIbz_PcJ4)",
+    "Characteristics": {
+      "Title": "Was uns auszeichnet",
+      "Items": [
+        {
+          "Title": "Musikalische Flexibilität",
+          "Text": "Wir spielen alles! Marschmusik, Klassisches, Big Band Sound, böhmische Blasmusik, Filmmusik, moderne Konzertliteratur, Polka, Walzer, Ouvertüre(…) von Avsenik & Doss über Mozart & Schwarz bis hin zu Wonder & Zeman. Und das auf Konzerten, Früh- & Dämmerschoppen, Hochzeiten, Begräbnissen, Konzertreisen, Wertungsspiele und kirchliche Anlässen. Auch bei unserem traditionellen Jahreskonzert im Februar zeigen wir gerne, dass wir es als traditioneller Blasmusikverein auch Big-Band-technisch richtig krachen lassen können. Dieses abwechslungsreiche Repertoire ist eine Herausforderung, der wir uns mit größtem Vergnügen jede Probe wieder stellen."
+        },
+        {
+          "Title": "Eine lange & aufregende Geschichte",
+          "Text": "Gegründet wurde unser Verein im Jahr 1951. Zunächst bestand der Klangkörper vor allem aus Mitarbeitern der Keramik- & Sanitärproduktionsstätte im Gmundner Stadtteil Engelhof. Unser Probenzimmer befindet sich direkt am Werksgelände, aktuell sind zwei unserer 52 Musikerinnen und Musiker im Werk beschäftigt. Zu unseren größten Erfolgen bzw. bedeutendsten Ereignissen der Vereinsgeschichte zählen definitiv die internationalen Konzertreisen nach Zypern und Korfu.\r\n\r\nIm Jahr 2013 übergab Konsulent Franz Schindlauer nach 30 Jahren als Kapellmeister den Taktstock an seine Tochter Christa Doblmair, die den Verein nun gemeinsam mit Obmann Mathias Schrabacher leitet. Der nächste große Meilenstein unseres Vereins ist (neben der Realisierung eines neuen Probenlokals) die Ausrichtung des Bezirksmusikfestes Gmunden 2017."
+        },
+        {
+          "Title": "Ein großartiges Vereinsklima",
+          "Text": "Unser größter Trumpf sind unsere Musikerinnen und Musiker! Egal ob 6-jähriges Blockflötenkind oder 60-jähriger Blasmusikexperte – jeder ist mit viel Freude & Engagement an der Musik dabei. So entstehen nicht nur Freundschaften über Generationen hinweg, sondern auch ein Vereinsklima, bei dem man auch nach einem langen und anstrengenden Arbeits- oder Schultag gerne das Probenlokal betritt."
+        },
+        {
+          "Title": "Junger Schwung & wertvolle Erfahrungen im Vorstandsteam",
+          "Text": "Ziele braucht der Vorstand und hat deshalb eine Vision 2020 ausgearbeitet. Diese Planung beinhaltet Meilensteine wie ein neues Probenlokal, das Bezirksmusikfest 2017, Ausflüge, musikalische Höhenflüge und Jugendprojekte.\r\n\r\nAktuell besteht unser Vorstandsteam aus 14 Personen. Was uns hier ausmacht ist die Balance zwischen langjährigen & erfahrenen Vorstandsmitgliedern (wie unserem ehemaligen Kapellmeister Konsulent Franz Schindlauer und unserem ehemaligen Obmann Franz Prentner) und jungen, motivierten und kreativen Kräften. Derzeit sind 9 von 14 Vorstandsmitgliedern 30 Jahre oder jünger."
+        },
+        {
+          "Title": "Unsere jungen Wilden",
+          "Text": "Jung sind bei uns nämlich nicht nur die Blockflötenkids und die Musikerinnen und Musiker im Jugendorchester. Unsere Jugendreferentinnen Maria und Christina sind selbst noch keine 20 Jahre alt, aber bereits voller Pläne und Ideen für die Jugendarbeit.  Neben der musikalischen Weiterbildung kommt auch der Spaß bei unserer Vereinsjugend nicht zu kurz. Gerade erst haben sie den dritten Platz bei einem Malwettbewerb zum Thema \"Wir verändern die Welt\" mit ihrem Bild \"Musik verändert die Welt\" erreicht."
+        }
+      ]
+    }
+  },
+  "Youths": {
+    "Title": "Jugendreferat",
+    "BackgroundImage": "jugendreferat.jpg",
+    "Content": "Wie man uns ansieht, wird Jugendarbeit bei uns groß geschrieben! Bereits im Kindergartenalter können Kinder bei uns spielerisch Blockflöte erlernen. Hat man sich dann für ein Instrument entschieden, beginnt das gemeinsame Musizieren im Jugendorchester. Durch frühes, gemeinsames Proben und Auftritte (Adventkonzert, Jahreskonzert, Sommerfest…) ist nicht nur die musikalische Weiterentwicklung gewährleistet, sondern es entwickeln sich auch Freundschaften für's Leben. Kein Wunder, denn in der Vereinsjugend unternehmen wir viel gemeinsam (Malwettbewerb, Spielenachmittage, Ausflüge etc.). Interessierte können sich jederzeit beim Jugendreferat der Werkskapelle Laufen informieren.",
+    "Members": [
+      "600",
+      "56622",
+      "49155"
+    ]
+  },
+  "Vision2020": {
+    "Title": "Vision 2020",
+    "BackgroundImage": "vision-2020.jpg",
+    "Content": "_\"Die Vergangenheit muss ich zur Kenntnis nehmen. Mit der Gegenwart muss ich leben. Für die Zukunft aber, muss ich Visionen haben.\"_  \r\nW. Kownatka\r\n\r\nUnter diesem Motto hat der Vorstand der WK Laufen bei der Herbsttagung am 26. September 2014 eine Vision für die nächsten 6 Vereinsjahre formuliert. Mithilfe eines Meilensteinplans versuchen wir unsere Vereinsziele zu verwirklichen, um auch in Zukunft musikalische Qualität und ein lebendiges Miteinander garantieren zu können. \r\n\r\n## Unsere gemeinsame Vision 2020\r\n\r\n__Engagierte__ und leistungsorientierte __Jugendarbeit__ ist das Fundament für __florierendes Vereinsleben__.  \r\n__Kameradschaftliches__ Zusammenspiel zwischen __Jung und Alt__ motiviert zu höchsten Leistungen in guter __Qualität__.  \r\n__Zielorientierte__ Vereinsführung ermöglicht die Umsetzung von __Konzertreisen__, __Musikfesten__ und anderen Großprojekten.  \r\nUnser neues __Probenheim__ bietet beste Rahmenbedingungen für __Spaß und Spiel__."
+  },
+  "Bmf2017": {
+    "Title": "BMF 2017",
+    "BackgroundImage": "bmf-2017.jpg",
+    "Headline": "Bezirksmusikfest 9. -11. Juni 2017",
+    "Content": "Wir haben die Ehre & das Vergnügen, das Bezirksmusikfest Gmunden im Jahr 2017 ausrichten zu dürfen.  \r\nNähere Infos dazu folgen in Kürze!"
+  },
+  "RecorderKids": {
+    "Title": "Blockflötenkids",
+    "BackgroundImage": "blockfloetenkids.jpg",
+    "Flyer": "binary/Blockfloetenflyer_2015.pdf"
+  },
+  "Activities": {
+    "Title": "Terminkalender",
+    "BackgroundImage": "terminkalender.jpg"
+  },
+  "Members": {
+    "Title": "Die Musikerinnen & Musiker der WK Laufen",
+    "BackgroundImage": "die-musikerinnen-musiker-der-wk-laufen.jpg"
+  }
+}

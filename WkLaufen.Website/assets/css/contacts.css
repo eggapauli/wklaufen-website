@@ -1,0 +1,24 @@
+﻿#contacts .info {
+  position: absolute;
+  left: 200px;
+}
+#contacts .info > div {
+  font-size: 120%;
+}
+#contacts .info > div p {
+  margin: 0;
+}
+#contacts .contacts {
+  position: absolute;
+  right: 0;
+  color: #fff;
+}
+#contacts .contacts .contact {
+  width: 400px;
+  clear: both;
+  line-height: 200%;
+}
+#contacts .contacts .image {
+  float: left;
+  margin-right: 20px;
+}

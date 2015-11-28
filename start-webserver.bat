@@ -1,0 +1,1 @@
+.\packages\Exira.SimpleHttpServer\tools\simple-http-server.exe --port 8081 --path ..\..\..\WkLaufen.Website\bin\html\

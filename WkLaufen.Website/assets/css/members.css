@@ -1,0 +1,39 @@
+﻿#members h1 {
+  font-size: 220%;
+  text-align: center;
+}
+#members .rich-text {
+  padding: 20px 30px;
+  margin: 0 20px;
+  border: 1px solid #222;
+}
+#members .rich-text .carousel {
+  height: 440px;
+  overflow-y: auto;
+}
+#members .rich-text .carousel .member {
+  padding-top: 20px;
+}
+#members .rich-text .carousel .member h2 {
+  text-align: center;
+  font-size: 220%;
+  margin-bottom: 20px;
+}
+#members .rich-text .carousel .member .image {
+  float: left;
+  margin: 0 50px 15px 10px;
+}
+#members .rich-text .carousel .member .image img {
+  box-shadow: 5px 5px 10px #222;
+}
+#members .rich-text .carousel .member ul {
+  font-size: 150%;
+  line-height: 200%;
+  margin: 0;
+}
+#members .rich-text .carousel .member ul li {
+  list-style-image: url("../images/note.svg");
+}
+#members .rich-text .carousel:not(.slick-slider) .member {
+  margin-bottom: 50px;
+}

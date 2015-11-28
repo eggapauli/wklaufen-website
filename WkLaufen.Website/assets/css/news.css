@@ -1,0 +1,31 @@
+﻿#news h1 {
+  margin-left: 10px;
+}
+#news #news-frame {
+  font-size: 130%;
+  width: 440px;
+  height: 440px;
+  padding: 20px;
+}
+#news #news-frame #news-container {
+  height: 100%;
+  overflow-y: auto;
+}
+#news #news-frame #news-container .news {
+  height: 380px;
+  display: flex;
+  align-items: center;
+}
+#news #facebook-news-hint {
+  display: inline-block;
+  position: absolute;
+  right: 90px;
+  font-size: 150%;
+  bottom: 20px;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+}
+#news #facebook-news-hint img {
+  vertical-align: bottom;
+}
