@@ -80,6 +80,7 @@ Target "CopyAssets" <| fun() ->
     -- ("assets/" + resizeDefinitionFileName)
     -- ("assets/images/*/**/*.*")
     ++ ("node_modules/slick-carousel/slick/slick.min.js")
+    ++ ("node_modules/slick-carousel/slick/slick.css")
     ++ ("node_modules/slick-carousel/slick/slick-theme.css")
     ++ ("node_modules/slick-carousel/slick/ajax-loader.gif")
     ++ ("node_modules/slick-carousel/slick/fonts/slick.woff")
