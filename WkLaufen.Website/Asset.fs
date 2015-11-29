@@ -29,7 +29,8 @@ let private registerForResize container name desiredSize =
     let (width, height) = computeSize (image.Width, image.Height) desiredSize
     let json = sprintf """{ "Path": "%s", "Width": %d, "Height": %d }""" (sourcePath.Replace(@"\", @"\\")) width height
     File.AppendAllLines(Path.Combine("assets", "resize.txt"), [ json ])
-    sourcePath, (width, height)
+    let fileName = sprintf "%s_%dx%d%s" (Path.GetFileNameWithoutExtension sourcePath) width height (Path.GetExtension sourcePath)
+    fileName, (width, height)
 
 let resize container name size =
     registerForResize container name size
