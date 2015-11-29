@@ -41,7 +41,7 @@ module Templating =
                 |> List.map (sprintf "assets/css/%s")
                 |> List.map (fun href -> Link [HRef href; Rel "stylesheet"])
             )
-            .With("bgUrl", fun x -> sprintf "assets/images/pages/%s" x.BackgroundImageUrl)
+            .With("bgUrl", fun x -> Asset.resize "pages" x.BackgroundImageUrl (Some 1000, Some 600))
             .With("body", fun x -> x.Body @ [ Span [ ClientSide <@ Client.CheckRedirect() @> ] ])
 
     let Main ctx endpoint page : Async<Content<EndPoint>> =
