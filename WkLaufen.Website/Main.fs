@@ -469,27 +469,26 @@ module Site =
 type Website() =
     interface IWebsite<EndPoint> with
         member this.Sitelet = Site.Main
-        member this.Actions = [
-            Home
-            Contacts
-            News
-            Activities
-            MemberGroups
-            Members "vorstandsteam"
-            Members "saxophon"
-            Members "klarinette-und-fagott"
-            Members "marketenderinnen"
-            Members "tiefes-blech"
-            Members "hohes-blech"
-            Members "schlagzeug"
-            Members "querfloete"
-            BMF2017
-            AboutUs
-            Vision2020
-            Contests
-            Youths
-            RecorderKids
-        ]
+        member this.Actions =
+            [
+                Home
+                Contacts
+                News
+                Activities
+                MemberGroups
+            ]
+            @
+            (Data.Members.getGroups()
+            |> List.map (fun (g, _) -> Members g.Id))
+            @
+            [
+                BMF2017
+                AboutUs
+                Vision2020
+                Contests
+                Youths
+                RecorderKids
+            ]
 
 [<assembly: Website(typeof<Website>)>]
 do ()
