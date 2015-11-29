@@ -61,7 +61,7 @@ Target "ResizeImages" <| fun() ->
         graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode)
 
         ensureDirectory (directory targetPath)
-        image.Save targetPath
+        destImage.Save targetPath
     
     resizeDefinitionFilePath
     |> ReadFile
