@@ -1,5 +1,6 @@
 source https://nuget.org/api/v2
 nuget Exira.SimpleHttpServer
+nuget FAKE
 nuget fsharp.core
 nuget fsharp.data
 nuget MarkdownDeep.NET
