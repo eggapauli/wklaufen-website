@@ -89,8 +89,11 @@ Target "CopyAssets" <| fun() ->
     |> Seq.singleton
     |> CopyWithSubfoldersTo outputDir
 
+Target "Default" DoNothing
+
 "Build" <== ["Clean"]
 "ResizeImages" <== ["Build"]
 "CopyAssets" <== ["ResizeImages"]
+"Default" <== ["CopyAssets"]
 
-RunTargetOrDefault "ResizeImages"
+RunTargetOrDefault "Default"
