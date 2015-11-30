@@ -3,6 +3,7 @@ nuget Exira.SimpleHttpServer
 nuget FAKE
 nuget fsharp.core
 nuget fsharp.data
+nuget HtmlAgilityPack
 nuget MarkdownDeep.NET
 nuget WebSharper
 nuget websharper.html

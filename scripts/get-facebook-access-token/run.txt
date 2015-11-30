@@ -1,0 +1,2 @@
+https://www.facebook.com/dialog/oauth?client_id=1501567770140219&redirect_uri=http://www.wk-laufen.at/jwkl2/
+https://graph.facebook.com/v2.5/oauth/access_token?client_id=1501567770140219&redirect_uri=http://www.wk-laufen.at/jwkl2/&client_secret=307b8ffa56c44b421618f3322799cb3e&code={code}
