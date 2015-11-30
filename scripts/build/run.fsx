@@ -17,6 +17,7 @@ open System
 open System.Drawing
 open System.Drawing.Drawing2D
 open System.Drawing.Imaging
+open System.IO
 open Fake
 open Fake.NpmHelper
 open FSharp.Data
@@ -140,6 +141,14 @@ Target "CopyAssets" <| fun () ->
     |> SetBaseDir mainProjectDir
     |> Seq.singleton
     |> CopyWithSubfoldersTo outputDir
+    
+Target "AddHtAccessFile" <| fun () ->
+    let htAccessPath = outputDir @@ ".htaccess"
+    let contentLines = [
+        "AddType 'text/html; charset=UTF-8' .html"
+        "AddType 'application/font-woff; charset=utf-8' .woff"
+    ]
+    File.WriteAllLines(htAccessPath, contentLines)
 
 Target "Upload" <| fun () ->
     Ftp.uploadDirectory outputDir uploadUrl uploadCredentials
@@ -152,10 +161,11 @@ Target "Default" DoNothing
 "DownloadMembers" <== ["Clean"]
 "DownloadNews" <== ["Clean"]
 "DownloadNpmDependencies" <== ["Clean"]
-"Build" <== ["DownloadMembers"; "DownloadNews"]
+"Build" <== ["DownloadMembers"; "DownloadNews"; "DownloadNpmDependencies"]
 "ResizeImages" <== ["Build"]
-"CopyAssets" <== ["ResizeImages"]
-"Upload" <== ["CopyAssets"]
+"CopyAssets" <== ["Build"]
+"AddHtAccessFile" <== ["Build"]
+"Upload" <== ["ResizeImages"; "CopyAssets"; "AddHtAccessFile"]
 "Default" <== ["Upload"]
 
 RunTargetOrDefault "Default"
