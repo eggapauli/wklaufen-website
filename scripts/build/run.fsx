@@ -18,6 +18,7 @@ open System.Drawing
 open System.Drawing.Drawing2D
 open System.Drawing.Imaging
 open Fake
+open Fake.NpmHelper
 open FSharp.Data
 open DownloadHelper
 
@@ -72,6 +73,14 @@ Target "DownloadNews" <| fun () ->
     | Choice1Of2 () -> printfn "Successfully downloaded news."
     | Choice2Of2 x -> failwithf "Error while downloading news. %s" x
 
+Target "DownloadNpmDependencies" <| fun () ->
+    let setParams (x: NpmParams) =
+        { x with
+            Command = Install Standard
+            WorkingDirectory = mainProjectDir
+        }
+    Npm setParams
+
 Target "Build" <| fun () ->
     let setParams (p: MSBuildParams) =
         { p with
@@ -83,7 +92,7 @@ Target "Build" <| fun () ->
         }
     build setParams slnFile
 
-Target "ResizeImages" <| fun() ->
+Target "ResizeImages" <| fun () ->
     let resize sourcePath (width, height) targetPath =
         use image = Image.FromFile sourcePath
     
@@ -118,7 +127,7 @@ Target "ResizeImages" <| fun() ->
         resize (mainProjectDir @@ def.Path) (def.Width, def.Height) targetPath
     )
 
-Target "CopyAssets" <| fun() ->
+Target "CopyAssets" <| fun () ->
     !! ("assets/**/*")
     -- ("assets/" + resizeDefinitionFileName)
     -- ("assets/images/*/**/*.*")
@@ -132,7 +141,7 @@ Target "CopyAssets" <| fun() ->
     |> Seq.singleton
     |> CopyWithSubfoldersTo outputDir
 
-Target "Upload" <| fun() ->
+Target "Upload" <| fun () ->
     Ftp.uploadDirectory outputDir uploadUrl uploadCredentials
     |> function
     | Choice1Of2 () -> printfn "Successfully uploaded build"
@@ -140,8 +149,9 @@ Target "Upload" <| fun() ->
 
 Target "Default" DoNothing
 
-"DownloadMembers" <== [ "Clean" ]
-"DownloadNews" <== [ "Clean" ]
+"DownloadMembers" <== ["Clean"]
+"DownloadNews" <== ["Clean"]
+"DownloadNpmDependencies" <== ["Clean"]
 "Build" <== ["DownloadMembers"; "DownloadNews"]
 "ResizeImages" <== ["Build"]
 "CopyAssets" <== ["ResizeImages"]
