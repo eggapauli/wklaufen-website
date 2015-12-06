@@ -58,7 +58,7 @@ module Client =
             ()
         ()
 
-        JS.Document.AddEventListener("closeInfo", (fun (evt: Dom.Event) ->
+        JS.Document.AddEventListener("close-info", (fun (evt: Dom.Event) ->
             Slick.Do(JQuery.Of(".carousel", evt.Target :?> Dom.Element), "slickGoTo", 0, true)
         ), false)
     

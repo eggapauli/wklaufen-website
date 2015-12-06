@@ -63,7 +63,7 @@ module Info =
 
         mainContent.AddClass(visibilityCssClass).Ignore
         
-        let event = Dom.Event2 "closeInfo"
+        let event = Dom.Event2("close-info", Dom.EventConfig(Bubbles = true))
         content.Each(fun c -> c.DispatchEvent event |> ignore).Ignore
 
     let private getOrCreateBackground() =

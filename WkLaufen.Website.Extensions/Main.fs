@@ -6,11 +6,22 @@ open WebSharper.JQuery
 open WebSharper.InterfaceGenerator
 
 module Definition =
+    let EventConfig =
+        Pattern.Config "EventConfig"
+            {
+                Optional =
+                    [
+                        "bubbles", T<bool>
+                        "cancelable", T<bool>
+                    ]
+                Required = []
+            }
+
     let Event =
         Class "Event2"
         |=> Inherits T<Dom.Event>
         |+> Static [
-            Constructor T<string>?typeArg |> WithInline "new Event($typeArg)"
+            Constructor (T<string>?typeArg * EventConfig?config) |> WithInline "new Event($typeArg, $config)"
         ]
 
     let Element =
@@ -63,9 +74,10 @@ module Definition =
             ]
  
             Namespace "WebSharper.JavaScript.Dom" [
-                 Event
-                 Element
-                 Document
+                EventConfig
+                Event
+                Element
+                Document
             ]
 
             Namespace "WebSharper.JQuery" [
