@@ -51,6 +51,7 @@
     <Content Include="assets\css\recorder-kids.css" />
     <Content Include="assets\css\members.css" />
     <Content Include="assets\css\member-groups.css" />
+    <Content Include="assets\css\news-details.css" />
     <None Include="data\activities.json" />
     <None Include="data\member-groups.json" />
     <None Include="data\members.json" />

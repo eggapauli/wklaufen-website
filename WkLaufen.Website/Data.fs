@@ -86,3 +86,4 @@ module News =
 
     let getAll() =
         News.GetSamples()
+        |> Array.toList

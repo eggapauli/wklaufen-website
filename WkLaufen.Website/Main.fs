@@ -10,6 +10,7 @@ type EndPoint =
     | [<EndPoint "GET /">] Home
     | [<EndPoint "GET /kontakte">] Contacts
     | [<EndPoint "GET /news">] News
+    | [<EndPoint "GET /">] NewsDetails of string
     | [<EndPoint "GET /termine">] Activities
     | [<EndPoint "GET /musiker">] MemberGroups
     | [<EndPoint "GET /">] Members of string
@@ -57,7 +58,7 @@ module Site =
 
     let private menuItem title href bgImage =
         LI [] -< [
-            A [Class "menu-item"; HRef href] -< [
+            A [Class "menu-item info-link"; HRef href] -< [
                 Div [ Class "bg"; Style (sprintf "background-image: url(%s)" bgImage) ]
                 Div [ Class "title-bar" ] -< [
                     Span [ Class "title" ] -< [ Text title ]
@@ -170,7 +171,23 @@ module Site =
                 ]
             }
 
-    let NewsPage ctx =
+    let (|Uri|_|) str =
+        match Uri.TryCreate(str, UriKind.Absolute) with
+        | true, uri when uri.Scheme = "http" || uri.Scheme = "https" -> Some uri
+        | _ -> None
+
+    let htmlify (text: string) =
+        Regex.Matches(text, @"\S+|(\r\n|\r|\n)|\s+")
+        |> Seq.cast<System.Text.RegularExpressions.Match>
+        |> Seq.map (fun m ->
+            match m.Value with
+            | Uri uri -> A [HRef (uri.ToString())] -< [ Text (uri.ToString()) ]
+            | "\r" | "\n" | "\r\n" -> Br []
+            | text -> Text text
+        )
+        |> Seq.toList
+
+    let NewsPage (ctx: Context<EndPoint>) =
         Templating.Main ctx EndPoint.News
             {
                 Id = "news"
@@ -184,9 +201,29 @@ module Site =
                         Div [Id "news-container"; Class "carousel"] -< (
                             Data.News.getAll()
                             |> Seq.map (fun news ->
-                                Div [Class "news"] -< [
-                                    VerbatimContent (md.Transform news.Content)
-                                ]
+                                Div [Class "news"] -< (
+                                    [
+                                        Div [Class "date"] -< [
+                                            Strong [Text (news.Timestamp.ToString "dd.MM.yyyy")]
+                                        ]
+                                    ]
+                                    @
+                                    htmlify news.Content
+                                    @
+                                    (match news.Images with
+                                    | [||] -> []
+                                    | _ ->
+                                        [
+                                            Br []
+                                            A [Class "details-link info-link"; HRef (ctx.Link (NewsDetails news.FacebookId))] -< [
+                                                Img [Src "assets/images/camera.png"]
+                                            ]
+                                            A [HRef ("https://facebook.com/" + news.FacebookId)] -< [
+                                                Img [Src "assets/images/fb-logo-bw.png"]
+                                            ]
+                                        ]
+                                    )
+                                )
                             )
                         )
                     ]
@@ -196,6 +233,27 @@ module Site =
                         Text "auch auf "
                         Img [Src "assets/images/fb-logo.png"]
                     ]
+                ]
+            }
+
+    let NewsDetailsPage ctx newsId =
+        let news = Data.News.getAll() |> List.find (fun n -> n.FacebookId = newsId)
+        Templating.Main ctx EndPoint.NewsDetails
+            {
+                Id = "news-details"
+                Title = pages.News.Title
+                Css = [ "news-details.css" ]
+                BackgroundImageUrl = pages.News.BackgroundImage
+                Body =
+                [
+                    Div [Class "carousel rich-text"] -< (
+                        news.Images
+                        |> Seq.map (fun image ->
+                            Div [Class "image"] -< [
+                                Asset.htmlImage "news" image (Some 940, Some 480)
+                            ]
+                        )
+                    )
                 ]
             }
 
@@ -252,7 +310,7 @@ module Site =
                 ]
             }
 
-    let MemberGroupsPage ctx =
+    let MemberGroupsPage (ctx: Context<EndPoint>) =
         Templating.Main ctx EndPoint.MemberGroups
             {
                 Id = "member-groups"
@@ -266,7 +324,7 @@ module Site =
                         members
                         |> List.map (fun (group, _) ->
                             Asset.resize "member-groups" group.Photo (Some 200, Some 130)
-                            |> menuItem group.Name (getHref group.Name)
+                            |> menuItem group.Name (ctx.Link (group.Name |> slug |> EndPoint.Members))
                         )
                     )
                 ]
@@ -454,6 +512,7 @@ module Site =
             | Home -> HomePage ctx
             | Contacts -> ContactsPage ctx
             | News -> NewsPage ctx
+            | NewsDetails newsId -> NewsDetailsPage ctx newsId
             | Activities -> ActivitiesPage ctx
             | MemberGroups -> MemberGroupsPage ctx
             | Members groupId -> MembersPage ctx groupId
@@ -474,6 +533,13 @@ type Website() =
                 Home
                 Contacts
                 News
+            ]
+            @
+            (Data.News.getAll()
+            |> List.filter (fun n -> n.Images.Length > 0)
+            |> List.map (fun n -> NewsDetails n.FacebookId))
+            @
+            [
                 Activities
                 MemberGroups
             ]

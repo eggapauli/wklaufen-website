@@ -28,7 +28,7 @@ module Client =
             carousels.Css("overflow", "").Ignore
 
         let rec rewriteMenuItemLinks(root: JQuery) =
-            JQuery.Of(".menu a.menu-item", root)
+            JQuery.Of("a.info-link", root)
                 .Each(fun elem ->
                     let jqElem = JQuery.Of elem
                     jqElem.Click(fun _ evt ->
