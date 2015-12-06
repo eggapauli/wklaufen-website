@@ -150,6 +150,8 @@ Target "AddHtAccessFile" <| fun () ->
     ]
     File.WriteAllLines(htAccessPath, contentLines)
 
+Target "FullBuild" DoNothing
+
 Target "Upload" <| fun () ->
     Ftp.uploadDirectory outputDir uploadUrl uploadCredentials
     |> function
@@ -165,7 +167,8 @@ Target "Default" DoNothing
 "ResizeImages" <== ["Build"]
 "CopyAssets" <== ["Build"]
 "AddHtAccessFile" <== ["Build"]
-"Upload" <== ["ResizeImages"; "CopyAssets"; "AddHtAccessFile"]
+"FullBuild" <== ["ResizeImages"; "CopyAssets"; "AddHtAccessFile"]
+"Upload" <== ["FullBuild"]
 "Default" <== ["Upload"]
 
 RunTargetOrDefault "Default"
