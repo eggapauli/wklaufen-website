@@ -105,11 +105,17 @@ strong {
 }
 .inner-main .slick-prev {
   right: inherit;
-  left: 50px;
+  left: 10%;
+  -webkit-transform: initial;
+  -ms-transform: initial;
+  transform: initial;
 }
 .inner-main .slick-next {
-  right: 50px;
+  right: 10%;
   left: inherit;
+  -webkit-transform: initial;
+  -ms-transform: initial;
+  transform: initial;
 }
 ul.menu {
   list-style: none;

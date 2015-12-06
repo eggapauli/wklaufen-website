@@ -17,10 +17,6 @@
   height: 470px;
   overflow-y: auto;
 }
-#about-us .characteristics .carousel .slick-prev,
-#about-us .characteristics .carousel .slick-next {
-  bottom: 0;
-}
 #about-us .characteristics .about-us-section {
   width: 310px;
 }
