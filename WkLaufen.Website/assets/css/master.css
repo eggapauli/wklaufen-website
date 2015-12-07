@@ -155,6 +155,14 @@ ul.menu li a.menu-item div.title-bar span {
 ul.menu li a.menu-item.loading .bg {
   animation: fadeoutin 2s infinite;
 }
+.impressum {
+    position: absolute;
+    display: block;
+    left: 10px;
+    bottom: 10px;
+    box-shadow: white 0px 0px 10px 10px;
+    background: white;
+}
 .clear {
   clear: both;
 }

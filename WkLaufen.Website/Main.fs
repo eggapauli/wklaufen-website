@@ -20,6 +20,7 @@ type EndPoint =
     | [<EndPoint "GET /wertungen">] Contests
     | [<EndPoint "GET /jugend">] Youths
     | [<EndPoint "GET /floetenkids">] RecorderKids
+    | [<EndPoint "GET /impressum">] Impressum
 
 module Templating =
     open System.Web
@@ -505,6 +506,34 @@ module Site =
                 ]
             }
 
+    let ImpressumPage ctx =
+        let obmann =
+            members
+            |> Seq.collect snd
+            |> Seq.find (fun m -> m.Roles |> Seq.contains "Obmann")
+        Templating.Main ctx EndPoint.Impressum
+            {
+                Id = "impressum"
+                Title = pages.Impressum.Title
+                Css = [ "impressum.css" ]
+                BackgroundImageUrl = pages.Impressum.BackgroundImage
+                Body =
+                [
+                    H1 [Text pages.Impressum.Title]
+                    Div [Class "top-content"] -< (
+                        [
+                            VerbatimContent (md.Transform pages.Impressum.TopContent)
+                            Text (sprintf "Obmann: %s %s, " obmann.FirstName obmann.LastName)
+                        ]
+                        @
+                        obfuscateEmail obmann.Email
+                    )
+                    Div [Class "bottom-content rich-text"] -< [
+                        Div [] -< [VerbatimContent (md.Transform pages.Impressum.BottomContent)]
+                    ]
+                ]
+            }
+
     [<Website>]
     let Main =
         Application.MultiPage (fun ctx action ->
@@ -522,6 +551,7 @@ module Site =
             | Contests -> ContestsPage ctx
             | Youths -> YouthsPage ctx
             | RecorderKids -> RecorderKidsPage ctx
+            | Impressum -> ImpressumPage ctx
         )
 
 [<Sealed>]
@@ -554,6 +584,7 @@ type Website() =
                 Contests
                 Youths
                 RecorderKids
+                Impressum
             ]
 
 [<assembly: Website(typeof<Website>)>]

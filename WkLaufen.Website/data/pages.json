@@ -94,5 +94,11 @@
   "Members": {
     "Title": "Die Musikerinnen & Musiker der WK Laufen",
     "BackgroundImage": "die-musikerinnen-musiker-der-wk-laufen.jpg"
+  },
+  "Impressum": {
+    "Title": "Impressum",
+    "BackgroundImage": "impressum.jpg",
+    "TopContent": "__Für den Inhalt verantwortlich__:  \r\nWerkskapelle Laufen Gmunden-Engelhof  \r\nEngelhofstraße 7-9, 4810 Gmunden  \r\nZVR: 651398436",
+    "BottomContent": "__Offenlegung gem. § 25 MedG__: Diese Webseite dient dem öffentlichen Auftritt der Werkskapelle Laufen Gmunden-Engelhof (Medieninhaber). Der Zweck dieser Website ist es demnach den Verein und seine Tätigkeiten vorzustellen.  \r\n\r\n__Haftungsausschluss__: Die Inhalte dieser Webseite (Texte, Bilder, Grafiken usw.) sind urheberrechtlich geschützt und dürfen nur mit ausdrücklicher Zustimmung der WK Laufen Gmunden-Engelhof genützt oder weiterverwendet werden. Für Vollständigkeit, Richtigkeit, Verfügbarkeit oder Aktualität der Inhalte wird keine Haftung übernommen. Die WK Laufen Gmunden-Engelhof haftet nicht für den Inhalt externer Links."
   }
 }

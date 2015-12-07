@@ -1,0 +1,13 @@
+﻿#impressum .top-content {
+    margin-left: 200px
+}
+#impressum .top-content > p {
+    margin-bottom: 0;
+}
+#impressum .bottom-content {
+    position: absolute;
+    bottom: 0;
+}
+#impressum .bottom-content > div {
+    padding: 0 20px;
+}

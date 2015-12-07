@@ -191,9 +191,13 @@ module Info =
         )
     
     let loadAndShow url = async {
-        let! content = loadAndShowImpl url
-        JS.Window.History.PushState(JS.Undefined, JS.Undefined, "#" + url)
-        return content
+        let loadedContent = getLoadedContent url
+        if loadedContent.HasClass visibilityCssClass
+        then return loadedContent
+        else
+            let! content = loadAndShowImpl url
+            JS.Window.History.PushState(JS.Undefined, JS.Undefined, "#" + url)
+            return content
     }
     
     let loadPageFromUrl() =

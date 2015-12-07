@@ -27,26 +27,27 @@ module Client =
             Slick.Init(carousels, JQuerySlickConfig(Draggable=false, Infinite=false, AdaptiveHeight=true))
             carousels.Css("overflow", "").Ignore
 
-        let rec rewriteMenuItemLinks(root: JQuery) =
+        let rec rewriteMenuItemLink(elem: JQuery) =
+            elem.Click(fun _ evt ->
+                evt.PreventDefault()
+                elem.AddClass("loading").Ignore
+                let url = elem.Attr "href"
+                async {
+                    try
+                        try
+                            let! content = Info.loadAndShow url
+                            initPage content
+                        with x -> () //console.error("Failed to load page", url, x)
+                    finally
+                        elem.RemoveClass("loading").Ignore
+                }
+                |> Async.Start
+            ).Ignore
+
+        and rewriteMenuItemLinks(root: JQuery) =
             JQuery.Of("a.info-link", root)
-                .Each(fun elem ->
-                    let jqElem = JQuery.Of elem
-                    jqElem.Click(fun _ evt ->
-                        evt.PreventDefault()
-                        jqElem.AddClass("loading").Ignore
-                        let url = jqElem.Attr "href"
-                        async {
-                            try
-                                try
-                                    let! content = Info.loadAndShow url
-                                    initPage content
-                                with x -> () //console.error("Failed to load page", url, x)
-                            finally
-                                jqElem.RemoveClass("loading").Ignore
-                        }
-                        |> Async.Start
-                    ).Ignore
-                ).Ignore
+                .Each(fun elem -> JQuery.Of elem |> rewriteMenuItemLink)
+                .Ignore
 
         and initPage(root: JQuery) =
             let initializedCssClass = "initialized"
@@ -62,6 +63,7 @@ module Client =
             Slick.Do(JQuery.Of(".carousel", evt.Target :?> Dom.Element), "slickGoTo", 0, true)
         ), false)
     
+        JQuery.Of ".impressum" |> rewriteMenuItemLink
         JQuery.Of ".content-background" |> initPage
         async {
             try
