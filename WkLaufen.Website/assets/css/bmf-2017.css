@@ -1,10 +1,14 @@
-﻿#bmf-2017 .text {
+﻿#bmf-2017 .content {
   position: absolute;
   bottom: 20px;
   text-align: center;
   width: 100%;
 }
-#bmf-2017 .text p {
+#bmf-2017 .content .text {
+  padding: 20px;
+}
+
+#bmf-2017 .content p {
   font-size: 120%;
   line-height: 150%;
   margin: 0;

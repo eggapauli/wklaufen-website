@@ -383,9 +383,11 @@ module Site =
                 BackgroundImageUrl = pages.Bmf2017.BackgroundImage
                 Body =
                 [
-                    Div [Class "text"] -< [
-                        H1 [Text pages.Bmf2017.Headline]
-                        VerbatimContent (md.Transform pages.Bmf2017.Content)
+                    Div [Class "content rich-text"] -< [
+                        Div [Class "text"] -< [
+                            H1 [Text pages.Bmf2017.Headline]
+                            VerbatimContent (md.Transform pages.Bmf2017.Content)
+                        ]
                     ]
                 ]
             }
