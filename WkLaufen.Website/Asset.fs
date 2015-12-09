@@ -5,22 +5,20 @@ open System.Drawing
 open System.IO
 open WebSharper.Html.Server
 
-let private computeSize (imageWidth, imageHeight) (desiredWidthOpt, desiredHeightOpt) =
-    let desiredWidth =
-        match desiredWidthOpt with
-        | Some x -> x
-        | None -> imageWidth
-    let desiredHeight =
-        match desiredHeightOpt with
-        | Some x -> x
-        | None -> imageHeight
-
-    let widthRatio = (float imageWidth) / (float desiredWidth)
-    let heightRatio = (float imageHeight) / (float desiredHeight)
-    let ratio = Math.Max(Math.Max(widthRatio, heightRatio), 1.)
-    let width = Math.Round((float imageWidth) / ratio) |> int
-    let height = Math.Round((float imageHeight) / ratio) |> int
-    width, height
+let private computeSize (imageWidth, imageHeight) desiredSize =
+    match desiredSize with
+    | Some width, Some height ->
+        width, height
+    | Some width, None ->
+        let ratio = (float imageWidth) / (float width)
+        let height = Math.Round((float imageHeight) / ratio) |> int
+        width, height
+    | None, Some height ->
+        let ratio = (float imageHeight) / (float height)
+        let width = Math.Round((float imageWidth) / ratio) |> int
+        width, height
+    | None, None ->
+        imageWidth, imageHeight
 
 let resizeDefinitionFile = Path.Combine("assets", "resize.txt")
 let private registerForResize container name desiredSize =

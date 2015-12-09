@@ -109,9 +109,19 @@ Target "ResizeImages" <| fun () ->
         graphics.SmoothingMode <- SmoothingMode.HighQuality
         graphics.PixelOffsetMode <- PixelOffsetMode.HighQuality
 
+        let ratio =
+            let widthRatio = (float image.Width) / (float width)
+            let heightRatio = (float image.Height) / (float height)
+            Math.Min (widthRatio, heightRatio)
+
+        let srcWidth = (float width) * ratio |> int
+        let srcHeight = (float height) * ratio |> int
+        let srcX = (image.Width - srcWidth) / 2
+        let srcY = (image.Height - srcHeight) / 2
+
         use wrapMode = new ImageAttributes()
         wrapMode.SetWrapMode(WrapMode.TileFlipXY)
-        graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode)
+        graphics.DrawImage(image, destRect, srcX, srcY, srcWidth, srcHeight, GraphicsUnit.Pixel, wrapMode)
 
         ensureDirectory (directory targetPath)
         destImage.Save targetPath
