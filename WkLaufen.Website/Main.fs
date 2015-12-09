@@ -51,6 +51,7 @@ module Templating =
 
 module Site =
     open System
+    open System.Globalization
     open System.Text.RegularExpressions
 
     let private pages = Data.Pages.getAll()
@@ -83,7 +84,7 @@ module Site =
         slug text
         |> sprintf "%s.html"
 
-    let private md = new MarkdownDeep.Markdown(ExtraMode = true)
+    let private md = new MarkdownSharp.Markdown()
 
     let private random = new Random();
     let private obfuscate (text: string) =
@@ -454,7 +455,27 @@ module Site =
                             |> Seq.map (fun item ->
                                 Div [Class "contest"] -< [
                                     H2 [Text item.Title]
-                                    VerbatimContent (md.Transform item.Content)
+                                    Table [] -< [
+                                        THead [] -< [
+                                            TR [] -< [
+                                                TH [Text "Jahr"]
+                                                TH [Text "Leistungsstufe"]
+                                                TH [Text "Punkteanzahl"]
+                                                TH [Text "Ergebnis"]
+                                            ]
+                                        ]
+                                        TBody [] -< (
+                                            item.Entries
+                                            |> Seq.map (fun entry ->
+                                                TR [] -< [
+                                                    TD [Text (entry.Year.ToString())]
+                                                    TD [Text entry.Category]
+                                                    TD [Text (entry.Points.ToString("F2", CultureInfo.GetCultureInfo "de-AT"))]
+                                                    TD [Text (if entry.Result.IsSome then entry.Result.Value else "")]
+                                                ]
+                                            )
+                                        )
+                                    ]
                                 ]
                             )
                         )

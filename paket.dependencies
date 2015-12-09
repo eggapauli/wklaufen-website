@@ -4,7 +4,7 @@ nuget FAKE
 nuget fsharp.core
 nuget fsharp.data
 nuget HtmlAgilityPack
-nuget MarkdownDeep.NET
+nuget markdownsharp
 nuget npm.js
 nuget WebSharper
 nuget websharper.html

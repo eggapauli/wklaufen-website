@@ -10,6 +10,7 @@
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -31,7 +32,7 @@
     <Name>WkLaufen.Website</Name>
     <RootNamespace>website_fsharp</RootNamespace>
     <AssemblyName>website_fsharp</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <WarningLevel>3</WarningLevel>
     <StartAction>Program</StartAction>
     <StartProgram>$([System.Environment]::GetEnvironmentVariable(`WinDir`))\explorer.exe</StartProgram>
@@ -76,8 +77,8 @@
     <Reference Include="IntelliFactory.Xml">
       <HintPath>..\packages\IntelliFactory.Xml\lib\net40\IntelliFactory.Xml.dll</HintPath>
     </Reference>
-    <Reference Include="MarkdownDeep">
-      <HintPath>..\packages\MarkdownDeep.NET\lib\.NetFramework 3.5\MarkdownDeep.dll</HintPath>
+    <Reference Include="MarkdownSharp">
+      <HintPath>..\packages\Markdown\lib\net45\MarkdownSharp.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />

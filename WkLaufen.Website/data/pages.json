@@ -23,11 +23,83 @@
     "Results": [
       {
         "Title": "Konzertwertungen",
-        "Content": "| Jahr  | Leistungsstufe | Punkteanzahl | Ergebnis               |\r\n| ----- | ---------------| ------------ | ---------------------- |\r\n| 2010  | B              | 91,25        | Ausgezeichneter Erfolg |\r\n| 2011  | C              | 93,50        | Ausgezeichneter Erfolg |\r\n| 2012  | C              | 92,00        | Ausgezeichneter Erfolg |\r\n| 2013  | C              | 92,25        | Ausgezeichneter Erfolg |\r\n| 2014  | C              | 141          |                        |\r\n| 2015  | C              | 148          |                        |"
+        "Entries": [
+          {
+            "Year": 2010,
+            "Category": "B",
+            "Points": 91.25,
+            "Result": "Ausgezeichneter Erfolg"
+          },
+          {
+            "Year": 2011,
+            "Category": "C",
+            "Points": 93.5,
+            "Result": "Ausgezeichneter Erfolg"
+          },
+          {
+            "Year": 2012,
+            "Category": "C",
+            "Points": 92.0,
+            "Result": "Ausgezeichneter Erfolg"
+          },
+          {
+            "Year": 2013,
+            "Category": "C",
+            "Points": 92.25,
+            "Result": "Ausgezeichneter Erfolg"
+          },
+          {
+            "Year": 2014,
+            "Category": "C",
+            "Points": 141.0
+          },
+          {
+            "Year": 2015,
+            "Category": "C",
+            "Points": 148.0
+          }
+        ]
       },
       {
         "Title": "Marschwertungen",
-        "Content": "| Jahr  | Leistungsstufe | Punkteanzahl | Ergebnis               |\r\n| ----- | ---------------| ------------ | ---------------------- |\r\n| 2010  | C              | 89,00        | Sehr gut               |\r\n| 2011  | C              | 92,93        | Ausgezeichneter Erfolg |\r\n| 2012  | D              | 91,05        | Ausgezeichneter Erfolg |\r\n| 2013  | D              | 91,88        | Ausgezeichneter Erfolg |\r\n| 2014  | D              | 94,23        | Ausgezeichneter Erfolg |\r\n| 2015  | D              | 90,29        | Ausgezeichneter Erfolg |"
+        "Entries": [
+          {
+            "Year": 2010,
+            "Category": "C",
+            "Points": 89.0,
+            "Result": "Sehr gut"
+          },
+          {
+            "Year": 2011,
+            "Category": "C",
+            "Points": 92.93,
+            "Result": "Ausgezeichneter Erfolg"
+          },
+          {
+            "Year": 2012,
+            "Category": "D",
+            "Points": 91.05,
+            "Result": "Ausgezeichneter Erfolg"
+          },
+          {
+            "Year": 2013,
+            "Category": "D",
+            "Points": 91.88,
+            "Result": "Ausgezeichneter Erfolg"
+          },
+          {
+            "Year": 2014,
+            "Category": "D",
+            "Points": 94.23,
+            "Result": "Ausgezeichneter Erfolg"
+          },
+          {
+            "Year": 2015,
+            "Category": "D",
+            "Points": 90.29,
+            "Result": "Ausgezeichneter Erfolg"
+          }
+        ]
       }
     ]
   },
