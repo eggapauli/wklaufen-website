@@ -252,7 +252,7 @@ module Site =
                         news.Images
                         |> Seq.map (fun image ->
                             Div [Class "image"] -< [
-                                Asset.htmlImage "news" image (Some 940, Some 480)
+                                Asset.htmlImageNoCrop "news" image (Some 940, Some 480)
                             ]
                         )
                     )
