@@ -18,23 +18,24 @@ module Info =
     let private contentSelector = ".content-background"
 
     let private visibilityCssClass = "visible"
+    let private pageIdAttributeName = "data-id"
     let private windowTitleAttributeName = "data-window-title"
 
     let private getBackground() =
         JQuery.Of "body > div.info-background"
 
     let private getAllLoadedContent() =
-        sprintf "%s[data-id]" contentSelector
+        sprintf "%s[%s]" contentSelector pageIdAttributeName
         |> JQuery.Of
 
     let private getLoadedContent dataId =
-        sprintf "%s[data-id=\"%s\"]" contentSelector dataId
+        sprintf "%s[%s=\"%s\"]" contentSelector pageIdAttributeName dataId
         |> JQuery.Of
 
     let private getMainContent() =
         JQuery.Of(contentSelector)
             .Filter(fun item ->
-                item.HasAttribute "data-id" |> not
+                item.HasAttribute pageIdAttributeName |> not
             )
             .First()
 
@@ -82,7 +83,7 @@ module Info =
     let private prepareAndAddContent (content: JQuery) dataId windowTitle =
         content
             .AddClass("overlay")
-            .Attr("data-id", dataId)
+            .Attr(pageIdAttributeName, dataId)
             .Attr(windowTitleAttributeName, windowTitle)
             .InsertAfter(getMainContent())
             .Ignore
