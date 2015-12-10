@@ -17,6 +17,9 @@ module Array =
 module Info =
     let private contentSelector = ".content-background"
 
+    let private visibilityCssClass = "visible"
+    let private windowTitleAttributeName = "data-window-title"
+
     let private getBackground() =
         JQuery.Of "body > div.info-background"
 
@@ -35,8 +38,6 @@ module Info =
             )
             .First()
 
-    let private visibilityCssClass = "visible"
-
     let private showInfo dataId =
         getAllLoadedContent()
             .Add(getMainContent())
@@ -48,6 +49,8 @@ module Info =
             .Add(content)
             .Each(fun item -> JQuery.Of(item).AddClass(visibilityCssClass).Ignore)
             .Ignore
+
+        (JS.Document :?> Dom.Document2).Title <- content.Attr windowTitleAttributeName
 
         content
 
@@ -62,6 +65,7 @@ module Info =
             .Ignore
 
         mainContent.AddClass(visibilityCssClass).Ignore
+        (JS.Document :?> Dom.Document2).Title <- mainContent.Attr windowTitleAttributeName
         
         let event = Dom.Event2("close-info", Dom.EventConfig(Bubbles = true))
         content.Each(fun c -> c.DispatchEvent event |> ignore).Ignore
@@ -75,10 +79,11 @@ module Info =
                 .AppendTo("body")
         | x -> x
     
-    let private prepareAndAddContent (content: JQuery) dataId =
+    let private prepareAndAddContent (content: JQuery) dataId windowTitle =
         content
             .AddClass("overlay")
             .Attr("data-id", dataId)
+            .Attr(windowTitleAttributeName, windowTitle)
             .InsertAfter(getMainContent())
             .Ignore
     
@@ -163,7 +168,8 @@ module Info =
                     (root :?> Dom.Element2).QuerySelector contentSelector
                     |> JQuery.Of
                 content.RemoveClass(visibilityCssClass).Ignore
-                prepareAndAddContent content url
+                let windowTitle = (root :?> Dom.Element2).QuerySelector("head title").TextContent
+                prepareAndAddContent content url windowTitle
                 return content
             }
 
@@ -174,6 +180,10 @@ module Info =
     }
     
     let init() =
+        getMainContent()
+            .Attr(windowTitleAttributeName, (JS.Document :?> Dom.Document2).Title)
+            .Ignore
+
         (JS.Window :?> Window2).AddEventListener("popstate", fun (e: Dom.Event) ->
             closeInfo()
             let dataId = JS.Window.Location.Hash

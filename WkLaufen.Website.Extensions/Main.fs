@@ -39,6 +39,7 @@ module Definition =
         |+> Instance [
             "querySelector" => (T<string> ^-> T<Dom.Element>)
             "querySelectorAll" => (T<string> ^-> T<Dom.NodeList>)
+            "title" =@ T<string>
         ]
 
     let Window =
