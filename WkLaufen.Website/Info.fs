@@ -6,6 +6,20 @@ open WebSharper.JavaScript
 open WebSharper.JQuery
 open WebSharper.Html.Client
 
+
+module Constants =
+    open WebSharper.Core.Macros
+
+    type TimeStampGenerator() =
+        interface IGenerator with
+            member this.Body =
+                let result = DateTime.Now.Ticks.ToString()
+                <@@ fun () -> result @@>
+                |> QuotationBody
+
+    [<Generated(typeof<TimeStampGenerator>)>]
+    let TimeStamp() = X<string>
+
 [<JavaScript>]
 module Array =
     let fromNodeList (nodes: Dom.NodeList) =
@@ -153,7 +167,7 @@ module Info =
                 let! response = Async.FromContinuations <| fun (ok, ko, _) ->
                     JQuery.Ajax(
                         JQuery.AjaxSettings(
-                            Url = url,
+                            Url = url + "?rand=" + Constants.TimeStamp(),
                             Type = As<JQuery.RequestType> "GET",
                             ContentType = "text/html",
                             Success = (fun (result, _, _) -> ok (result :?> string)),
