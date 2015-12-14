@@ -291,6 +291,7 @@ module Site =
                                     Data.Activities.getAll()
                                     |> Seq.filter (fun act -> act.IsPublic)
                                     |> Seq.filter (fun act -> act.BeginTime.IsSome)
+                                    |> Seq.filter (fun act -> act.BeginTime.Value > DateTime.Today.AddDays(-7.))
                                     |> Seq.groupBy (fun act -> act.BeginTime.Value.Year)
                                     |> Seq.map (fun (year, entries) ->
                                         let entryNodes =
