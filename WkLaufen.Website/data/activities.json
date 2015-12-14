@@ -1,7 +1,7 @@
 [
   {
     "Title": "Adventkonzert",
-    "BeginTime": "2015-12-13 16:30:00",
+    "BeginTime": "2015-12-13 18:00:00",
     "EndTime": "2015-12-13 19:00:00",
     "Location": "Kapuzinerkirche",
     "IsPublic": true
@@ -17,14 +17,14 @@
     "Title": "Neujahrsblasen",
     "BeginTime": "2015-12-29 16:30:00",
     "EndTime": null,
-    "Location": "Gebiete lt. Plan",
+    "Location": "Gmunden",
     "IsPublic": true
   },
   {
     "Title": "Neujahrsblasen",
     "BeginTime": "2015-12-30 16:30:00",
     "EndTime": null,
-    "Location": "Gebiete lt. Plan",
+    "Location": "Gmunden",
     "IsPublic": true
   },
   {
