@@ -1,4 +1,4 @@
-﻿namespace website_fsharp
+﻿namespace WkLaufen.Website
 
 open System
 open WebSharper

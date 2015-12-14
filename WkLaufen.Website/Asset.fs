@@ -1,4 +1,4 @@
-﻿module Asset
+﻿module WkLaufen.Website.Asset
 
 open System
 open System.Drawing

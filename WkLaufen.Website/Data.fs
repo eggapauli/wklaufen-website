@@ -1,4 +1,4 @@
-﻿module Data
+﻿module WkLaufen.Website.Data
 
 open FSharp.Data
 
