@@ -158,7 +158,7 @@ module Site =
                             Div [Class "contact"] -< [
                                 Div [Class "image"] -<
                                     (m.Photo
-                                    |> Option.map (fun p -> Asset.htmlImage "members" p (Some 100, Some 150))
+                                    |> Option.map (fun p -> Asset.htmlImage "members" p (Some 110, Some 160))
                                     |> Option.toList)
                                 Span [Text (sprintf "%s %s" m.FirstName m.LastName)]
                                 Br []
