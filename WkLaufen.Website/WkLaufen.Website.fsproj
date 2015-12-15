@@ -78,7 +78,7 @@
       <HintPath>..\packages\IntelliFactory.Xml\lib\net40\IntelliFactory.Xml.dll</HintPath>
     </Reference>
     <Reference Include="MarkdownSharp">
-      <HintPath>..\packages\Markdown\lib\net45\MarkdownSharp.dll</HintPath>
+      <HintPath>..\packages\MarkdownSharp\lib\35\MarkdownSharp.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
