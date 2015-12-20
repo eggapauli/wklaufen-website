@@ -5,9 +5,10 @@ open System.IO
 open System.Net.Http
 
 if not <| File.Exists "paket.exe" then
-    let url = Uri "http://fsprojects.github.io/Paket/stable"
+    //let url = Uri "http://fsprojects.github.io/Paket/stable"
     use client = new HttpClient()
-    let latestVersionUrl = client.GetStringAsync url |> Async.AwaitTask |> Async.RunSynchronously
+    //let latestVersionUrl = client.GetStringAsync url |> Async.AwaitTask |> Async.RunSynchronously
+    let latestVersionUrl = "https://github.com/fsprojects/Paket/releases/download/2.36.7/paket.exe"
     use sourceStream = client.GetStreamAsync (Uri latestVersionUrl) |> Async.AwaitTask |> Async.RunSynchronously
     use targetStream = File.OpenWrite "paket.exe"
     sourceStream.CopyToAsync targetStream |> Async.AwaitTask |> Async.RunSynchronously
