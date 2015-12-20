@@ -212,19 +212,23 @@ module Site =
                                     @
                                     htmlify news.Content
                                     @
+                                    [ Br [] ]
+                                    @
                                     (match news.Images with
                                     | [||] -> []
                                     | _ ->
                                         [
-                                            Br []
                                             A [Class "details-link info-link"; HRef (ctx.Link (NewsDetails news.FacebookId))] -< [
                                                 Img [Src "assets/images/camera.png"]
                                             ]
-                                            A [HRef ("https://facebook.com/" + news.FacebookId)] -< [
-                                                Img [Src "assets/images/fb-logo-bw.png"]
-                                            ]
                                         ]
                                     )
+                                    @
+                                    [
+                                        A [HRef ("https://facebook.com/" + news.FacebookId)] -< [
+                                            Img [Src "assets/images/fb-logo-bw.png"]
+                                        ]
+                                    ]
                                 )
                             )
                         )
