@@ -132,7 +132,7 @@ module Site =
                                 menuItem item.Title (getHref item.Title) (Asset.resize "menu-items" item.BackgroundImage (Some 150, Some 100))
                         ]
                     ]
-                    Span [] -< [ ClientSide <@ Client.Main() @> ]
+                    Span [ClientSide <@ Client.Main() @>]
                 ]
             }
 
