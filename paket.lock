@@ -33,8 +33,8 @@ NUGET
     Npm.js (2.13.1)
       Node.js (>= 0.12.7)
     Owin (1.0.0)
-    WebSharper (3.6.6.225)
-    WebSharper.Html (3.6.5.16)
-      IntelliFactory.Xml
-      WebSharper (>= 3.6.6.225)
+    WebSharper (3.6.7.227)
+    WebSharper.Html (3.6.6.18)
+      IntelliFactory.Xml (>= 0.6.63.95)
+      WebSharper (>= 3.6.7.227)
     Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
