@@ -86,7 +86,7 @@ Target "DownloadNpmDependencies" <| fun () ->
 Target "Build" <| fun () ->
     let setParams (p: MSBuildParams) =
         { p with
-            Targets = ["Rebuild"]
+            Targets = ["Build"]
             Properties =
                 [
                     "Configuration", "Release"
