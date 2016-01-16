@@ -44,15 +44,16 @@ let resizeDefinitionFilePath = mainProjectDir @@ "assets" @@ "resize.txt"
 
 let slnFile = FindFirstMatchingFile "*.sln" "."
 Target "Clean" <| fun () ->
-    let setParams (p: MSBuildParams) =
-        { p with
-            Targets = ["Clean"]
-            Properties =
-                [
-                    "Configuration", "Release"
-                ]
-        }
-    build setParams slnFile
+    // Cleaning the project fails on Azure because https://github.com/intellifactory/websharper/issues/504
+    //let setParams (p: MSBuildParams) =
+    //    { p with
+    //        Targets = ["Clean"]
+    //        Properties =
+    //            [
+    //                "Configuration", "Release"
+    //            ]
+    //    }
+    //build setParams slnFile
 
     DeleteFile resizeDefinitionFilePath
 
