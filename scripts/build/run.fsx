@@ -136,7 +136,9 @@ Target "ResizeImages" <| fun () ->
 
         let fileName = sprintf "%s_%dx%d%s" (fileNameWithoutExt def.Path) def.Width def.Height (ext def.Path)
         let targetPath = outputDir @@ (directory def.Path) @@ fileName
-        resize (mainProjectDir @@ def.Path) (def.Width, def.Height) targetPath
+        try
+            resize (mainProjectDir @@ def.Path) (def.Width, def.Height) targetPath
+        with e -> eprintfn "Can't resize %s: %O" def.Path e; reraise()
     )
 
 Target "CopyAssets" <| fun () ->
