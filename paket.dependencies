@@ -4,6 +4,7 @@ nuget FAKE
 nuget fsharp.core
 nuget fsharp.data
 nuget HtmlAgilityPack
+nuget imageprocessor
 nuget markdownsharp
 nuget npm.js
 nuget WebSharper

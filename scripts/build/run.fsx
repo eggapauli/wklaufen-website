@@ -1,6 +1,7 @@
 #I @"..\..\"
 #r @"packages\FAKE\tools\FakeLib.dll"
 #r @"packages\FSharp.Data\lib\net40\FSharp.Data.dll"
+#r @"packages\ImageProcessor\lib\net45\ImageProcessor.dll"
 #load @"..\common\retry.fsx"
 #load @"..\common\Choice.fsx"
 #load @"..\common\DataModels.fsx"
@@ -14,14 +15,12 @@
 #load @".\News.fsx"
 
 open System
-open System.Drawing
-open System.Drawing.Drawing2D
-open System.Drawing.Imaging
 open System.IO
 open Fake
 open Fake.NpmHelper
 open FSharp.Data
 open DownloadHelper
+open ImageProcessor
 
 let ooebvUsername = getBuildParam "ooebv-username"
 let ooebvPassword = getBuildParam "ooebv-password"
@@ -95,38 +94,28 @@ Target "Build" <| fun () ->
     build setParams slnFile
 
 Target "ResizeImages" <| fun () ->
-    let resize sourcePath (width, height) targetPath =
-        use image = Image.FromFile sourcePath
-    
-        let destRect = new Rectangle(0, 0, width, height)
-        use destImage = new Bitmap(width, height)
+    let resize (sourcePath: string) (width, height) (targetPath: string) =
+        use imageFactory = new ImageFactory()
+        imageFactory.Load(sourcePath) |> ignore
 
-        destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution)
+        let resizeLayer =
+            let widthRatio = (float imageFactory.Image.Width) / (float width)
+            let heightRatio = (float imageFactory.Image.Height) / (float height)
+            let resizeSize =
+                if widthRatio > heightRatio
+                then Drawing.Size(0, height)
+                else Drawing.Size(width, 0)
+            Imaging.ResizeLayer(resizeSize, Imaging.ResizeMode.BoxPad)
+        imageFactory.Resize(resizeLayer) |> ignore
 
-        use graphics = Graphics.FromImage destImage
-        graphics.CompositingMode <- CompositingMode.SourceCopy
-        graphics.CompositingQuality <- CompositingQuality.HighQuality
-        graphics.InterpolationMode <- InterpolationMode.HighQualityBicubic
-        graphics.SmoothingMode <- SmoothingMode.HighQuality
-        graphics.PixelOffsetMode <- PixelOffsetMode.HighQuality
+        let cropRect =
+            let srcX = (imageFactory.Image.Width - width) / 2
+            let srcY = (imageFactory.Image.Height - height) / 2
+            Drawing.Rectangle(srcX, srcY, width, height)
+        imageFactory.Crop(cropRect) |> ignore
 
-        let ratio =
-            let widthRatio = (float image.Width) / (float width)
-            let heightRatio = (float image.Height) / (float height)
-            Math.Min (widthRatio, heightRatio)
+        imageFactory.Save(targetPath) |> ignore
 
-        let srcWidth = (float width) * ratio |> int
-        let srcHeight = (float height) * ratio |> int
-        let srcX = (image.Width - srcWidth) / 2
-        let srcY = (image.Height - srcHeight) / 2
-
-        use wrapMode = new ImageAttributes()
-        wrapMode.SetWrapMode(WrapMode.TileFlipXY)
-        graphics.DrawImage(image, destRect, srcX, srcY, srcWidth, srcHeight, GraphicsUnit.Pixel, wrapMode)
-
-        ensureDirectory (directory targetPath)
-        destImage.Save targetPath
-    
     resizeDefinitionFilePath
     |> ReadFile
     |> Seq.map ResizeDefinition.Parse

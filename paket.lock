@@ -16,6 +16,7 @@ NUGET
     FSharp.Data (2.2.5)
       Zlib.Portable (>= 1.10.0) - framework: portable-net40+sl50+wp80+win80
     HtmlAgilityPack (1.4.9)
+    ImageProcessor (2.3.3)
     IntelliFactory.Xml (0.6.63.95)
     MarkdownSharp (1.13.0)
     Microsoft.Owin (3.0.1)
