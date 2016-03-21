@@ -357,7 +357,7 @@ module Site =
                                 Div [Class "member"] -< seq {
                                     yield H2 [Text (sprintf "%s %s" m.FirstName m.LastName)]
                                     match m.Photo with
-                                    | Some photo -> yield Div [Class "image"] -< [Asset.htmlImage "members" photo (None, Some 270)]
+                                    | Some photo -> yield Div [Class "image"] -< [Asset.htmlImage "members" photo (Some 200, Some 270)]
                                     | None -> ()
                                     yield UL [] -< seq {
                                         if m.Instruments |> Array.isEmpty |> not
