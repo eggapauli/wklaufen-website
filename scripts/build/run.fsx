@@ -105,7 +105,7 @@ Target "ResizeImages" <| fun () ->
                 if widthRatio > heightRatio
                 then Drawing.Size(0, height)
                 else Drawing.Size(width, 0)
-            Imaging.ResizeLayer(resizeSize, Imaging.ResizeMode.BoxPad)
+            Imaging.ResizeLayer(resizeSize)
         imageFactory.Resize(resizeLayer) |> ignore
 
         let cropRect =
