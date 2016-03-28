@@ -1,20 +1,28 @@
+#if INTERACTIVE
 #I @"..\..\"
 #r @"packages\FSharp.Data\lib\net40\FSharp.Data.dll"
+#load "Async.fsx"
+#load "Choice.fsx"
+#load "DataModels.fsx"
+#load "Http.fsx"
+#load "Json.fsx"
+#load "OOEBV.fsx"
+#load "DownloadHelper.fsx"
+#endif
 
-//#load @"..\common\DataModels.fsx"
-//#load @"..\common\Json.fsx"
-//#load @"..\common\OOEBV.fsx"
-//#load @".\DownloadHelper.fsx"
+#if COMPILED
+module Members
+#endif
 
 open System
 open System.IO
 open System.Text.RegularExpressions
 open DownloadHelper
 
-let download (username, password) : Choice<DataModels.OoebvMember list, string> =
+let download (username, password) =
     OOEBV.login username password
-    |> Choice.bind OOEBV.loadAndResetMemberOverviewPage
-    |> Choice.bind OOEBV.loadActiveMembers
+    |> Async.bind (Choice.bindAsync OOEBV.loadAndResetMemberOverviewPage)
+    |> Async.bind (Choice.bindAsync OOEBV.loadActiveMembers)
 
 let getJson (m: DataModels.OoebvMember, image) =
     let formatPhoneNumber text =
@@ -52,5 +60,5 @@ let tryDownloadImage baseDir (m: DataModels.OoebvMember) =
         let fileName = sprintf "%d%s" m.Member.OOEBVId (getExtension imageUri)
         let filePath = Path.Combine(baseDir, "members", fileName)
         tryDownload imageUri filePath
-        |> Choice.map (fun () -> m, Some fileName)
-    | None -> Choice1Of2 (m, None)
+        |> Async.map (Choice.map (fun () -> m, Some fileName))
+    | None -> Async.unit (Choice1Of2 (m, None))

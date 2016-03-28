@@ -1,10 +1,18 @@
+#if INTERACTIVE
 #I @"..\..\"
 #r @"packages\FSharp.Data\lib\net40\FSharp.Data.dll"
+#load "Choice.fsx"
+#load "DataModels.fsx"
+#load "Http.fsx"
+#load "DownloadHelper.fsx"
+#load "Facebook.fsx"
+#load "Json.fsx"
+#endif
 
-//#load @"..\common\DataModels.fsx"
-//#load @"..\common\Json.fsx"
-//#load @"..\facebook\Facebook.fsx"
-//#load @".\DownloadHelper.fsx"
+
+#if COMPILED
+module News
+#endif
 
 open System
 open System.IO
@@ -31,7 +39,10 @@ let downloadImages baseDir (m: DataModels.FacebookNews) =
         let fileName = sprintf "%s_%d%s" m.Id (idx + 1) (getExtension imageUri)
         let filePath = Path.Combine(baseDir, "news", fileName)
         tryDownload imageUri filePath
-        |> Choice.map (fun () -> fileName)
+        |> Async.map (Choice.map (fun () -> fileName))
     )
-    |> Choice.ofList
-    |> Choice.map (fun images -> m, images)
+    |> Async.ofList
+    |> Async.map (
+        Choice.ofList
+        >> Choice.map (fun images -> m, images)
+    )

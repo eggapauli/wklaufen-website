@@ -1,5 +1,11 @@
-﻿//#load "Choice.fsx"
-//#load "retry.fsx"
+﻿#if INTERACTIVE
+#load "Choice.fsx"
+#load "Retry.fsx"
+#endif
+
+#if COMPILED
+module Ftp
+#endif
 
 open System
 open System.IO

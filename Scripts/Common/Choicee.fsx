@@ -1,3 +1,11 @@
+#if INTERACTIVE
+#load "Async.fsx"
+#endif
+
+#if COMPILED
+module Choice
+#endif
+
 let bind fn =
     function
     | Choice1Of2 x -> fn x
@@ -36,3 +44,19 @@ let rec ofList list =
     | [] -> Choice1Of2 []
     | head :: tail ->
         (Choice1Of2 cons) <*> head <*> (ofList tail)
+
+let bindAsync fn =
+    function
+    | Choice1Of2 x -> async {
+        let! y = fn x
+        return y
+        }
+    | Choice2Of2 x -> async { return Choice2Of2 x }
+
+let mapAsync fn x =
+    bindAsync (fn >> Async.map Choice1Of2) x
+
+let toOption =
+    function
+    | Choice1Of2 x -> Some x
+    | _ -> None

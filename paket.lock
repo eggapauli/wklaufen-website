@@ -2,6 +2,8 @@ NUGET
   remote: https://nuget.org/api/v2
   specs:
     Argu (1.1.2)
+    ExcelDataReader (2.1.2.3)
+      SharpZipLib (>= 0.86.0)
     Exira.ErrorHandling (0.1.33)
       FSharp.Core
     Exira.SimpleHttpServer (1.0.3)
@@ -34,6 +36,7 @@ NUGET
     Npm.js (2.13.1)
       Node.js (>= 0.12.7)
     Owin (1.0.0)
+    SharpZipLib (0.86.0)
     WebSharper (3.6.7.227)
     WebSharper.Html (3.6.6.18)
       IntelliFactory.Xml (>= 0.6.63.95)

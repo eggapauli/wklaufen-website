@@ -6,7 +6,7 @@ set uploadUsername=
 set uploadPassword=
 set activitiesPath=
 
-.\packages\FAKE\tools\FAKE.exe .\scripts\build\run.fsx %* ^
+.\packages\FAKE\tools\FAKE.exe .\Scripts\Build\run.fsx %* ^
 -ev ooebv-username %ooebvUsername% ^
 -ev ooebv-password %ooebvPassword% ^
 -ev facebook-access-token %facebookAccessToken% ^

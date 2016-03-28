@@ -1,4 +1,5 @@
 source https://nuget.org/api/v2
+nuget ExcelDataReader
 nuget Exira.SimpleHttpServer
 nuget FAKE
 nuget fsharp.core
@@ -7,5 +8,6 @@ nuget HtmlAgilityPack
 nuget imageprocessor
 nuget markdownsharp
 nuget npm.js
+nuget SharpZipLib
 nuget WebSharper
 nuget websharper.html

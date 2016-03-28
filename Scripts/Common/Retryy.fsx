@@ -1,3 +1,7 @@
+#if COMPILED
+module Retry
+#endif
+
 open System
 
 let rec executeChoice (timeouts: TimeSpan list) fn =

@@ -1,10 +1,15 @@
+#if INTERACTIVE
 #I @"..\..\"
 #r "System.Net.Http"
 #r @"packages\FSharp.Data\lib\net40\FSharp.Data.dll"
+#load "DataModels.fsx"
+#load "Http.fsx"
+#load "Choice.fsx"
+#endif
 
-//#load @"..\common\DataModels.fsx"
-//#load @"..\common\Choice.fsx"
-//#load @"..\common\Http.fsx"
+#if COMPILED
+module Facebook
+#endif
 
 open System
 open System.Net.Http
@@ -14,73 +19,81 @@ open DataModels
 let private baseUrl = Uri "https://graph.facebook.com/v2.5/"
 
 [<Literal>]
-let private SamplePostListResponse = __SOURCE_DIRECTORY__ + @"\FacebookPostList.json"
+let private JsonBaseDir = __SOURCE_DIRECTORY__ + @"\facebook\"
+
+[<Literal>]
+let private SamplePostListResponse = JsonBaseDir + @"FacebookPostList.json"
 type private PostList = JsonProvider<SamplePostListResponse>
 
 [<Literal>]
-let private SamplePostSingleAttachmentResponse = __SOURCE_DIRECTORY__ + @"\FacebookPostSingleAttachment.json"
+let private SamplePostSingleAttachmentResponse = JsonBaseDir + @"FacebookPostSingleAttachment.json"
 type private PostSingleAttachment = JsonProvider<SamplePostSingleAttachmentResponse>
 
 [<Literal>]
-let private SamplePostMultipleAttachmentsResponse = __SOURCE_DIRECTORY__ + @"\FacebookPostMultipleAttachments.json"
+let private SamplePostMultipleAttachmentsResponse = JsonBaseDir + @"FacebookPostMultipleAttachments.json"
 type private PostMultipleAttachments = JsonProvider<SamplePostMultipleAttachmentsResponse>
 
 [<Literal>]
-let private SampleAttachmentImagesResponse = __SOURCE_DIRECTORY__ + @"\FacebookAttachmentImages.json"
+let private SampleAttachmentImagesResponse = JsonBaseDir + @"FacebookAttachmentImages.json"
 type private PostAttachmentImages = JsonProvider<SampleAttachmentImagesResponse>
 
 [<Literal>]
-let private SamplePageCoverResponse = __SOURCE_DIRECTORY__ + @"\FacebookPageCover.json"
+let private SamplePageCoverResponse = JsonBaseDir + @"FacebookPageCover.json"
 type private PageCover = JsonProvider<SamplePageCoverResponse>
 
-let private httpGet accessToken (relUrl: string) =
+let private httpGet accessToken (relUrl: string) = async {
     let url = Uri(baseUrl, relUrl)
     use request = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, url)
     request.Headers.Authorization <- Headers.AuthenticationHeaderValue("Bearer", accessToken)
-    Http.sendRequest request
-    |> Choice.map Http.getContentString
+    return!
+        Http.sendRequest request
+        |> Async.bind (Choice.mapAsync Http.getContentString)
+}
 
 let getNews accessToken =
     httpGet accessToken "werkskapellelaufen/posts"
-    |> Choice.map PostList.Parse
-    |> Choice.bind (fun x ->
+    |> Async.map (Choice.map PostList.Parse)
+    |> Async.bind (Choice.bindAsync (fun x ->
         x.Data
         |> Seq.choose (fun post ->
             post.Message
             |> Option.map (fun (postMessage) ->
                 httpGet accessToken (post.Id + "/attachments")
-                |> Choice.map (fun attachments ->
+                |> Async.bind (Choice.mapAsync (fun attachments ->
                     try
                         PostMultipleAttachments.Parse(attachments).Data
                         |> Seq.collect (fun d -> d.Subattachments.Data)
                         |> Seq.choose (fun d -> d.Target.Id)
                         |> Seq.toList
+                        |> Async.unit
                     with e ->
                         PostSingleAttachment.Parse(attachments).Data
-                        |> Seq.choose (fun d ->
+                        |> Seq.map (fun d ->
                             match d.Type, d.Target.Id with
-                            | "photo", targetId -> targetId
+                            | "photo", targetId -> async { return targetId }
                             | "cover_photo", Some targetId ->
                                 httpGet accessToken (sprintf "%d?fields=cover" d.Target.Id.Value)
-                                |> Choice.map PageCover.Parse
-                                |> Choice.map (fun cover -> cover.Cover.CoverId)
-                                |> function
-                                | Choice1Of2 x -> Some x
-                                | Choice2Of2 x -> None
+                                |> Async.map (
+                                    Choice.map PageCover.Parse
+                                    >> Choice.map (fun cover -> cover.Cover.CoverId)
+                                    >> Choice.toOption
+                                )
                             | x, _ ->
                                 printfn "Unknown attachment type in post %s: \"%s\"" post.Id x
-                                None
+                                async { return None }
                         )
-                        |> Seq.toList
-                )
-                |> Choice.bind(fun photoIds ->
+                        |> Async.ofList
+                        |> Async.map (List.choose id)
+                ))
+                |> Async.bind (Choice.bindAsync(fun photoIds ->
                     photoIds
                     |> List.map (fun photoId ->
                         httpGet accessToken (sprintf "%d?fields=images" photoId)
                     )
-                    |> Choice.ofList
-                )
-                |> Choice.map(fun imagesResponse ->
+                    |> Async.ofList
+                    |> Async.map Choice.ofList
+                ))
+                |> Async.map (Choice.map(fun imagesResponse ->
                     imagesResponse
                     |> Seq.map PostAttachmentImages.Parse
                     |> Seq.map (fun attachmentImages ->
@@ -90,8 +103,8 @@ let getNews accessToken =
                         |> Uri
                     )
                     |> Seq.toList
-                )
-                |> Choice.map (fun images ->
+                ))
+                |> Async.map (Choice.map (fun images ->
                     {
                         Id = post.Id
                         News =
@@ -101,10 +114,11 @@ let getNews accessToken =
                             }
                         Images = images
                     }
-                )
+                ))
             )
         )
         |> Seq.toList
-        |> Choice.ofList
-    )
-    |> Choice.mapError (sprintf "Error while retrieving Facebook posts. %s")
+        |> Async.ofList
+        |> Async.map Choice.ofList
+    ))
+    |> Async.map (Choice.mapError (sprintf "Error while retrieving Facebook posts. %s"))

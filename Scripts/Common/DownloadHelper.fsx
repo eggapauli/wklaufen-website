@@ -1,8 +1,13 @@
+#if INTERACTIVE
 #I @"..\..\"
 #r @"packages\ImageProcessor\lib\net45\ImageProcessor.dll"
+#load "Choice.fsx"
+#load "Http.fsx"
+#endif
 
-//#load @"..\common\Choice.fsx"
-//#load @"..\common\Http.fsx"
+#if COMPILED
+module DownloadHelper
+#endif
 
 open System
 open System.IO
@@ -21,15 +26,16 @@ let saveEntries filePath entries =
 let download filePath uri =
     printfn "Downloading image from %O" uri
     Http.get uri
-    |> Choice.map (fun res -> res.Content.ReadAsStreamAsync() |> Async.AwaitTask |> Async.RunSynchronously)
-    |> Choice.map (fun content ->
+    |> Async.bind (Choice.mapAsync (fun res -> res.Content.ReadAsStreamAsync() |> Async.AwaitTask))
+    |> Async.map (Choice.map (fun content ->
         Path.GetDirectoryName filePath |> Directory.CreateDirectory |> ignore
         use imageFactory = new ImageFactory()
         imageFactory
             .Load(content)
             .Resize(Imaging.ResizeLayer(maxImageSize, Imaging.ResizeMode.Max, Upscale=false))
             .Save(filePath)
-    )
+        |> ignore
+    ))
 
 let getExtension (uri: Uri) =
     uri.Segments
@@ -38,9 +44,9 @@ let getExtension (uri: Uri) =
     |> fun x -> x.ToLowerInvariant()
 
 let tryDownload (uri: Uri) filePath =
-    match download filePath uri with
-    | Choice1Of2 image -> Choice1Of2()
-    | Choice2Of2 x -> Choice2Of2 (sprintf "Error while downloading image. %s" x)
+    download filePath uri
+    |> Async.map (Choice.mapError (sprintf "Error while downloading image. %s"))
+    |> Async.perform (fun _ -> printfn "Downloaded %s" filePath)
 
 let getFileNameFromTitle (title: string) =
     title

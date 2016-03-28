@@ -1,3 +1,7 @@
+#if COMPILED
+module DataModels
+#endif
+
 open System
 
 type Member = {

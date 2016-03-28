@@ -1,18 +1,26 @@
+#if INTERACTIVE
 #I @"..\..\"
+#I @"..\Common"
 #r @"packages\FAKE\tools\FakeLib.dll"
 #r @"packages\FSharp.Data\lib\net40\FSharp.Data.dll"
 #r @"packages\ImageProcessor\lib\net45\ImageProcessor.dll"
-#load @"..\common\retry.fsx"
-#load @"..\common\Choice.fsx"
-#load @"..\common\DataModels.fsx"
-#load @"..\common\Ftp.fsx"
-#load @"..\common\Http.fsx"
-#load @"..\common\Json.fsx"
-#load @"..\common\OOEBV.fsx"
-#load @"..\facebook\Facebook.fsx"
-#load @".\DownloadHelper.fsx"
-#load @".\Members.fsx"
-#load @".\News.fsx"
+#load "Retry.fsx"
+#load "Async.fsx"
+#load "Choice.fsx"
+#load "DataModels.fsx"
+#load "Ftp.fsx"
+#load "Http.fsx"
+#load "Json.fsx"
+#load "OOEBV.fsx"
+#load "Facebook.fsx"
+#load "DownloadHelper.fsx"
+#load "Members.fsx"
+#load "News.fsx"
+#endif
+
+#if COMPILED
+module Main
+#endif
 
 open System
 open System.IO
@@ -22,17 +30,16 @@ open FSharp.Data
 open DownloadHelper
 open ImageProcessor
 
-let ooebvUsername = getBuildParam "ooebv-username"
-let ooebvPassword = getBuildParam "ooebv-password"
-let facebookAccessToken = getBuildParam "facebook-access-token"
+let rec findFirstMatchingFileInParentDirectory pattern dir =
+    match TryFindFirstMatchingFile pattern dir with
+    | Some file -> file
+    | None ->
+        Path.GetDirectoryName dir
+        |> findFirstMatchingFileInParentDirectory pattern
 
-let uploadUrl = getBuildParam "upload-url" |> Uri
-let uploadCredentials = {
-    Ftp.Credential.Username = getBuildParam "upload-username"
-    Ftp.Credential.Password = getBuildParam "upload-password"
-}
-
-let mainProjectDir = "WkLaufen.Website"
+let slnFile = findFirstMatchingFileInParentDirectory "WkLaufen.Website.sln" __SOURCE_DIRECTORY__
+let rootDir = directory slnFile
+let mainProjectDir = rootDir @@ "WkLaufen.Website"
 let outputDir = mainProjectDir @@ "bin" @@ "html"
 let imageBaseDir = mainProjectDir @@ "assets" @@ "images"
 let dataDir = mainProjectDir @@ "data"
@@ -41,7 +48,6 @@ type ResizeDefinition = JsonProvider<"""{ "Path": "members\\image.jpg", "Width":
 let resizeDefinitionFileName = "resize.txt"
 let resizeDefinitionFilePath = mainProjectDir @@ "assets" @@ "resize.txt"
 
-let slnFile = FindFirstMatchingFile "*.sln" "."
 Target "Clean" <| fun () ->
     // Cleaning the project fails on Azure because https://github.com/intellifactory/websharper/issues/504
     //let setParams (p: MSBuildParams) =
@@ -57,8 +63,18 @@ Target "Clean" <| fun () ->
     DeleteFile resizeDefinitionFilePath
 
 Target "DownloadMembers" <| fun () ->
+    let ooebvUsername = getBuildParam "ooebv-username"
+    let ooebvPassword = getBuildParam "ooebv-password"
+
     Members.download(ooebvUsername, ooebvPassword)
-    |> Choice.bind ((List.map (Members.tryDownloadImage imageBaseDir)) >> Choice.ofList)
+    |> Async.bind (
+        Choice.bindAsync (
+            List.map (Members.tryDownloadImage imageBaseDir)
+            >> Async.ofList
+            >> (Async.map Choice.ofList)
+        )
+    )
+    |> Async.RunSynchronously
     |> Choice.map (List.map Members.getJson)
     |> Choice.map (saveEntries (dataDir @@ "members.json"))
     |> function
@@ -66,10 +82,15 @@ Target "DownloadMembers" <| fun () ->
     | Choice2Of2 x -> failwithf "Error while downloading members. %s" x
 
 Target "DownloadNews" <| fun () ->
+    let facebookAccessToken = getBuildParam "facebook-access-token"
+
     News.download facebookAccessToken
-    |> Choice.bind ((List.map (News.downloadImages imageBaseDir)) >> Choice.ofList)
-    |> Choice.map (List.map News.getJson)
-    |> Choice.map (saveEntries (dataDir @@ "news.json"))
+    |> Async.bind (Choice.bindAsync ((List.map (News.downloadImages imageBaseDir)) >> Async.ofList >> Async.map Choice.ofList))
+    |> Async.RunSynchronously
+    |> Choice.map (
+        List.map News.getJson
+        >> saveEntries (dataDir @@ "news.json")
+    )
     |> function
     | Choice1Of2 () -> printfn "Successfully downloaded news."
     | Choice2Of2 x -> failwithf "Error while downloading news. %s" x
@@ -79,6 +100,7 @@ Target "DownloadNpmDependencies" <| fun () ->
         { x with
             Command = Install Standard
             WorkingDirectory = mainProjectDir
+            NpmFilePath = rootDir @@ x.NpmFilePath
         }
     Npm setParams
 
@@ -120,15 +142,23 @@ Target "ResizeImages" <| fun () ->
     |> ReadFile
     |> Seq.map ResizeDefinition.Parse
     |> Seq.distinctBy (fun def -> def.Path, def.Width, def.Height)
-    |> Seq.iter (fun def ->
+    |> Seq.map (fun def -> async {
         tracefn "Resizing %s to Width = %d, Height = %d" def.Path def.Width def.Height
 
         let fileName = sprintf "%s_%dx%d%s" (fileNameWithoutExt def.Path) def.Width def.Height (ext def.Path)
         let targetPath = outputDir @@ (directory def.Path) @@ fileName
-        try
-            resize (mainProjectDir @@ def.Path) (def.Width, def.Height) targetPath
-        with e -> eprintfn "Can't resize %s: %O" def.Path e; reraise()
-    )
+        return
+            try
+                resize (mainProjectDir @@ def.Path) (def.Width, def.Height) targetPath
+                Choice1Of2 targetPath
+            with e -> Choice2Of2 (sprintf "Can't resize %s: %O" def.Path e)
+    })
+    |> Async.ofList
+    |> Async.RunSynchronously
+    |> Choice.ofList
+    |> function
+    | Choice1Of2 _ -> ()
+    | Choice2Of2 error -> (eprintfn "ERROR: %s" error)
 
 Target "CopyAssets" <| fun () ->
     !! ("assets/**/*")
@@ -155,6 +185,12 @@ Target "AddHtAccessFile" <| fun () ->
 Target "FullBuild" DoNothing
 
 Target "Upload" <| fun () ->
+    let uploadUrl = getBuildParam "upload-url" |> Uri
+    let uploadCredentials = {
+        Ftp.Credential.Username = getBuildParam "upload-username"
+        Ftp.Credential.Password = getBuildParam "upload-password"
+    }
+
     Ftp.uploadDirectory outputDir uploadUrl uploadCredentials
     |> function
     | Choice1Of2 () -> printfn "Successfully uploaded build"
@@ -173,4 +209,6 @@ Target "Default" DoNothing
 "Upload" <== ["FullBuild"]
 "Default" <== ["Upload"]
 
+#if INTERACTIVE
 RunTargetOrDefault "Default"
+#endif

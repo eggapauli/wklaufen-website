@@ -1,8 +1,16 @@
-#r @"..\packages\ExcelDataReader\lib\net45\Excel.dll"
-#r @"..\packages\SharpZipLib\lib\20\ICSharpCode.SharpZipLib.dll"
+#if INTERACTIVE
+#I @"..\..\"
+#I @"..\Common\"
+#r @"packages\ExcelDataReader\lib\net45\Excel.dll"
+#r @"packages\SharpZipLib\lib\20\ICSharpCode.SharpZipLib.dll"
 
-//#load @"..\common\Json.fsx"
-//#load @".\DownloadHelper.fsx"
+#load "Json.fsx"
+#load "DownloadHelper.fsx"
+#endif
+
+#if COMPILED
+module Activities
+#endif
 
 open System
 open System.IO
@@ -27,7 +35,7 @@ type Activity = {
     Place: string
 }
 
-let import filePath =
+let parse filePath =
     let parseDate (date: obj) =
         match date with
         | :? DateTime as d -> Some d.Date
@@ -95,3 +103,8 @@ let getJson (m: Activity) =
         (Json.fromDateTimeOption m.BeginTime)
         (Json.fromDateTimeOption m.EndTime)
         m.Place
+
+let import sourcePath targetPath =
+    parse sourcePath
+    |> List.map getJson
+    |> saveEntries targetPath
