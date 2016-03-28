@@ -6,6 +6,8 @@
 module Choice
 #endif
 
+let unit x = Choice1Of2 x
+
 let bind fn =
     function
     | Choice1Of2 x -> fn x
@@ -17,7 +19,7 @@ let bindError fn =
     | Choice2Of2 x -> fn x
 
 let map fn =
-    bind (fn >> Choice1Of2)
+    bind (fn >> unit)
 
 let mapError fn =
     bindError (fn >> Choice2Of2)
@@ -33,7 +35,7 @@ let partitionList list =
 
 let apply fn x =
     match fn, x with
-    | Choice1Of2 fn, Choice1Of2 x -> fn x |> Choice1Of2
+    | Choice1Of2 fn, Choice1Of2 x -> fn x |> unit
     | Choice2Of2 fn, _ -> Choice2Of2 fn
     | _, Choice2Of2 x -> Choice2Of2 x
 
@@ -41,9 +43,9 @@ let rec ofList list =
     let (<*>) = apply
     let cons head tail = head :: tail
     match list with
-    | [] -> Choice1Of2 []
+    | [] -> unit []
     | head :: tail ->
-        (Choice1Of2 cons) <*> head <*> (ofList tail)
+        (unit cons) <*> head <*> (ofList tail)
 
 let bindAsync fn =
     function
@@ -54,7 +56,7 @@ let bindAsync fn =
     | Choice2Of2 x -> async { return Choice2Of2 x }
 
 let mapAsync fn x =
-    bindAsync (fn >> Async.map Choice1Of2) x
+    bindAsync (fn >> Async.map unit) x
 
 let toOption =
     function
