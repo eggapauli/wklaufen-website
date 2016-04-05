@@ -7,6 +7,7 @@ module Http
 #endif
 
 open System
+open System.IO
 open System.Net
 open System.Net.Http
 open System.Net.Http.Headers
@@ -40,9 +41,17 @@ let get (uri: Uri) = async {
     return! sendRequest request
 }
 
+let private createPostRequestMessage (uri: Uri) =
+    new HttpRequestMessage(HttpMethod.Post, uri)
+
 let post (uri: Uri) content = async {
-    use request = new HttpRequestMessage(HttpMethod.Post, uri)
+    use request = createPostRequestMessage uri
     request.Content <- content
+    return! sendRequest request
+}
+
+let postEmpty (uri: Uri) = async {
+    use request = createPostRequestMessage uri
     return! sendRequest request
 }
 
@@ -54,15 +63,30 @@ let postForm (uri: Uri) formParams = async {
         formParams
         |> Seq.map (fun (key: string, value: string) -> sprintf "%s=%s" (urlEncode key) (urlEncode value))
         |> String.concat "&"
-    use request = new HttpRequestMessage(HttpMethod.Post, uri)
+    use request = createPostRequestMessage uri
     request.Content <- new StringContent(content)
     request.Content.Headers.ContentType <- MediaTypeHeaderValue "application/x-www-form-urlencoded"
     return! sendRequest request
 }
 
 let postXml (uri: Uri) xml = async {
-    use request = new HttpRequestMessage(HttpMethod.Post, uri)
+    use request = createPostRequestMessage uri
     request.Content <- new StringContent(xml)
     request.Content.Headers.ContentType <- MediaTypeHeaderValue "application/xml"
+    return! sendRequest request
+}
+
+let uploadImageMultipart (uri: Uri) imagePath = async {
+    use request = createPostRequestMessage uri
+
+    let content = new MultipartFormDataContent()
+    let fileName = Path.GetFileName imagePath
+    content.Add(new StringContent(fileName), "Filename")
+    content.Add(new StringContent("*.jpg;*.jpeg;*.png;*.gif"), "fileext")
+    content.Add(new StringContent("/uploads"), "folder")
+    content.Add(new StreamContent(File.OpenRead(imagePath)), "Filedata", fileName)
+    content.Add(new StringContent("Submit Query"), "Upload")
+    request.Content <- content
+
     return! sendRequest request
 }

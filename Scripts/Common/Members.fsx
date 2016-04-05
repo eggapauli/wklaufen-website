@@ -19,8 +19,8 @@ open System.IO
 open System.Text.RegularExpressions
 open DownloadHelper
 
-let download (username, password) =
-    OOEBV.login username password
+let download credentials =
+    OOEBV.login credentials
     |> Async.bind (Choice.bindAsync OOEBV.loadAndResetMemberOverviewPage)
     |> Async.bind (Choice.bindAsync OOEBV.loadActiveMembers)
 

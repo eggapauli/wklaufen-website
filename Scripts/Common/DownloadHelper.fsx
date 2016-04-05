@@ -1,10 +1,7 @@
 #if INTERACTIVE
-#I @"..\..\"
-#r @"packages\ImageProcessor\lib\net45\ImageProcessor.dll"
 #load "Choice.fsx"
 #load "Http.fsx"
 #endif
-
 #if COMPILED
 module DownloadHelper
 #endif
@@ -12,9 +9,6 @@ module DownloadHelper
 open System
 open System.IO
 open System.Text.RegularExpressions
-open ImageProcessor
-
-let private maxImageSize = System.Drawing.Size(1500, 1500)
 
 let saveEntries filePath entries = 
     let content =
@@ -29,11 +23,8 @@ let download filePath uri =
     |> Async.bind (Choice.mapAsync (fun res -> res.Content.ReadAsStreamAsync() |> Async.AwaitTask))
     |> Async.map (Choice.map (fun content ->
         Path.GetDirectoryName filePath |> Directory.CreateDirectory |> ignore
-        use imageFactory = new ImageFactory()
-        imageFactory
-            .Load(content)
-            .Resize(Imaging.ResizeLayer(maxImageSize, Imaging.ResizeMode.Max, Upscale=false))
-            .Save(filePath)
+        use targetStream = File.OpenWrite filePath
+        content.CopyToAsync targetStream |> Async.AwaitTask |> Async.RunSynchronously
         |> ignore
     ))
 

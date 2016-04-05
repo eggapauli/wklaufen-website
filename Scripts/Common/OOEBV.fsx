@@ -38,7 +38,7 @@ let private loadHtmlResponse (response: System.Net.Http.HttpResponseMessage) = a
 /// <param name="username"></param>
 /// <param name="password"></param>
 /// <returns>Overview page as HTML document</returns>
-let login username password =
+let login (username, password) =
     let uri = Uri(baseUri, "index_n1.php?slid=%3D%3DwMT0cjN1BgDN0QTMuVGZsVWbuF2Xh1zYul2M0cjN1gDN0QTM")
     let formParams = [
         "b_benutzername", username
@@ -253,8 +253,23 @@ let private loadMemberFromDetailsPage memberId isActive (doc: HtmlDocument) = as
         ))
 }
 
+let private getMemberIdFromOverviewTableRowId (rowId: string) =
+    rowId.Replace("dsz_", "") |> int
+
+let private loadOverviewRowAction (row: HtmlNode) actionTitle =
+    row.Descendants("a")
+    |> Seq.filter(fun a ->
+        a.Attributes.["href"] <> null
+        && a.Attributes.["title"] <> null
+        && a.Attributes.["title"].Value.Equals actionTitle
+    )
+    |> Seq.exactlyOne
+    |> fun a -> new Uri(baseUri, a.Attributes.["href"].Value)
+    |> Http.get
+    |> Async.bind (Choice.mapAsync loadHtmlResponse)
+
 let private loadMemberFromOverviewTableRow (row: HtmlNode) =
-    let memberId = row.Id.Replace("dsz_", "") |> int
+    let memberId = getMemberIdFromOverviewTableRowId row.Id
 
     let fullName = row.SelectSingleNode("td[2]").InnerText |> MemberParsing.normalizeName
     printfn "Getting details for member %s (Id = %d)" fullName memberId
@@ -262,37 +277,91 @@ let private loadMemberFromOverviewTableRow (row: HtmlNode) =
     let memberStatus = row.SelectSingleNode("td[1]").InnerText
     let isActive = MemberParsing.isMember memberStatus
 
-    row.Descendants("a")
-    |> Seq.filter(fun a ->
-        a.Attributes.["href"] <> null
-        && a.Attributes.["title"] <> null
-        && a.Attributes.["title"].Value.Equals("bearbeiten")
-    )
-    |> Seq.exactlyOne
-    |> fun a -> new Uri(baseUri, a.Attributes.["href"].Value)
-    |> Http.get
-    |> Async.bind (
-        Choice.mapAsync loadHtmlResponse
-    )
+    loadOverviewRowAction row "bearbeiten"
     |> Async.bind (
         Choice.mapError (fun _ -> sprintf "Error while getting details document of member with id %d" memberId)
         >> Choice.bindAsync (loadMemberFromDetailsPage memberId isActive)
         >> Async.perform (fun _ -> printfn "Got details for member %s" fullName)
     )
 
-let private loadMembers filterFn (memberPage: HtmlDocument) =
+let private getMemberOverviewRows (memberPage: HtmlDocument) =
     memberPage.DocumentNode.SelectNodes("//table[@id=\"mytable\"]/tr[@id]")
-    |> List.ofSeq
-    |> List.filter filterFn
-    |> List.map loadMemberFromOverviewTableRow
+
+let private loadMembersFromOverviewTableRows rows =
+    rows
+    |> Seq.map loadMemberFromOverviewTableRow
     |> Async.Parallel
     |> Async.map (Array.toList >> Choice.ofList)
 
-let loadAllMembers x =
-    loadMembers (fun _ -> true) x
+let loadAllMembers memberPage =
+    memberPage
+    |> getMemberOverviewRows
+    |> loadMembersFromOverviewTableRows
 
-let loadActiveMembers x =
-    let filter (row: HtmlNode) =
+let loadActiveMembers memberPage =
+    memberPage
+    |> getMemberOverviewRows
+    |> Seq.filter (fun row ->
         row.SelectSingleNode("td[1]").InnerText
         |> MemberParsing.isMember
-    loadMembers filter x
+    )
+    |> loadMembersFromOverviewTableRows
+
+let private imageUrl = sprintf "/core/inc_cms/hole_ajax_div_up.php?thumbnail_aktiv=1&cmyk_aktiv=&big_aktiv=&bereich=mitglieder_bild&bereich_tabelle=mitglieder_bild_archiv&bereich_verzeichniss=mitglieder_bild&a_id=ua&anzeige_form=&b_session=%s&rand=%d&del_rec=%s&id=%d&sprache=deu"
+let private getImageIds sessionId memberId =
+    let listImagesUrl = Uri(baseUri, imageUrl sessionId (rand.Next()) "x" memberId)
+    Http.get listImagesUrl
+    |> Async.bind (Choice.mapAsync loadHtmlResponse)
+    |> Async.map (Choice.map (fun doc ->
+        doc.DocumentNode.SelectNodes("//span[@onclick]")
+        |> fun n -> if n = null then Seq.empty else n :> seq<HtmlNode>
+        |> Seq.map (fun node -> Regex.Match(node.Attributes.["onclick"].Value, "(?<=javascript:zeige_ajax_mitglieder_bild_deu\(')\d+(?='\);)"))
+        |> Seq.filter (fun m -> m.Success)
+        |> Seq.map (fun m -> int m.Value)
+        |> Seq.toList
+    ))
+
+let private deleteImage sessionId memberId imageId =
+    let deleteImageUrl = Uri(baseUri, imageUrl sessionId (rand.Next()) (string imageId) memberId)
+    Http.postEmpty deleteImageUrl
+    |> Async.map (Choice.map ignore)
+
+let private deleteImages sessionId memberId imageIds =
+    imageIds
+    |> Seq.map (deleteImage sessionId memberId)
+    |> Async.ofList
+    |> Async.map (Choice.ofList >> Choice.map ignore)
+
+let uploadImage memberId imagePath =
+    let str =
+        sprintf "ist_menueintnr=126|b_intnr=3911|bj_id=ist_id|ist_id=%d|temp_id=|bj_wert=%d|bereich=mitglieder_bild|sprache=deu|in_intnr=|check_box_org=2|uploaddirectory=../../uploads/mitglieder_bild/" memberId memberId
+        |> Encoding.UTF8.GetBytes
+        |> Convert.ToBase64String
+    let url = Uri(baseUri, sprintf "/core/include/uploadify.php?str=%s" str)
+    Http.uploadImageMultipart url imagePath
+    |> Async.map (Choice.map ignore)
+
+let replaceMemberImages images memberPage =
+    memberPage
+    |> getMemberOverviewRows
+    |> Seq.choose (fun row ->
+        let memberId = getMemberIdFromOverviewTableRowId row.Id
+        Map.tryFind memberId images
+        |> Option.map (fun imagePath ->
+            loadOverviewRowAction row "Bild"
+            |> Async.bind (Choice.bindAsync (fun doc ->
+                let sessionId =
+                    doc.DocumentNode.Descendants("script")
+                    |> Seq.map (fun node -> node.InnerText)
+                    |> Seq.map (fun text -> Regex.Match(text, "(?<=&b_session=)\w+(?=&)"))
+                    |> Seq.filter (fun m -> m.Success)
+                    |> Seq.map (fun m -> m.Value)
+                    |> Seq.head
+                getImageIds sessionId memberId
+                |> Async.bind (Choice.bindAsync (deleteImages sessionId memberId))
+                |> Async.bind (Choice.bindAsync (fun () -> uploadImage memberId imagePath))
+            ))
+        )
+    )
+    |> Async.ofList
+    |> Async.map (Choice.ofList >> Choice.map ignore)

@@ -212,4 +212,8 @@ _Pvt_Extensions/
 ModelManifest.xml
 
 # Custom
-!scripts/**/*
+/WkLaufen.Website/assets/resize.txt
+/WkLaufen.Website/assets/images/members/**/*
+/WkLaufen.Website/assets/images/news/**/*
+/WkLaufen.Website/data/members.json
+/WkLaufen.Website/data/news.json
