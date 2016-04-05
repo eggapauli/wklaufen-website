@@ -1,7 +1,4 @@
-﻿// delete:
-//POST /core/inc_cms/hole_ajax_div_up.php?thumbnail_aktiv=1&cmyk_aktiv=&big_aktiv=&bereich=mitglieder_bild&bereich_tabelle=mitglieder_bild_archiv&bereich_verzeichniss=mitglieder_bild&a_id=ua&anzeige_form=&b_session=a_1567829406767d318ca0599791a1bef5d37ade56&rand=0.7974673410457369&del_rec=3930&id=594&sprache=deu HTTP/1.1
-
-#if INTERACTIVE
+﻿#if INTERACTIVE
 #I "..\Common"
 #load "OOEBV.fsx"
 #endif
