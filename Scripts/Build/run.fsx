@@ -158,7 +158,7 @@ Target "ResizeImages" <| fun () ->
     |> Choice.ofList
     |> function
     | Choice1Of2 _ -> ()
-    | Choice2Of2 error -> (eprintfn "ERROR: %s" error)
+    | Choice2Of2 error -> failwithf "ERROR: %s" error
 
 Target "CopyAssets" <| fun () ->
     !! ("assets/**/*")
@@ -194,7 +194,7 @@ Target "Upload" <| fun () ->
     Ftp.uploadDirectory outputDir uploadUrl uploadCredentials
     |> function
     | Choice1Of2 () -> printfn "Successfully uploaded build"
-    | Choice2Of2 message -> failwith "Error while uploading build: One or more Ftp requests failed"
+    | Choice2Of2 () -> failwith "Error while uploading build"
 
 Target "Default" DoNothing
 
