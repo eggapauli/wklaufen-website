@@ -142,19 +142,18 @@ Target "ResizeImages" <| fun () ->
     |> ReadFile
     |> Seq.map ResizeDefinition.Parse
     |> Seq.distinctBy (fun def -> def.Path, def.Width, def.Height)
-    |> Seq.map (fun def -> async {
+    |> Seq.map (fun def ->
         tracefn "Resizing %s to Width = %d, Height = %d" def.Path def.Width def.Height
 
         let fileName = sprintf "%s_%dx%d%s" (fileNameWithoutExt def.Path) def.Width def.Height (ext def.Path)
         let targetPath = outputDir @@ (directory def.Path) @@ fileName
-        return
-            try
-                resize (mainProjectDir @@ def.Path) (def.Width, def.Height) targetPath
-                Choice1Of2 targetPath
-            with e -> Choice2Of2 (sprintf "Can't resize %s: %O" def.Path e)
-    })
-    |> Async.ofList
-    |> Async.RunSynchronously
+        
+        try
+            resize (mainProjectDir @@ def.Path) (def.Width, def.Height) targetPath
+            Choice1Of2 targetPath
+        with e -> Choice2Of2 (sprintf "Can't resize %s: %O" def.Path e)
+    )
+    |> Seq.toList
     |> Choice.ofList
     |> function
     | Choice1Of2 _ -> ()
