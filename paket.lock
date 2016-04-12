@@ -1,26 +1,26 @@
 NUGET
-  remote: https://nuget.org/api/v2
+  remote: https://www.nuget.org/api/v2
   specs:
-    Argu (1.1.2)
+    Argu (2.1)
     ExcelDataReader (2.1.2.3)
-      SharpZipLib (>= 0.86.0)
-    Exira.ErrorHandling (0.1.33)
+      SharpZipLib (>= 0.86)
+    Exira.ErrorHandling (0.2.39)
       FSharp.Core
-    Exira.SimpleHttpServer (1.0.3)
+    Exira.SimpleHttpServer (1.0.6)
       Argu
       Exira.ErrorHandling
       FSharp.Core
       Microsoft.Owin.Host.HttpListener
       Microsoft.Owin.Hosting
       Microsoft.Owin.StaticFiles
-    FAKE (4.21.4)
+    FAKE (4.25.2)
     FSharp.Core (4.0.0.1)
     FSharp.Data (2.2.5)
-      Zlib.Portable (>= 1.10.0) - framework: portable-net40+sl50+wp80+win80
+      Zlib.Portable (>= 1.10) - framework: portable-net40+sl50+wp80+win80
     HtmlAgilityPack (1.4.9)
     ImageProcessor (2.3.3)
     IntelliFactory.Xml (0.6.63.95)
-    MarkdownSharp (1.13.0)
+    MarkdownSharp (1.13)
     Microsoft.Owin (3.0.1)
       Owin (>= 1.0)
     Microsoft.Owin.FileSystems (3.0.1)
@@ -32,13 +32,13 @@ NUGET
       Microsoft.Owin (>= 3.0.1)
       Microsoft.Owin.FileSystems (>= 3.0.1)
       Owin (>= 1.0)
-    Node.js (4.0.0)
+    Node.js (5.3)
     Npm.js (2.13.1)
       Node.js (>= 0.12.7)
-    Owin (1.0.0)
-    SharpZipLib (0.86.0)
-    WebSharper (3.6.7.227)
-    WebSharper.Html (3.6.6.18)
+    Owin (1.0)
+    SharpZipLib (0.86)
+    WebSharper (3.6.11.234)
+    WebSharper.Html (3.6.9.21)
       IntelliFactory.Xml (>= 0.6.63.95)
-      WebSharper (>= 3.6.7.227)
-    Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
+      WebSharper (>= 3.6.11.234)
+    Zlib.Portable (1.11) - framework: portable-net40+sl50+wp80+win80
