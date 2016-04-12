@@ -8,7 +8,7 @@ if not <| File.Exists "paket.exe" then
     //let url = Uri "http://fsprojects.github.io/Paket/stable"
     use client = new HttpClient()
     //let latestVersionUrl = client.GetStringAsync url |> Async.AwaitTask |> Async.RunSynchronously
-    let latestVersionUrl = "https://github.com/fsprojects/Paket/releases/download/2.36.7/paket.exe"
+    let latestVersionUrl = "https://github.com/fsprojects/Paket/releases/download/2.60.0/paket.exe"
     use sourceStream = client.GetStreamAsync (Uri latestVersionUrl) |> Async.AwaitTask |> Async.RunSynchronously
     use targetStream = File.OpenWrite "paket.exe"
     sourceStream.CopyToAsync targetStream |> Async.AwaitTask |> Async.RunSynchronously
@@ -23,4 +23,4 @@ let dependenciesFile = DependenciesFile.ReadFromFile dependencies.DependenciesFi
 let lockFile =
     DependenciesFile.FindLockfile dependencies.DependenciesFile
     |> fun file -> LockFile.LoadFrom file.FullName
-InstallProcess.Install(options, dependenciesFile, lockFile)
+InstallProcess.Install(options, false, dependenciesFile, lockFile)
