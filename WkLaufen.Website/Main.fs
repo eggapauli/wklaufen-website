@@ -60,7 +60,7 @@ module Site =
 
     let private menuItem title href bgImage =
         LI [] -< [
-            A [Class "menu-item info-link"; HRef href] -< [
+            A [Class "menu-item"; HRef href] -< [
                 Div [ Class "bg"; Style (sprintf "background-image: url(%s)" bgImage) ]
                 Div [ Class "title-bar" ] -< [
                     Span [ Class "title" ] -< [ Text title ]
@@ -217,7 +217,7 @@ module Site =
                                             | [||] -> []
                                             | _ ->
                                                 [
-                                                    A [Class "details-link info-link"; HRef (ctx.Link (NewsDetails news.FacebookId))] -< [
+                                                    A [Class "details-link"; HRef (ctx.Link (NewsDetails news.FacebookId))] -< [
                                                         Img [Src "assets/images/camera.png"]
                                                     ]
                                                 ]

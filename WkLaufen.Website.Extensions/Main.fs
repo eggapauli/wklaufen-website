@@ -33,6 +33,19 @@ module Definition =
             "innerHTML" =@ T<string>
         ]
 
+    let AElement =
+        Class "AElement"
+        |=> Inherits Element
+        |+> Instance [
+            "protocol" =? T<string>
+            "hostname" =? T<string>
+            "port" =? T<string>
+            "pathname" =? T<string>
+            "search" =? T<string>
+            "hash" =? T<string>
+            "host" =? T<string>
+        ]
+
     let Document =
         Class "Document2"
         |=> Inherits T<Dom.Document>
@@ -79,6 +92,7 @@ module Definition =
                 Event
                 Element
                 Document
+                AElement
             ]
 
             Namespace "WebSharper.JQuery" [

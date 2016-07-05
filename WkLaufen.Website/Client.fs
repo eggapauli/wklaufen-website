@@ -45,7 +45,8 @@ module Client =
             ).Ignore
 
         and rewriteMenuItemLinks(root: JQuery) =
-            JQuery.Of("a.info-link", root)
+            JQuery.Of("a", root)
+                .Filter(fun elem -> (elem :?> Dom.AElement).Host = JS.Window.Location.Host)
                 .Each(fun elem -> JQuery.Of elem |> rewriteMenuItemLink)
                 .Ignore
 
