@@ -14,7 +14,8 @@ type EndPoint =
     | [<EndPoint "GET /termine">] Activities
     | [<EndPoint "GET /musiker">] MemberGroups
     | [<EndPoint "GET /">] Members of string
-    | [<EndPoint "GET /bmf-2017">] BMF2017
+    | [<EndPoint "GET /bmf-2017">] BMF2017Overview
+    | [<EndPoint "GET /bmf-2017-flyer">] BMF2017Flyer
     | [<EndPoint "GET /wir-ueber-uns">] AboutUs
     | [<EndPoint "GET /vision-2020">] Vision2020
     | [<EndPoint "GET /wertungen">] Contests
@@ -381,8 +382,8 @@ module Site =
                 ]
             }
 
-    let BMF2017Page ctx =
-        Templating.Main ctx EndPoint.Activities
+    let BMF2017Overview ctx =
+        Templating.Main ctx EndPoint.BMF2017Overview
             {
                 Id = "bmf-2017"
                 Title = pages.Bmf2017.Title
@@ -395,6 +396,21 @@ module Site =
                             H1 [Text pages.Bmf2017.Headline]
                             VerbatimContent (md.Transform pages.Bmf2017.Content)
                         ]
+                    ]
+                ]
+            }
+
+    let BMF2017Flyer ctx =
+        Templating.Main ctx EndPoint.BMF2017Flyer
+            {
+                Id = "bmf-2017-flyer"
+                Title = pages.Bmf2017.Title
+                Css = [ "bmf-2017-flyer.css" ]
+                BackgroundImageUrl = pages.Bmf2017.BackgroundImage
+                Body =
+                [
+                    Div [Class "content rich-text"] -< [
+                        Tags.Object [Class "flyer"; Deprecated.Data ("assets/" + pages.Bmf2017.Flyer); Attr.Type "application/pdf"]
                     ]
                 ]
             }
@@ -574,7 +590,8 @@ module Site =
             | Activities -> ActivitiesPage ctx
             | MemberGroups -> MemberGroupsPage ctx
             | Members groupId -> MembersPage ctx groupId
-            | BMF2017 -> BMF2017Page ctx
+            | BMF2017Overview -> BMF2017Overview ctx
+            | BMF2017Flyer -> BMF2017Flyer ctx
             | AboutUs -> AboutUsPage ctx
             | Vision2020 -> Vision2020Page ctx
             | Contests -> ContestsPage ctx
@@ -607,7 +624,8 @@ type Website() =
             |> List.map (fun (g, _) -> Members g.Id))
             @
             [
-                BMF2017
+                BMF2017Overview
+                BMF2017Flyer
                 AboutUs
                 Vision2020
                 Contests
