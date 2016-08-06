@@ -1,0 +1,13 @@
+﻿#bmf-2017-register .header .prefix,
+#bmf-2017-register .header .postfix {
+    font-family: 'Freestyle Script';
+}
+
+#bmf-2017-register .header .main {
+    text-align: center;
+    text-transform: capitalize;
+}
+
+#bmf-2017-register .header .postfix {
+    text-align: right;
+}

@@ -43,6 +43,7 @@
     <Content Include="assets\css\home.css" />
     <Content Include="assets\css\contacts.css" />
     <Content Include="assets\css\activities.css" />
+    <Content Include="assets\css\bmf-2017-register.css" />
     <Content Include="assets\css\news.css" />
     <Content Include="assets\css\about-us.css" />
     <Content Include="assets\css\vision-2020.css" />
@@ -65,6 +66,20 @@
     <Compile Include="Asset.fs" />
     <Compile Include="Info.fs" />
     <Compile Include="Client.fs" />
+    <Compile Include="Html.fs" />
+    <Compile Include="Pages.fs" />
+    <Compile Include="Pages\Home.fs" />
+    <Compile Include="Pages\Contacts.fs" />
+    <Compile Include="Pages\News.fs" />
+    <Compile Include="Pages\Activities.fs" />
+    <Compile Include="Pages\Members.fs" />
+    <Compile Include="Pages\Bmf2017.fs" />
+    <Compile Include="Pages\AboutUs.fs" />
+    <Compile Include="Pages\Vision2020.fs" />
+    <Compile Include="Pages\Contests.fs" />
+    <Compile Include="Pages\Youths.fs" />
+    <Compile Include="Pages\RecorderKids.fs" />
+    <Compile Include="Pages\Impressum.fs" />
     <Compile Include="Main.fs" />
     <Content Include="Main.html" />
   </ItemGroup>
