@@ -20,6 +20,9 @@ table p {
 strong {
   font-weight: bold;
 }
+input.error {
+  border: 1px solid #d64815;
+}
 .outer-main {
   width: 1000px;
   height: 600px;
@@ -156,15 +159,18 @@ ul.menu li a.menu-item.loading .bg {
   animation: fadeoutin 2s infinite;
 }
 .impressum {
-    position: absolute;
-    display: block;
-    left: 10px;
-    bottom: 10px;
-    box-shadow: white 0px 0px 10px 10px;
-    background: white;
+  position: absolute;
+  display: block;
+  left: 10px;
+  bottom: 10px;
+  box-shadow: white 0px 0px 10px 10px;
+  background: white;
 }
 .clear {
   clear: both;
+}
+.hidden {
+  display: none;
 }
 @-moz-keyframes fadeoutin {
   0% {
@@ -209,4 +215,9 @@ ul.menu li a.menu-item.loading .bg {
   100% {
     opacity: 1;
   }
+}
+
+/* Tooltipster error theme */
+.tooltipster-sidetip.tooltipster-shadow.tooltipster-error .tooltipster-content {
+    color: #d64815;
 }

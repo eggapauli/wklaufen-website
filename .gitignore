@@ -217,3 +217,5 @@ ModelManifest.xml
 /WkLaufen.Website/assets/images/news/**/*
 /WkLaufen.Website/data/members.json
 /WkLaufen.Website/data/news.json
+
+vendor/

@@ -101,6 +101,9 @@ module Info =
             .Attr(windowTitleAttributeName, windowTitle)
             .InsertAfter(getMainContent())
             .Ignore
+
+        let event = Dom.Event2("data-loaded", Dom.EventConfig(Bubbles = true))
+        content.Each(fun c -> c.DispatchEvent event |> ignore).Ignore
     
     let private getNewNodes (root: Dom.Element) (selector: string) idFn =
         let throwIfAnyNodeHasNoId (nodes: Dom.Element array) =

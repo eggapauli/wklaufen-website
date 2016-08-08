@@ -1,13 +1,141 @@
-﻿#bmf-2017-register .header .prefix,
+﻿#bmf-2017-register .rich-text {
+    padding: 30px 40px;
+    height: 500px;
+}
+
+#bmf-2017-register .rich-text .scroll-container {
+    height: 100%;
+    overflow-y: scroll;
+    padding-right: 20px;
+    position: relative;
+}
+
+#bmf-2017-register .section:not(:first-child) {
+    margin-top: 20px;
+}
+
+#bmf-2017-register .header .prefix,
 #bmf-2017-register .header .postfix {
     font-family: 'Freestyle Script';
 }
 
 #bmf-2017-register .header .main {
     text-align: center;
-    text-transform: capitalize;
+    font-variant: small-caps;
 }
 
 #bmf-2017-register .header .postfix {
     text-align: right;
+}
+
+#bmf-2017-register input[type=number] {
+    width: 40px;
+}
+
+#bmf-2017-register .hint {
+    font-size: 80%;
+}
+
+#bmf-2017-register .info .inputs {
+    float: left;
+}
+
+#bmf-2017-register .info .row {
+    margin: 5px 0;
+}
+
+#bmf-2017-register .info .row input[type=text] {
+    width: 100%;
+}
+
+
+#bmf-2017-register .info .title {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#bmf-2017-register .info label:not(:first-child) {
+    margin-left: 10px;
+}
+
+#bmf-2017-register .logo {
+    float: right;
+}
+
+#bmf-2017-register .participation .title {
+    margin-left: 10px;
+}
+
+#bmf-2017-register .room-reservation .day {
+    width: 50%;
+    float: left;
+}
+
+#bmf-2017-register .room-reservation .title {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+#bmf-2017-register .food .item {
+    width: 50%;
+    float: left;
+}
+
+#bmf-2017-register .food .item .title {
+    display: inline-block;
+    margin-left: 10px;
+    width: 140px;
+}
+
+#bmf-2017-register .food .item .title {
+    display: inline-block;
+    margin-left: 10px;
+    width: 140px;
+}
+
+#bmf-2017-register .social-program table {
+    border-collapse: collapse;
+}
+
+#bmf-2017-register .social-program table thead,
+#bmf-2017-register .social-program table tbody {
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+}
+
+#bmf-2017-register .social-program table th,
+#bmf-2017-register .social-program table td {
+    padding: 2px 5px;
+    width: 50%;
+}
+
+#bmf-2017-register .social-program table th:first-child,
+#bmf-2017-register .social-program table td:first-child {
+    border-right: 1px solid #666;
+}
+
+#bmf-2017-register .social-program table tbody tr:nth-child(2n+1) {
+    background: #ccc;
+}
+
+#bmf-2017-register .contact table {
+    width: 100%;
+}
+
+#bmf-2017-register .contact table th {
+    text-align: left;
+}
+
+#bmf-2017-register .contact .role {
+    text-align: right;
+}
+
+#bmf-2017-register .send input[type=submit] {
+    margin: 7px 0;
+}
+
+#bmf-2017-register .send .success {
+    font-family: 'Freestyle Script';
+    font-size: 200%;
+    float: right;
 }

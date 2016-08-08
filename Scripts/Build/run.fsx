@@ -104,6 +104,16 @@ Target "DownloadNpmDependencies" <| fun () ->
         }
     Npm setParams
 
+Target "DownloadComposerDependencies" <| fun () ->
+    let startInfoFn (info: System.Diagnostics.ProcessStartInfo) =
+        info.FileName <- "php.exe"
+        info.Arguments <- @"..\composer.phar install"
+        info.WorkingDirectory <- mainProjectDir
+    let returnCode = ProcessHelper.ExecProcess startInfoFn System.Threading.Timeout.InfiniteTimeSpan
+    if returnCode <> 0 then failwith "Error while installing composer dependencies"
+
+Target "DownloadDependencies" DoNothing
+
 Target "Build" <| fun () ->
     let setParams (p: MSBuildParams) =
         { p with
@@ -163,13 +173,24 @@ Target "CopyAssets" <| fun () ->
     !! ("assets/**/*")
     -- ("assets/" + resizeDefinitionFileName)
     -- ("assets/images/*/**/*.*")
+    -- ("assets/php/**/*")
     ++ ("node_modules/slick-carousel/slick/slick.min.js")
     ++ ("node_modules/slick-carousel/slick/slick.css")
     ++ ("node_modules/slick-carousel/slick/slick-theme.css")
     ++ ("node_modules/slick-carousel/slick/ajax-loader.gif")
     ++ ("node_modules/slick-carousel/slick/fonts/slick.woff")
     ++ ("node_modules/slick-carousel/slick/fonts/slick.ttf")
+    ++ ("node_modules/tooltipster/dist/js/tooltipster.bundle.min.js")
+    ++ ("node_modules/tooltipster/dist/css/tooltipster.bundle.min.css")
+    ++ ("node_modules/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css")
+    ++ ("vendor/phpmailer/phpmailer/PHPMailerAutoload.php")
+    ++ ("vendor/phpmailer/phpmailer/class.*.php")
     |> SetBaseDir mainProjectDir
+    |> Seq.singleton
+    |> CopyWithSubfoldersTo outputDir
+
+    !! ("**/*")
+    |> SetBaseDir (mainProjectDir @@ "assets" @@ "php")
     |> Seq.singleton
     |> CopyWithSubfoldersTo outputDir
     
@@ -200,7 +221,10 @@ Target "Default" DoNothing
 "DownloadMembers" <== ["Clean"]
 "DownloadNews" <== ["Clean"]
 "DownloadNpmDependencies" <== ["Clean"]
-"Build" <== ["DownloadMembers"; "DownloadNews"; "DownloadNpmDependencies"]
+"DownloadComposerDependencies" <== ["Clean"]
+"DownloadDependencies" <== ["DownloadNpmDependencies"]
+"DownloadDependencies" <== ["DownloadComposerDependencies"]
+"Build" <== ["DownloadMembers"; "DownloadNews"; "DownloadDependencies"]
 "ResizeImages" <== ["Build"]
 "CopyAssets" <== ["Build"]
 "AddHtAccessFile" <== ["Build"]

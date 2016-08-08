@@ -16,6 +16,97 @@ module Client =
             JS.Window.Location.Reload()
         Span []
 
+    let BMF2017Register() =
+        let rootId = "#bmf-2017-register"
+
+        let toggleShowDay day show =
+            let elems = JQuery.Of(sprintf ".show_on_%s" day, rootId)
+            if show
+            then elems.Show("slow").Ignore
+            else elems.Hide("slow").Ignore
+
+        let doc = JQuery.Of JS.Document
+
+        doc
+            .On("change", sprintf "%s input[name='participation-days[]']" rootId, fun s _ ->
+                let sender = JQuery.Of s
+                sender.Is(":checked")
+                |> toggleShowDay (sender.Val() |> string)
+            )
+            .Ignore
+
+        let getInputFields() =
+            JQuery.Of("input[type!=submit],textarea", rootId)
+
+        doc
+            .On("submit", sprintf "%s form" rootId, fun form event ->
+                event.PreventDefault()
+                let submitButton = JQuery.Of("input[type=submit]", rootId)
+                async {
+                    try
+                        submitButton
+                            .Attr("disabled", "disabled")
+                            .Ignore
+
+                        let! response = Async.FromContinuations <| fun (ok, ko, _) ->
+                            JQuery.Ajax(
+                                JQuery.AjaxSettings(
+                                    Url = JQuery.Of(form).Attr "action",
+                                    Type = As<JQuery.RequestType> "POST",
+                                    Data = JQuery.Of(form).Serialize(),
+                                    ContentType = "application/x-www-form-urlencoded",
+                                    Success = (fun (result, _, _) -> ok (result :?> string)),
+                                    Error = (fun (jqXHR, _, _) -> ko (System.Exception jqXHR.ResponseText))
+                                )
+                            )
+                            |> ignore
+                        Console.Log ("Success", response)
+                        JQuery.Of(".success", rootId)
+                            .Show("slow")
+                            .Ignore
+
+                    with e ->
+                        Console.Error ("Error", e.Message)
+
+                        submitButton
+                            .RemoveAttr("disabled")
+                            .Ignore
+
+                        try
+                            let errorClass = "error"
+                            getInputFields()
+                                .RemoveClass(errorClass)
+                                .Ignore
+
+                            let response = Json.Deserialize e.Message
+                            response
+                            |> Map.iter (fun inputName error ->
+                                let target = JQuery.Of(sprintf "input[name='%s']" inputName, rootId)
+                                target.AddClass(errorClass).Ignore
+                                ThirdParty.Tooltipster.SetContent(target, error)
+                            )
+                            let scrollContainer = JQuery.Of(".scroll-container", rootId)
+                            let firstErrorTop = JQuery.Of("." + errorClass).First().Position().Top
+                            let additionalOffset = 30
+                            let scrollTop = scrollContainer.ScrollTop() + (int firstErrorTop) - additionalOffset
+                            scrollContainer
+                                .Animate(New ["scrollTop" => scrollTop])
+                                .Ignore
+                        with e -> Console.Log e
+                }
+                |> Async.Start
+            )
+            .Ignore
+
+        JS.Document.AddEventListener("data-loaded", (fun (evt: Dom.Event) ->
+            let config =
+                ThirdParty.TooltipsterConfig(
+                    Trigger = "click",
+                    Theme = [| "tooltipster-shadow"; "tooltipster-error" |]
+                )
+            ThirdParty.Tooltipster.Create(getInputFields(), config) |> ignore
+        ), false)
+
     let Main() =
         Info.init()
 
@@ -74,5 +165,6 @@ module Client =
         }
         |> Async.Start
 
-        Span []
+        BMF2017Register()
 
+        Span []

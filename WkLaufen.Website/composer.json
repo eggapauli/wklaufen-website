@@ -1,0 +1,13 @@
+{
+    "name": "wklaufen/website",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^5.2"
+    },
+    "authors": [
+        {
+            "name": "Johannes Egger",
+            "email": "eggerjohansi@gmail.com"
+        }
+    ]
+}

@@ -81,6 +81,44 @@ module Definition =
             "do" => ((T<JQuery>?elem * T<string>?command * T<int>?slide * T<bool>?dontAnimate) ^-> T<unit>) |> WithInline "$elem.slick($command, $slide, $dontAnimate)"
         ]
 
+    let TooltipsterConfig =
+        Pattern.Config "TooltipsterConfig"
+            {
+                Optional =
+                    [
+                        "content", T<string>
+                        "contentAsHTML", T<bool>
+                        "trigger", T<string>
+                        "side", T<string[]>
+                        "theme", T<string[]>
+                    ]
+                Required = []
+            }
+
+    let TooltipsterStatus =
+        Pattern.Config "TooltipsterStatus"
+            {
+                Optional = []
+                Required =
+                    [
+                        "destroyed", T<bool>
+                        "Destroying", T<bool>
+                        "Enabled", T<bool>
+                        "Open", T<bool>
+                        "State", T<string>
+                    ]
+            }
+
+    let Tooltipster =
+        Class "Tooltipster"
+        |+> Static [
+            "create" => (T<JQuery>?target * TooltipsterConfig?config ^-> TSelf) |> WithInline "$target.tooltipster($config)"
+            "open" => (T<JQuery>?target ^-> T<unit>) |> WithInline "$target.tooltipster('open')"
+            "destroy" => (T<JQuery>?target ^-> T<unit>) |> WithInline "$target.tooltipster('destroy')"
+            "status" => (T<JQuery>?target ^-> TooltipsterStatus) |> WithInline "$target.tooltipster('status')"
+            "setContent" => (T<JQuery>?target * T<string>?content ^-> T<unit>) |> WithInline "$target.tooltipster('content', $content)"
+        ]
+
     let Assembly =
         Assembly [
             Namespace "WebSharper.JavaScript" [
@@ -98,6 +136,12 @@ module Definition =
             Namespace "WebSharper.JQuery" [
                 JQuerySlickConfig
                 JQuerySlick
+            ]
+
+            Namespace "ThirdParty" [
+                TooltipsterConfig
+                TooltipsterStatus
+                Tooltipster
             ]
         ]
 
