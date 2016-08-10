@@ -110,7 +110,7 @@ Target "Build" <| fun () ->
             Targets = ["Build"]
             Properties =
                 [
-                    "Configuration", "Release"
+                    "Configuration", environVarOrDefault "build-config" "Release"
                 ]
         }
     build setParams slnFile
