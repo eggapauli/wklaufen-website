@@ -106,7 +106,7 @@ Target "DownloadNpmDependencies" <| fun () ->
 
 Target "DownloadComposerDependencies" <| fun () ->
     let startInfoFn (info: System.Diagnostics.ProcessStartInfo) =
-        info.FileName <- "php.exe"
+        info.FileName <- getBuildParamOrDefault "php-exe-path" "php.exe"
         info.Arguments <- @"..\composer.phar install"
         info.WorkingDirectory <- mainProjectDir
     let returnCode = ProcessHelper.ExecProcess startInfoFn System.Threading.Timeout.InfiniteTimeSpan
