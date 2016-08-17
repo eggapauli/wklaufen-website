@@ -48,7 +48,7 @@ function validateNotes($value) { return null; }
 include "bmf-registration-helper.php";
 
 $errors = validate($_POST);
-$filteredErrors = [];
+$filteredErrors = array();
 foreach ($errors as $fieldName => $error)
 {
     if (!is_null($error))
@@ -89,10 +89,10 @@ function sendMail($content) {
     if(!$mail->send())
     {
         http_response_code(500);
-        $response = [
+        $response = array(
             "message" => "Leider ist bei der Anmeldung ein Fehler aufgetreten. Bitte versuchen Sie es sp\u00e4ter erneut."
             //"debug-error" => $mail->ErrorInfo
-        ];
+        );
         exit(json_encode($response));
     }
 }

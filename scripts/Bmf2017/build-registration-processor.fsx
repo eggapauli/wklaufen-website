@@ -1,4 +1,4 @@
-﻿#r @"C:\Users\Hannes\Workspace\wklaufen\website\WkLaufen.Bmf2017\bin\Debug\WkLaufen.Bmf2017.dll"
+﻿#load @"..\..\WkLaufen.Bmf2017\RegistrationForm.fs"
 
 open WkLaufen.Bmf2017.RegistrationForm
 
@@ -220,7 +220,7 @@ module Validation =
         |> String.concat System.Environment.NewLine
         |> sprintf """function validate($formData)
 {
-    $errors = [];
+    $errors = array();
 %s
     return $errors;
 }"""

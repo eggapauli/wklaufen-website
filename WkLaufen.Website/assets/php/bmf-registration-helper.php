@@ -1,7 +1,7 @@
 <?php
 function validate($formData)
 {
-    $errors = [];
+    $errors = array();
     $errors["club-name"] = validateClubName($formData["club-name"]);
     $errors["contact-person"] = validateContactPerson($formData["contact-person"]);
     $errors["number-of-participants"] = validateNumberOfParticipants($formData["number-of-participants"]);
