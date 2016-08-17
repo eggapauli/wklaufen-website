@@ -26,18 +26,19 @@ let friday = { Key = "friday"; Name = "Freitag, 9. Juni 2017" }
 let saturday = { Key = "saturday"; Name = "Samstag, 10. Juni 2017" }
 let days = [ friday; saturday ]
 
-let private info = Info [
-    [ TextInput { Name = "club-name"; Description = "Vereinsname" } ]
-    [ TextInput { Name = "contact-person"; Description = "Eure Ansprechperson" } ]
-    [
-        NumberInputWithPrefixTitle { Name = "number-of-participants"; Description = "Anzahl TeilnehmerInnen" }
-        NumberInputWithPrefixTitle { Name = "number-of-club-members"; Description = "davon MusikerInnen" }
+let private info =
+    Info [
+        [ TextInput { Name = "club-name"; Description = "Vereinsname" } ]
+        [ TextInput { Name = "contact-person"; Description = "Eure Ansprechperson" } ]
+        [
+            NumberInputWithPrefixTitle { Name = "number-of-participants"; Description = "Anzahl TeilnehmerInnen" }
+            NumberInputWithPrefixTitle { Name = "number-of-club-members"; Description = "davon MusikerInnen" }
+        ]
+        [ TextInput { Name = "phone"; Description = "Telefon" } ]
+        [ TextInput { Name = "email"; Description = "E-Mail" } ]
+        [ TextInput { Name = "address"; Description = "Adresse" } ]
+        [ TextInput { Name = "city"; Description = "PLZ/Ort" } ]
     ]
-    [ TextInput { Name = "phone"; Description = "Telefon" } ]
-    [ TextInput { Name = "email"; Description = "E-Mail" } ]
-    [ TextInput { Name = "address"; Description = "Adresse" } ]
-    [ TextInput { Name = "city"; Description = "PLZ/Ort" } ]
-]
 
 let participationDaysKey = "participation-days"
 
