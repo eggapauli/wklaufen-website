@@ -206,12 +206,13 @@ Target "FullBuild" DoNothing
 
 Target "Upload" <| fun () ->
     let uploadUrl = getBuildParam "upload-url" |> Uri
+    let tempUrl = getBuildParam "temp-url" |> Uri
     let uploadCredentials = {
         Ftp.Credential.Username = getBuildParam "upload-username"
         Ftp.Credential.Password = getBuildParam "upload-password"
     }
 
-    Ftp.uploadDirectory outputDir uploadUrl uploadCredentials
+    Ftp.uploadDirectory outputDir uploadUrl tempUrl uploadCredentials
     |> function
     | Choice1Of2 () -> printfn "Successfully uploaded build"
     | Choice2Of2 () -> failwith "Error while uploading build"

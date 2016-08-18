@@ -107,7 +107,7 @@ let rec deleteDirectory url credential =
         executeSimpleRequest url WebRequestMethods.Ftp.RemoveDirectory credential FtpStatusCode.FileActionOK
     )
 
-let uploadDirectory dirPath (url: Uri) credential =
+let uploadDirectory dirPath (url: Uri) (baseTmpUrl: Uri) credential =
     let rec uploadDir dirPath url credential =
         createDirectory url credential
         |> Choice.bind (fun _ ->
@@ -127,7 +127,6 @@ let uploadDirectory dirPath (url: Uri) credential =
         )
         |> Choice.map ignore
 
-    let baseTmpUrl = Uri(url, "../upload/")
     deleteDirectory baseTmpUrl credential
     |> Choice.bind (fun _ -> createDirectory baseTmpUrl credential)
     |> Choice.bind (fun _ ->
@@ -136,8 +135,7 @@ let uploadDirectory dirPath (url: Uri) credential =
         |> Choice.bind (fun _ -> deleteDirectory url credential)
         |> Choice.bind (fun _ ->
             let renameSourceUrl = Uri(tmpUrl.ToString().TrimEnd('/'))
-            let renameTargetName = url.Segments |> Array.last |> fun x -> x.Trim '/'
-            let requestFn (r: FtpWebRequest) = r.RenameTo <- "../" + renameTargetName
+            let requestFn (r: FtpWebRequest) = r.RenameTo <- url.AbsolutePath.TrimEnd '/'
             executeRequest renameSourceUrl WebRequestMethods.Ftp.Rename credential FtpStatusCode.FileActionOK requestFn
         )
     )
