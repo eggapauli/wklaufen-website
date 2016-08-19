@@ -4,6 +4,19 @@ open System
 open System.IO
 open System.Net.Http
 
+let commandLineArgs =
+    fsi.CommandLineArgs
+    |> Array.skip 1
+    |> Array.pairwise
+    |> Map.ofArray
+
+let pathToPhpExe =
+    commandLineArgs
+    |> Map.tryFind "php-exe-path"
+    |> function
+    | Some x -> x
+    | None -> "php.exe"
+
 let downloadPaket =
     let fileName = Path.Combine(__SOURCE_DIRECTORY__, "paket.exe")
     if not <| File.Exists fileName then
@@ -52,7 +65,6 @@ let downloadComposer =
                 |> String.concat ""
             if actualHash = expectedHash
             then
-                let pathToPhpExe = "php.exe"
                 use p = System.Diagnostics.Process.Start(pathToPhpExe, "composer-setup.php")
                 p.WaitForExit()
             else
