@@ -12,7 +12,7 @@ module Client =
         match expr.Exec JS.Window.Location.Pathname with
         | null -> ()
         | urlMatch ->
-            JS.Window.History.ReplaceState(JS.Undefined, JS.Undefined , sprintf "/#%s" urlMatch.[0])
+            JS.Window.History.ReplaceState(JS.Undefined, JS.Undefined , sprintf "/#%s" urlMatch.[1])
             JS.Window.Location.Reload()
         Span []
 
