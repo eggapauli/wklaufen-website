@@ -17,7 +17,7 @@ let BMF2017Overview ctx =
                 Div [Class "content rich-text"] -< [
                     Div [Class "text"] -< [
                         H1 [Text Html.pages.Bmf2017.Headline]
-                        Text (Html.md.Transform Html.pages.Bmf2017.Content)
+                        VerbatimContent (Html.md.Transform Html.pages.Bmf2017.Content)
                     ]
                 ]
             ]
