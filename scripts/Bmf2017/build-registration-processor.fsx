@@ -141,22 +141,7 @@ module Report =
                         ]
                     )
             ]
-        | SocialPrograms (socialPrograms, noProgram) ->
-            [
-                yield addReport "== Rahmenprogramm - Das würde uns gefallen"
-                yield!
-                    getSocialProgramInputs socialPrograms noProgram
-                    |> List.collect getInputReportGenerator
-                yield addReport ""
-            ]
-        | Notes data ->
-            match data with
-            | TextAreaInput data ->
-                [
-                    addReport "== %s" data.Common.Description
-                    addReport "%s" (getPostVarInString data.Common.Name)
-                ]
-            | _ -> failwith "not implemented"
+        | Notes -> []
 
     let generate sections =
         sections
@@ -207,10 +192,7 @@ module Validation =
             data
             |> List.collect snd
             |> List.map (fst >> getValidatorName)
-        | SocialPrograms (programs, noProgram) ->
-            getSocialProgramInputs programs noProgram
-            |> List.map getValidatorName
-        | Notes data -> [ getValidatorName data ]
+        | Notes -> []
 
     let generate sections =
         sections

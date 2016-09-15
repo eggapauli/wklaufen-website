@@ -22,21 +22,54 @@ module Client =
         let toggleShowDay day show =
             let elems = JQuery.Of(sprintf ".show_on_%s" day, rootId)
             if show
-            then elems.Show("slow").Ignore
-            else elems.Hide("slow").Ignore
+            then elems.Show("slow").Promise()
+            else elems.Hide("slow").Promise()
+
+        let reservationInputSelector = sprintf "%s input[name*='-reservation-']" rootId
+        let updateDeadline() =
+            let hasReservation =
+                JQuery.Of(reservationInputSelector).Filter(":visible").ToArray()
+                |> Array.exists (fun e ->
+                    let value = (JQuery.Of(e).Val() |> string |> JS.ParseInt)
+                    not <| JS.IsNaN value && value > 0
+                )
+
+            let deadlineReservation = JQuery.Of(".deadline.reservation", rootId)
+            let deadLineNoReservation = JQuery.Of(".deadline.no-reservation", rootId)
+
+            let deadlineForReservationVisible =
+                deadlineReservation.Is(":visible")
+
+            match hasReservation, deadlineForReservationVisible with
+            | true, true
+            | false, false -> ()
+            | true, false ->
+                deadLineNoReservation
+                    .Hide("slow")
+                    .Promise()
+                    .Then(fun () -> deadlineReservation.Show("slow").Ignore)
+                |> ignore
+            | false, true ->
+                deadlineReservation
+                    .Hide("slow")
+                    .Promise()
+                    .Then(fun () -> deadLineNoReservation.Show("slow").Ignore)
+                |> ignore
 
         let doc = JQuery.Of JS.Document
-
         doc
             .On("change", sprintf "%s input[name='participation-days[]']" rootId, fun s _ ->
                 let sender = JQuery.Of s
                 sender.Is(":checked")
                 |> toggleShowDay (sender.Val() |> string)
+                |> fun p -> p.Then(updateDeadline) |> ignore
             )
             .Ignore
 
+        doc.On("change", reservationInputSelector, fun s _ -> updateDeadline()).Ignore
+
         let getInputFields() =
-            JQuery.Of("input[type!=submit],textarea", rootId)
+            JQuery.Of("input[type!=submit]", rootId)
 
         doc
             .On("submit", sprintf "%s form" rootId, fun form event ->
@@ -105,6 +138,8 @@ module Client =
                     Theme = [| "tooltipster-shadow"; "tooltipster-error" |]
                 )
             ThirdParty.Tooltipster.Create(getInputFields(), config) |> ignore
+
+            updateDeadline()
         ), false)
 
     let Main() =

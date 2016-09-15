@@ -20,19 +20,17 @@ function validate($formData)
     $errors["saturday-reservation-einzelzimmer"] = validateSaturdayReservationEinzelzimmer($formData["saturday-reservation-einzelzimmer"]);
     $errors["saturday-reservation-mehrbettzimmer"] = validateSaturdayReservationMehrbettzimmer($formData["saturday-reservation-mehrbettzimmer"]);
     $errors["friday-food-schnitzel"] = validateFridayFoodSchnitzel($formData["friday-food-schnitzel"]);
-    $errors["friday-food-bratl"] = validateFridayFoodBratl($formData["friday-food-bratl"]);
+    $errors["friday-food-bratwuerstel"] = validateFridayFoodBratwuerstel($formData["friday-food-bratwuerstel"]);
     $errors["friday-food-hendl"] = validateFridayFoodHendl($formData["friday-food-hendl"]);
     $errors["friday-food-bierfass"] = validateFridayFoodBierfass($formData["friday-food-bierfass"]);
     $errors["friday-food-veggie"] = validateFridayFoodVeggie($formData["friday-food-veggie"]);
     $errors["friday-food-anti"] = validateFridayFoodAnti($formData["friday-food-anti"]);
     $errors["saturday-food-schnitzel"] = validateSaturdayFoodSchnitzel($formData["saturday-food-schnitzel"]);
-    $errors["saturday-food-bratl"] = validateSaturdayFoodBratl($formData["saturday-food-bratl"]);
+    $errors["saturday-food-bratwuerstel"] = validateSaturdayFoodBratwuerstel($formData["saturday-food-bratwuerstel"]);
     $errors["saturday-food-hendl"] = validateSaturdayFoodHendl($formData["saturday-food-hendl"]);
     $errors["saturday-food-bierfass"] = validateSaturdayFoodBierfass($formData["saturday-food-bierfass"]);
     $errors["saturday-food-veggie"] = validateSaturdayFoodVeggie($formData["saturday-food-veggie"]);
     $errors["saturday-food-anti"] = validateSaturdayFoodAnti($formData["saturday-food-anti"]);
-    $errors["social-programs"] = validateSocialPrograms($formData["social-programs"]);
-    $errors["notes"] = validateNotes($formData["notes"]);
     return $errors;
 }
 function generateReport($formData)
@@ -90,7 +88,7 @@ function generateReport($formData)
     {
         $report .= "=== Freitag, 9. Juni 2017\r\n";
         $report .= "* " . intval(htmlentities($formData["friday-food-schnitzel"])) . " Schnitzerl\r\n";
-        $report .= "* " . intval(htmlentities($formData["friday-food-bratl"])) . " Bratl\r\n";
+        $report .= "* " . intval(htmlentities($formData["friday-food-bratwuerstel"])) . " Bratwürstel\r\n";
         $report .= "* " . intval(htmlentities($formData["friday-food-hendl"])) . " Hendl\r\n";
         $report .= "* " . intval(htmlentities($formData["friday-food-bierfass"])) . " 15 l Fass am Tisch\r\n";
         $report .= "* " . intval(htmlentities($formData["friday-food-veggie"])) . " Vegetarisch\r\n";
@@ -101,28 +99,13 @@ function generateReport($formData)
     {
         $report .= "=== Samstag, 10. Juni 2017\r\n";
         $report .= "* " . intval(htmlentities($formData["saturday-food-schnitzel"])) . " Schnitzerl\r\n";
-        $report .= "* " . intval(htmlentities($formData["saturday-food-bratl"])) . " Bratl\r\n";
+        $report .= "* " . intval(htmlentities($formData["saturday-food-bratwuerstel"])) . " Bratwürstel\r\n";
         $report .= "* " . intval(htmlentities($formData["saturday-food-hendl"])) . " Hendl\r\n";
         $report .= "* " . intval(htmlentities($formData["saturday-food-bierfass"])) . " 15 l Fass am Tisch\r\n";
         $report .= "* " . intval(htmlentities($formData["saturday-food-veggie"])) . " Vegetarisch\r\n";
         $report .= "* " . intval(htmlentities($formData["saturday-food-anti"])) . " Kiste Anti gemischt\r\n";
         $report .= "\r\n";
     }
-    $report .= "== Rahmenprogramm - Das würde uns gefallen\r\n";
-    $report .= "* [" . ((is_array($formData["social-programs"]) && in_array("gruenberg", $formData["social-programs"])) ? "x" : " ") . "] Grünberg: Seilbahn oder zu Fuß, Sommerrodelbahn, Gasthof Grünbergalm\r\n";
-    $report .= "* [" . ((is_array($formData["social-programs"]) && in_array("eggenberg", $formData["social-programs"])) ? "x" : " ") . "] Besichtigung & Verkostung Brauerei Schloss Eggenberg (Vorchdorf)\r\n";
-    $report .= "* [" . ((is_array($formData["social-programs"]) && in_array("traunsee", $formData["social-programs"])) ? "x" : " ") . "] Traunseeschifffahrt - Seerundfahrt\r\n";
-    $report .= "* [" . ((is_array($formData["social-programs"]) && in_array("oldtimermuseum", $formData["social-programs"])) ? "x" : " ") . "] Oldtimermuseum Altmünster - Rund ums Rad!\r\n";
-    $report .= "* [" . ((is_array($formData["social-programs"]) && in_array("esplanade", $formData["social-programs"])) ? "x" : " ") . "] Gemütliche Stunden an der Gmundner Esplanade (Tretboot, Schloss Ort, Bummelzug, …)\r\n";
-    $report .= "* [" . ((is_array($formData["social-programs"]) && in_array("steyrermuehl", $formData["social-programs"])) ? "x" : " ") . "] Österreichisches Papiermacher- und Druckereimuseum (Steyrermühl)\r\n";
-    $report .= "* [" . ((is_array($formData["social-programs"]) && in_array("altmuenster", $formData["social-programs"])) ? "x" : " ") . "] Minigolf & Sommerbar Coconut an der Esplanade Altmünster\r\n";
-    $report .= "* [" . ((is_array($formData["social-programs"]) && in_array("klomuseum", $formData["social-programs"])) ? "x" : " ") . "] Klo & So Museum für historische Sanitärobjekte\r\n";
-    $report .= "* [" . ((is_array($formData["social-programs"]) && in_array("badetag", $formData["social-programs"])) ? "x" : " ") . "] Badetag am Traunsee\r\n";
-    $report .= "* [" . ((is_array($formData["social-programs"]) && in_array("keramik", $formData["social-programs"])) ? "x" : " ") . "] Manufakturführung Gmundner Keramik\r\n";
-    $report .= "* [" . ((is_array($formData["social-programs"]) && in_array("none", $formData["social-programs"])) ? "x" : " ") . "] Danke, aber wir kümmern uns selbst um unser Rahmenprogramm.\r\n";
-    $report .= "\r\n";
-    $report .= "== Anmerkungen, Wünsche, spezielle Rahmenprogramm-Favoriten\r\n";
-    $report .= "" . htmlentities($formData["notes"]) . "\r\n";
     return $report;
 }
 ?>

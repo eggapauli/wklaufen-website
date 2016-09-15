@@ -110,13 +110,13 @@ let Register ctx =
                             ]
                         ]
                     )
+                yield Span [Class "hint"] -< [
+                    Text "Die Anmeldung f\u00fcr die Marschwertungsteilnahme muss wie \u00fcblich zus\u00e4tzlich zu dieser Anmeldung direkt beim Blasmusikverband Gmunden erfolgen!"
+                ]
             ]
         | Reservations data ->
             Div [Class "section room-reservation"] -< [
-                yield H2 [] -< [Text "Zimmerreservierung"]
-                yield Div [] -< [
-                    Span [Class "hint"] -< [Text "Bitte bei \u00c4nderungen Ferienregion benachrichtigen!"]
-                ]
+                yield H2 [] -< [Text "Unterkunft f\u00fcr die \u00dcbernachtungen"]
                 yield!
                     data
                     |> List.map (fun (day, reservations) ->
@@ -135,10 +135,26 @@ let Register ctx =
                         ]
                     )
                 yield Div [Class "clear"]
+                yield Div [] -< [
+                    Span [Class "hint"] -< [
+                        Text "Bitte alle Fragen \u0026 W\u00fcnsche zur Unterkunft mit der Ferienregion Traunsee kl\u00e4ren:"
+                        Br []
+                        Text "Bettina Ellmauer"
+                        Span [Style "display: inline-block; text-indent: 10px"] -< Html.obfuscatePhone "+43 (7612) 64305 12"
+                        Span [Style "display: inline-block; text-indent: 10px"] -< Html.obfuscateEmail (Some "ellmauer@traunsee.at")
+                    ]
+                ]
+
+                yield Div [Class "deadline reservation"] -< [
+                    Text "Wir bitten um eure verbindliche Anmeldung bis 15. Dez. 2016!"
+                ]
+                yield Div [Class "deadline no-reservation"] -< [
+                    Text "Wir bitten um eure verbindliche Anmeldung bis 15. Mai 2016!"
+                ]
             ]
         | Food data ->
             Div [Class "section food"] -< [
-                yield H2 [] -< [Text "Vorbestellung Festzelt:"]
+                yield H2 [] -< [Text "Vorbestellung Festzelt"]
                 yield!
                     data
                     |> List.map (fun (day, items) ->
@@ -165,44 +181,44 @@ let Register ctx =
                     Text "Bestellte F\u00e4sser \u0026 Kisten stehen auf dem f\u00fcr euch reservierten Tisch - selbst zapfbar!"
                 ]
             ]
-        | SocialPrograms (programs, noProgram) ->
-            Div [Class "section social-program"] -< [
-                H2 [] -< [Text "Rahmenprogramm - Das w\u00fcrde uns gefallen:"]
-                Table [] -< [
-                    THead [] -< [
-                        TR [] -< [
-                            TH [] -< [Text "Sch\u00f6nwetterprogramm"]
-                            TH [] -< [Text "Schlechtwettertauglich"]
-                        ]
-                    ]
-                    TBody [] -< (
-                        programs
-                        |> List.map (fun (niceWeatherProgram, badWeatherProgram) ->
-                            let getSocialProgramHtml = function
-                            | Some socialProgram -> TD [] -< [ getInput socialProgram ]
-                            | None -> TD [] -< [VerbatimContent "&nbsp;"]
-
-                            TR [] -< [
-                                getSocialProgramHtml niceWeatherProgram
-                                getSocialProgramHtml badWeatherProgram
-                            ]
-                        )
-                    )
-                ]
-                getInput noProgram
-            ]
-        | Notes data ->
+//        | SocialPrograms (programs, noProgram) ->
+//            Div [Class "section social-program"] -< [
+//                H2 [] -< [Text "Rahmenprogramm - Das w\u00fcrde uns gefallen:"]
+//                Table [] -< [
+//                    THead [] -< [
+//                        TR [] -< [
+//                            TH [] -< [Text "Sch\u00f6nwetterprogramm"]
+//                            TH [] -< [Text "Schlechtwettertauglich"]
+//                        ]
+//                    ]
+//                    TBody [] -< (
+//                        programs
+//                        |> List.map (fun (niceWeatherProgram, badWeatherProgram) ->
+//                            let getSocialProgramHtml = function
+//                            | Some socialProgram -> TD [] -< [ getInput socialProgram ]
+//                            | None -> TD [] -< [VerbatimContent "&nbsp;"]
+//
+//                            TR [] -< [
+//                                getSocialProgramHtml niceWeatherProgram
+//                                getSocialProgramHtml badWeatherProgram
+//                            ]
+//                        )
+//                    )
+//                ]
+//                getInput noProgram
+//            ]
+        | Notes ->
             Div [Class "section contact"] -< [
                 Table [] -< [
                     THead [] -< [
                         TR [] -< [
-                            TH [ColSpan "4"] -< [Text "F\u00fcr Fragen \u0026 W\u00fcnsche stehen wir euch jederzeit zur Verf\u00fcgung:"]
+                            TH [ColSpan "4"] -< [Text "F\u00fcr Fragen \u0026 weitere Infos stehen wir euch jederzeit zur Verf\u00fcgung:"]
                         ]
                     ]
                     TBody [] -< (
                         [
-                            ( "Ramona Leb", "0699 17 252 334", "ramonaleb@gmx.at", "BMF Marketing")
-                            ( "Mathias Schrabacher", "0699 16 601 702", "obmann@wk-laufen.at", "BMF Organisation/Obmann")
+                            ( "Ramona Leb", "+43 699 17 252 334", "ramonaleb@gmx.at", "BMF Marketing")
+                            ( "Mathias Schrabacher", "+43 699 16 601 702", "obmann@wk-laufen.at", "BMF Organisation/Obmann")
                         ]
                         |> List.map (fun (name, phone, email, role) ->
                             TR [] -< [
@@ -215,11 +231,11 @@ let Register ctx =
                     )
                 ]
 
-                getInput data
+//                getInput data
 
-                Div [Class "hint"] -< [
-                    Text "Aus organisatorischen Gr\u00fcnden sind kurzfristige Stornierungen von \u00dcbernachtungen nach verbindlicher Anmeldung nicht m\u00f6glich."
-                ]
+//                Div [Class "hint"] -< [
+//                    Text "Aus organisatorischen Gr\u00fcnden sind kurzfristige Stornierungen von \u00dcbernachtungen nach verbindlicher Anmeldung nicht m\u00f6glich."
+//                ]
             ]
 
     let formAction = "bmf-registration.php"

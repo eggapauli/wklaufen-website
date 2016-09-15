@@ -50,19 +50,18 @@ function validateSaturdayReservationDoppelzimmer($value) { return validateNumber
 function validateSaturdayReservationEinzelzimmer($value) { return validateNumberGTE($value, 0); }
 function validateSaturdayReservationMehrbettzimmer($value) { return validateNumberGTE($value, 0); }
 function validateFridayFoodSchnitzel($value) { return validateNumberGTE($value, 0); }
-function validateFridayFoodBratl($value) { return validateNumberGTE($value, 0); }
+function validateFridayFoodBratwuerstel($value) { return validateNumberGTE($value, 0); }
 function validateFridayFoodHendl($value) { return validateNumberGTE($value, 0); }
 function validateFridayFoodBierfass($value) { return validateNumberGTE($value, 0); }
 function validateFridayFoodVeggie($value) { return validateNumberGTE($value, 0); }
 function validateFridayFoodAnti($value) { return validateNumberGTE($value, 0); }
 function validateSaturdayFoodSchnitzel($value) { return validateNumberGTE($value, 0); }
-function validateSaturdayFoodBratl($value) { return validateNumberGTE($value, 0); }
+function validateSaturdayFoodBratwuerstel($value) { return validateNumberGTE($value, 0); }
 function validateSaturdayFoodHendl($value) { return validateNumberGTE($value, 0); }
 function validateSaturdayFoodBierfass($value) { return validateNumberGTE($value, 0); }
 function validateSaturdayFoodVeggie($value) { return validateNumberGTE($value, 0); }
 function validateSaturdayFoodAnti($value) { return validateNumberGTE($value, 0); }
 function validateSocialPrograms($value) { return null; }
-function validateNotes($value) { return null; }
 
 include "bmf-registration-helper.php";
 

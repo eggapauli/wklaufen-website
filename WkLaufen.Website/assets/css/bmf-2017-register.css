@@ -33,7 +33,7 @@
 }
 
 #bmf-2017-register .hint {
-    font-size: 80%;
+    font-size: 85%;
 }
 
 #bmf-2017-register .info .inputs {
@@ -66,6 +66,14 @@
     margin-left: 10px;
 }
 
+#bmf-2017-register .participation .hint {
+    color: #e83e10;
+    font-weight: bold;
+}
+
+#bmf-2017-register .room-reservation {
+    position: relative;
+}
 #bmf-2017-register .room-reservation .day {
     width: 50%;
     float: left;
@@ -74,6 +82,31 @@
 #bmf-2017-register .room-reservation .title {
     display: inline-block;
     margin-left: 10px;
+}
+
+#bmf-2017-register .room-reservation .deadline {
+    position: absolute;
+    border-width: 5px;
+    border-style: outset;
+    left: 400px;
+    top: 190px;
+    transform: rotate(-10deg);
+    width: 250px;
+    text-align: center;
+    background: orangered;
+    color: white;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+#bmf-2017-register .room-reservation .deadline.reservation {
+    border-color: orangered;
+    background: orangered;
+}
+
+#bmf-2017-register .room-reservation .deadline.no-reservation {
+    border-color: forestgreen;
+    background: forestgreen;
 }
 
 #bmf-2017-register .food .item {
