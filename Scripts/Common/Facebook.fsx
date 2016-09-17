@@ -105,17 +105,16 @@ let getNews accessToken =
                         |> Uri
                     )
                     |> Seq.toList
-                ))
-                |> Async.map (Choice.map (fun images ->
-                    {
-                        Id = post.Id
-                        News =
-                            {
-                                Timestamp = post.CreatedTime
-                                Content = postMessage
-                            }
-                        Images = images
-                    }
+                    |> fun images ->
+                        {
+                            Id = post.Id
+                            News =
+                                {
+                                    Timestamp = post.CreatedTime
+                                    Content = postMessage
+                                }
+                            Images = images
+                        }
                 ))
             )
         )
