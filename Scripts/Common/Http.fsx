@@ -24,6 +24,29 @@ let getContentString (response: HttpResponseMessage) = async {
 }
 
 let sendRequest (request: HttpRequestMessage) = async {
+    let getHttpResponseErrorMessage (response: HttpResponseMessage) =
+        let contentToString = function
+            | null -> "<empty>"
+            | (content: HttpContent) ->
+                content.ReadAsStringAsync()
+                |> Async.AwaitTask
+                |> Async.RunSynchronously
+        [
+            yield "## Request" 
+            yield sprintf "%O %O" request.Method request.RequestUri
+            yield "### Headers" 
+            yield! request.Headers
+                |> Seq.cast<System.Collections.Generic.KeyValuePair<string, string seq>>
+                |> Seq.map (fun t -> sprintf "* %s: %s" t.Key (t.Value |> String.concat "|"))
+            yield "### Content"
+            yield contentToString request.Content
+            yield "## Response"
+            yield sprintf "Status code: %d (%O)" (int response.StatusCode) response.StatusCode
+            yield "### Content"
+            yield contentToString response.Content
+        ]
+        |> String.concat Environment.NewLine
+
     use client = new HttpClient(Timeout=TimeSpan.FromMinutes 10.0)
     return!
         try async {
@@ -31,7 +54,7 @@ let sendRequest (request: HttpRequestMessage) = async {
             return
                 if response.IsSuccessStatusCode
                 then Choice1Of2 response
-                else Choice2Of2 (sprintf "Server returned %d (%O)" (int response.StatusCode) response.StatusCode)
+                else Choice2Of2 (getHttpResponseErrorMessage response)
             }
         with :? HttpRequestException as e -> async { return Choice2Of2 e.Message }
 }
