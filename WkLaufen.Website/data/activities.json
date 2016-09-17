@@ -147,11 +147,18 @@
     "IsPublic": true
   },
   {
-    "Title": "Musiausflug - Weinlesefest Gamlitz",
-    "BeginTime": null,
-    "EndTime": null,
+    "Title": "Musiausflug - Weinlesefest",
+    "BeginTime": "2016-10-07 00:00:00",
+    "EndTime": "2016-10-09 00:00:00",
     "Location": "Gamlitz",
-    "IsPublic": false
+    "IsPublic": true
+  },
+  {
+    "Title": "Konzertwertung",
+    "BeginTime": "2016-11-20 00:00:00",
+    "EndTime": null,
+    "Location": "Vöcklabruck",
+    "IsPublic": true
   },
   {
     "Title": "Adventkonzert",
@@ -186,6 +193,13 @@
     "BeginTime": "2016-12-31 10:30:00",
     "EndTime": null,
     "Location": "Rathausplatz",
+    "IsPublic": true
+  },
+  {
+    "Title": "Jahreskonzert",
+    "BeginTime": "2017-03-04 19:43:00",
+    "EndTime": null,
+    "Location": "Toscana",
     "IsPublic": true
   }
 ]
