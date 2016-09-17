@@ -56,7 +56,9 @@ let getNews accessToken =
     |> Async.bind (Choice.bindAsync (fun x ->
         x.Data
         |> Seq.choose (fun post ->
-            post.Message
+            match post.Story with
+            | Some story when story.EndsWith "updated their profile picture." || story.EndsWith "updated their cover photo." -> None
+            | _ -> post.Message
             |> Option.map (fun (postMessage) ->
                 httpGet accessToken (post.Id + "/attachments")
                 |> Async.bind (Choice.mapAsync (fun attachments ->
