@@ -114,7 +114,7 @@ module Client =
                             let response = Json.Deserialize e.Message
                             response
                             |> Map.iter (fun inputName error ->
-                                let target = JQuery.Of(sprintf "input[name='%s']" inputName, rootId)
+                                let target = JQuery.Of(sprintf "input[name='%s'],input:checkbox[name='%s[]']" inputName inputName, rootId)
                                 target.AddClass(errorClass).Ignore
                                 ThirdParty.Tooltipster.SetContent(target, error)
                             )

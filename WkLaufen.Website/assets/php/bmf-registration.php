@@ -40,7 +40,12 @@ function validatePhone($value) { return validateNotEmpty($value); }
 function validateEmail($value) { return validateNotEmpty($value); }
 function validateAddress($value) { return validateNotEmpty($value); }
 function validateCity($value) { return validateNotEmpty($value); }
-function validateParticipationDays($value) { return validateNotEmpty($value); }
+function validateParticipationDays($value) {
+    if (empty($value)) {
+        return "Ein Tag muss ausgewählt werden.";
+    }
+    return null;
+}
 function validateParticipationTypeFriday($value) { return null; }
 function validateParticipationTypeSaturday($value) { return null; }
 function validateFridayReservationDoppelzimmer($value) { return validateNumberGTE($value, 0); }
