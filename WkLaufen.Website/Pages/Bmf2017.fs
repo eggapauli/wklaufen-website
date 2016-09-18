@@ -149,7 +149,7 @@ let Register ctx =
                     Text "Wir bitten um eure verbindliche Anmeldung bis 15. Dez. 2016!"
                 ]
                 yield Div [Class "deadline no-reservation"] -< [
-                    Text "Wir bitten um eure verbindliche Anmeldung bis 15. Mai 2016!"
+                    Text "Wir bitten um eure verbindliche Anmeldung bis 15. Mai 2017!"
                 ]
             ]
         | Food data ->
