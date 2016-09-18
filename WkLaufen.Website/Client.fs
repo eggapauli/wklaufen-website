@@ -93,13 +93,17 @@ module Client =
                                 )
                             )
                             |> ignore
+#if DEBUG
                         Console.Log ("Success", response)
+#endif
                         JQuery.Of(".success", rootId)
                             .Show("slow")
                             .Ignore
 
                     with e ->
+#if DEBUG
                         Console.Error ("Error", e.Message)
+#endif
 
                         submitButton
                             .RemoveAttr("disabled")
