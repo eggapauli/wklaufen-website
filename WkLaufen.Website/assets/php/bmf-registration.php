@@ -91,20 +91,20 @@ function sendMail($content) {
 
     $mail = new PHPMailer;
     $mail->CharSet = 'UTF-8';
+    
+    $mail->isSMTP();
+    $mail->Host = 'three.alfahosting-server.de';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'web1927p1';
+    $mail->Password = 'sU8ermUs1';
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port = 465;
 
-    //$mail->SMTPDebug = 3;                               // Enable verbose debug output
-
-    $mail->isSMTP();                                      // Set mailer to use SMTP
-    $mail->Host = 'three.alfahosting-server.de';          // Specify main and backup SMTP servers
-    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-    $mail->Username = 'web1927p1';                        // SMTP username
-    $mail->Password = 'sU8ermUs1';                        // SMTP password
-    $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 465;                                    // TCP port to connect to
-
-    $mail->setFrom('bmf-registration@wk-laufen.at', 'Registrierungsservice BMF2017');
-    $mail->addAddress('j.egger@posteo.at');               // Add a recipient
-    $mail->isHTML(false);                                  // Set email format to HTML
+    $mail->setFrom('bmf-registration@wk-laufen.at', 'Registrierungsservice BMF 2017');
+    $mail->addAddress('marketing@wk-laufen.at');
+    $mail->addCC('obmann@wk-laufen.at');
+    $mail->addBCC('j.egger@posteo.at');
+    $mail->isHTML(false);
 
     $mail->Subject = 'Registrierung BMF2017';
     $mail->Body    = $content;
