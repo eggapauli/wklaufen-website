@@ -217,7 +217,7 @@ let Register ctx =
                     ]
                     TBody [] -< (
                         [
-                            ( "Ramona Leb", "+43 699 17 252 334", "ramonaleb@gmx.at", "BMF Marketing")
+                            ( "Ramona Leb", "+43 699 17 252 334", "marketing@wk-laufen.at", "BMF Marketing")
                             ( "Mathias Schrabacher", "+43 699 16 601 702", "obmann@wk-laufen.at", "BMF Organisation/Obmann")
                         ]
                         |> List.map (fun (name, phone, email, role) ->
