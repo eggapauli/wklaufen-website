@@ -138,7 +138,6 @@ module Client =
         JS.Document.AddEventListener("data-loaded", (fun (evt: Dom.Event) ->
             let config =
                 ThirdParty.TooltipsterConfig(
-                    Trigger = "click",
                     Theme = [| "tooltipster-shadow"; "tooltipster-error" |]
                 )
             ThirdParty.Tooltipster.Create(getInputFields(), config) |> ignore
