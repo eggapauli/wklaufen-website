@@ -93,12 +93,14 @@ function sendMail($content) {
     $mail->CharSet = 'UTF-8';
     
     $mail->isSMTP();
-    $mail->Host = 'three.alfahosting-server.de';
+    
+    $mail->Host = '%MailHost%';
+    $mail->Username = '%MailUsername%';
+    $mail->Password = '%MailPassword%';
+    $mail->Port = %MailPort%;
+    
     $mail->SMTPAuth = true;
-    $mail->Username = 'web1927p1';
-    $mail->Password = 'sU8ermUs1';
-    $mail->SMTPSecure = 'ssl';
-    $mail->Port = 465;
+    $mail->SMTPSecure = 'tls';
 
     $mail->setFrom('bmf-registration@wk-laufen.at', 'Registrierungsservice BMF 2017');
     $mail->addAddress('marketing@wk-laufen.at');

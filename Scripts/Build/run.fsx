@@ -62,6 +62,17 @@ Target "Clean" <| fun () ->
 
     DeleteFile resizeDefinitionFilePath
 
+Target "InsertCredentials" <| fun () ->
+    !! (mainProjectDir @@ "assets" @@ "php" @@ "bmf-registration.php")
+    |> Seq.iter (fun f ->
+        File.ReadAllText f
+        |> replace "%MailHost%" (getBuildParam "mail-host")
+        |> replace "%MailPort%" (getBuildParam "mail-port")
+        |> replace "%MailUsername%" (getBuildParam "mail-username")
+        |> replace "%MailPassword%" (getBuildParam "mail-password")
+        |> fun t -> File.WriteAllText(f, t)
+    )
+
 Target "DownloadMembers" <| fun () ->
     let ooebvUsername = getBuildParam "ooebv-username"
     let ooebvPassword = getBuildParam "ooebv-password"
@@ -225,7 +236,7 @@ Target "Default" DoNothing
 "DownloadComposerDependencies" <== ["Clean"]
 "DownloadDependencies" <== ["DownloadNpmDependencies"]
 "DownloadDependencies" <== ["DownloadComposerDependencies"]
-"Build" <== ["DownloadMembers"; "DownloadNews"; "DownloadDependencies"]
+"Build" <== ["DownloadMembers"; "DownloadNews"; "DownloadDependencies"; "InsertCredentials"]
 "ResizeImages" <== ["Build"]
 "CopyAssets" <== ["Build"]
 "AddHtAccessFile" <== ["Build"]
