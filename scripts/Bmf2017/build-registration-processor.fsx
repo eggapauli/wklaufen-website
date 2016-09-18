@@ -98,7 +98,7 @@ module Report =
                                     sprintf "}"
                                     sprintf "else"
                                     sprintf "{"
-                                    addReport "%s: \u2714" day.Name
+                                    addReport "%s: \u2714" day.Name |> indent 1
                                     sprintf "}"
                                 ]
                             | _ -> failwith "not implemented"
@@ -106,9 +106,11 @@ module Report =
                     )
                 yield addReport ""
             ]
-        | Reservations data ->
+        | Reservations (enabled, data) ->
             [
                 yield addReport "== Zimmerreservierung"
+                yield sprintf "if(%s[0])" (getFormDataVar enabled.Name)
+                yield "{"
                 yield!
                     data
                     |> List.collect (fun (day, reservations) ->
@@ -127,6 +129,13 @@ module Report =
                             yield sprintf "}"
                         ]
                     )
+                    |> List.map (indent 1)
+                yield "}"
+                yield "else"
+                yield "{"
+                yield addReport "Nicht ben\u00f6tigt" |> indent 1
+                yield addReport "" |> indent 1
+                yield "}"
             ]
         | Food data -> 
             [
@@ -193,10 +202,14 @@ module Validation =
             data
             |> List.collect (fun (_, p1, p2) -> [ yield p1; yield! p2 |> Option.toList] )
             |> List.map getValidatorName
-        | Reservations data ->
-            data
-            |> List.collect snd
-            |> List.map getValidatorName
+        | Reservations (enabled, data) ->
+            [
+                yield enabled.Name
+                yield!
+                    data
+                    |> List.collect snd
+                    |> List.map getValidatorName
+            ]
         | Food data ->
             data
             |> List.collect snd

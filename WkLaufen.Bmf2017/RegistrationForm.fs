@@ -17,7 +17,7 @@ type FormData =
 type FormSection =
     | Info of FormData list list
     | Participation of (Day * FormData * FormData option) list
-    | Reservations of (Day * FormData list) list
+    | Reservations of CheckboxInputData * (Day * FormData list) list
     | Food of (Day * (FormData * int) list) list
     | Notes
 
@@ -93,14 +93,27 @@ let private participation =
     ]
 
 let private reservations =
-    [ friday; saturday ]
-    |> List.map (fun day ->
-        day,
-        [
-            NumberInputWithPostfixTitle { Name = (sprintf "%s-reservation-doppelzimmer" day.Key); Description = "Doppelzimmer" }
-            NumberInputWithPostfixTitle { Name = (sprintf "%s-reservation-einzelzimmer" day.Key); Description = "Einzelzimmer" }
-            NumberInputWithPostfixTitle { Name = (sprintf "%s-reservation-mehrbettzimmer" day.Key); Description = "Personen in Mehrbettzimmern" }
-        ]
+    (
+        {
+            Name = "enable-reservation"
+            Items = [
+                {
+                    Description = "Ja, wir kommen auf Musiausflug und ben\u00f6tigen eine \u00dcbernachtungsm\u00f6glichkeit"
+                    Value = "true"
+                    Checked = true
+                }
+            ]
+            Description = None
+        },
+        [ friday; saturday ]
+        |> List.map (fun day ->
+            day,
+            [
+                NumberInputWithPostfixTitle { Name = (sprintf "%s-reservation-doppelzimmer" day.Key); Description = "Doppelzimmer" }
+                NumberInputWithPostfixTitle { Name = (sprintf "%s-reservation-einzelzimmer" day.Key); Description = "Einzelzimmer" }
+                NumberInputWithPostfixTitle { Name = (sprintf "%s-reservation-mehrbettzimmer" day.Key); Description = "Personen in Mehrbettzimmern" }
+            ]
+        )
     )
     |> Reservations
 

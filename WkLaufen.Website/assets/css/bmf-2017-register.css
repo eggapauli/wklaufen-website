@@ -92,7 +92,7 @@
     position: absolute;
     border-width: 5px;
     border-style: outset;
-    left: 400px;
+    right: 15px;
     bottom: -35px;
     transform: rotate(-10deg);
     width: 250px;

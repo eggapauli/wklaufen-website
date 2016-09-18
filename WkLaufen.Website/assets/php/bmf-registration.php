@@ -48,6 +48,7 @@ function validateParticipationDays($value) {
 }
 function validateParticipationTypeFriday($value) { return null; }
 function validateParticipationTypeSaturday($value) { return null; }
+function validateEnableReservation($value) { return null; }
 function validateFridayReservationDoppelzimmer($value) { return validateNumberGTE($value, 0); }
 function validateFridayReservationEinzelzimmer($value) { return validateNumberGTE($value, 0); }
 function validateFridayReservationMehrbettzimmer($value) { return validateNumberGTE($value, 0); }

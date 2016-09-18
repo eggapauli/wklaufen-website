@@ -117,34 +117,37 @@ let Register ctx =
                     Text "Die Anmeldung f\u00fcr die Marschwertungsteilnahme muss wie \u00fcblich zus\u00e4tzlich zu dieser Anmeldung direkt beim Blasmusikverband Gmunden erfolgen!"
                 ]
             ]
-        | Reservations data ->
+        | Reservations (enabled, data) ->
             Div [Class "section room-reservation"] -< [
-                yield H2 [] -< [Text "Unterkunft f\u00fcr die \u00dcbernachtungen"]
-                yield!
-                    data
-                    |> List.map (fun (day, reservations) ->
-                        let rec join separator = function
-                            | [] -> []
-                            | [ head ] -> [ head ]
-                            | head :: tail -> head :: separator :: (join separator tail)
+                yield getCheckboxInput enabled
+                yield Div [Id "room-reservation-content"] -< [
+                    yield H2 [] -< [Text "Unterkunft f\u00fcr die \u00dcbernachtungen"]
+                    yield!
+                        data
+                        |> List.map (fun (day, reservations) ->
+                            let rec join separator = function
+                                | [] -> []
+                                | [ head ] -> [ head ]
+                                | head :: tail -> head :: separator :: (join separator tail)
 
-                        Div [Class (sprintf "day show_on_%s" day.Key)] -< [
-                            H3 [] -< [Text day.Name]
-                            Span [] -< (
-                                reservations
-                                |> List.map getInput
-                                |> join (Br [])
-                            )
+                            Div [Class (sprintf "day show_on_%s" day.Key)] -< [
+                                H3 [] -< [Text day.Name]
+                                Span [] -< (
+                                    reservations
+                                    |> List.map getInput
+                                    |> join (Br [])
+                                )
+                            ]
+                        )
+                    yield Div [Class "clear"]
+                    yield Div [] -< [
+                        Span [Class "hint"] -< [
+                            Text "Bitte alle Fragen \u0026 W\u00fcnsche zur Unterkunft mit der Ferienregion Traunsee kl\u00e4ren:"
+                            Br []
+                            Text "Bettina Ellmauer"
+                            Span [Style "display: inline-block; text-indent: 10px"] -< Html.obfuscatePhone "+43 (7612) 64305 12"
+                            Span [Style "display: inline-block; text-indent: 10px"] -< Html.obfuscateEmail (Some "ellmauer@traunsee.at")
                         ]
-                    )
-                yield Div [Class "clear"]
-                yield Div [] -< [
-                    Span [Class "hint"] -< [
-                        Text "Bitte alle Fragen \u0026 W\u00fcnsche zur Unterkunft mit der Ferienregion Traunsee kl\u00e4ren:"
-                        Br []
-                        Text "Bettina Ellmauer"
-                        Span [Style "display: inline-block; text-indent: 10px"] -< Html.obfuscatePhone "+43 (7612) 64305 12"
-                        Span [Style "display: inline-block; text-indent: 10px"] -< Html.obfuscateEmail (Some "ellmauer@traunsee.at")
                     ]
                 ]
 
@@ -255,14 +258,14 @@ let Register ctx =
                     Div [Class "scroll-container"] -< [
                         Form [Attr.Action formAction] -< [
                             yield Div [Class "section header"] -< [
-                                H1 [Class "prefix"] -< [Text "Ja, wir wollen zum \u2026"]
+                                H1 [Class "prefix"] -< [Text "Ja, wir m\u00f6chten uns f\u00fcr das\u2026"]
                                 H1 [Class "main"] -<
                                     [
                                         Span [Text "Bezirksmusikfest Gmunden der WK Laufen"]
                                         Br []
                                         Span [Text "von 9. bis 11. Juni 2017"]
                                     ]
-                                H1 [Class "postfix"] -< [Text "\u2026auf Musiausflug foan!"]
+                                H1 [Class "postfix"] -< [Text "\u2026anmelden!"]
                             ]
 
                             yield!

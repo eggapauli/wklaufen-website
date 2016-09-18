@@ -13,6 +13,7 @@ function validate($formData)
     $errors["participation-days"] = validateParticipationDays($formData["participation-days"]);
     $errors["participation-type-friday"] = validateParticipationTypeFriday($formData["participation-type-friday"]);
     $errors["participation-type-saturday"] = validateParticipationTypeSaturday($formData["participation-type-saturday"]);
+    $errors["enable-reservation"] = validateEnableReservation($formData["enable-reservation"]);
     $errors["friday-reservation-doppelzimmer"] = validateFridayReservationDoppelzimmer($formData["friday-reservation-doppelzimmer"]);
     $errors["friday-reservation-einzelzimmer"] = validateFridayReservationEinzelzimmer($formData["friday-reservation-einzelzimmer"]);
     $errors["friday-reservation-mehrbettzimmer"] = validateFridayReservationMehrbettzimmer($formData["friday-reservation-mehrbettzimmer"]);
@@ -77,24 +78,32 @@ function generateReport($formData)
     }
     else
     {
-    $report .= "Sonntag, 11. Juni 2017: ✔\r\n";
+        $report .= "Sonntag, 11. Juni 2017: ✔\r\n";
     }
     $report .= "\r\n";
     $report .= "== Zimmerreservierung\r\n";
-    if((is_array($formData["participation-days"]) && in_array("friday", $formData["participation-days"])))
+    if($formData["enable-reservation"][0])
     {
-        $report .= "=== Freitag, 9. Juni 2017\r\n";
-        $report .= "* " . intval(htmlentities($formData["friday-reservation-doppelzimmer"])) . " Doppelzimmer\r\n";
-        $report .= "* " . intval(htmlentities($formData["friday-reservation-einzelzimmer"])) . " Einzelzimmer\r\n";
-        $report .= "* " . intval(htmlentities($formData["friday-reservation-mehrbettzimmer"])) . " Personen in Mehrbettzimmern\r\n";
-        $report .= "\r\n";
+        if((is_array($formData["participation-days"]) && in_array("friday", $formData["participation-days"])))
+        {
+            $report .= "=== Freitag, 9. Juni 2017\r\n";
+            $report .= "* " . intval(htmlentities($formData["friday-reservation-doppelzimmer"])) . " Doppelzimmer\r\n";
+            $report .= "* " . intval(htmlentities($formData["friday-reservation-einzelzimmer"])) . " Einzelzimmer\r\n";
+            $report .= "* " . intval(htmlentities($formData["friday-reservation-mehrbettzimmer"])) . " Personen in Mehrbettzimmern\r\n";
+            $report .= "\r\n";
+        }
+        if((is_array($formData["participation-days"]) && in_array("saturday", $formData["participation-days"])))
+        {
+            $report .= "=== Samstag, 10. Juni 2017\r\n";
+            $report .= "* " . intval(htmlentities($formData["saturday-reservation-doppelzimmer"])) . " Doppelzimmer\r\n";
+            $report .= "* " . intval(htmlentities($formData["saturday-reservation-einzelzimmer"])) . " Einzelzimmer\r\n";
+            $report .= "* " . intval(htmlentities($formData["saturday-reservation-mehrbettzimmer"])) . " Personen in Mehrbettzimmern\r\n";
+            $report .= "\r\n";
+        }
     }
-    if((is_array($formData["participation-days"]) && in_array("saturday", $formData["participation-days"])))
+    else
     {
-        $report .= "=== Samstag, 10. Juni 2017\r\n";
-        $report .= "* " . intval(htmlentities($formData["saturday-reservation-doppelzimmer"])) . " Doppelzimmer\r\n";
-        $report .= "* " . intval(htmlentities($formData["saturday-reservation-einzelzimmer"])) . " Einzelzimmer\r\n";
-        $report .= "* " . intval(htmlentities($formData["saturday-reservation-mehrbettzimmer"])) . " Personen in Mehrbettzimmern\r\n";
+        $report .= "Nicht benötigt\r\n";
         $report .= "\r\n";
     }
     $report .= "== Vorbestellung Festzelt\r\n";
