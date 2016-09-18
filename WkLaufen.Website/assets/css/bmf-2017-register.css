@@ -10,6 +10,10 @@
     position: relative;
 }
 
+#bmf-2017-register .section {
+    margin-left: 7px;
+}
+
 #bmf-2017-register .section:not(:first-child) {
     margin-top: 20px;
 }

@@ -21,7 +21,7 @@ strong {
   font-weight: bold;
 }
 input.error {
-  border: 1px solid #d64815;
+  box-shadow: 0 0 7px red;
 }
 .outer-main {
   width: 1000px;
