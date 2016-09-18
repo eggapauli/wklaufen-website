@@ -89,7 +89,7 @@
     border-width: 5px;
     border-style: outset;
     left: 400px;
-    top: 190px;
+    bottom: -35px;
     transform: rotate(-10deg);
     width: 250px;
     text-align: center;
