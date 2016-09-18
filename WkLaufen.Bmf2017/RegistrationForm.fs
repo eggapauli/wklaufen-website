@@ -16,14 +16,14 @@ type FormData =
 
 type FormSection =
     | Info of FormData list list
-    | Participation of (Day * FormData * FormData) list
+    | Participation of (Day * FormData * FormData option) list
     | Reservations of (Day * FormData list) list
     | Food of (Day * (FormData * int) list) list
     | Notes
 
 let friday = { Key = "friday"; Name = "Freitag, 9. Juni 2017" }
 let saturday = { Key = "saturday"; Name = "Samstag, 10. Juni 2017" }
-let days = [ friday; saturday ]
+let sunday = { Key = "sunday"; Name = "Sonntag, 11. Juni 2017" }
 
 let private info =
     Info [
@@ -47,7 +47,7 @@ let private participation =
         emptyParticipation with
             Items =
             [
-                { Value = "friday"; Description = "Freitag, 9. Juni 2017"; Checked = true }
+                { Value = friday.Key; Description = friday.Name; Checked = true }
             ]
     }
 
@@ -55,7 +55,15 @@ let private participation =
         emptyParticipation with
             Items =
             [
-                { Value = "saturday"; Description = "Samstag, 10. Juni 2017"; Checked = true }
+                { Value = saturday.Key; Description = saturday.Name; Checked = true }
+            ]
+    }
+
+    let participateOnSunday = CheckboxInput {
+        emptyParticipation with
+            Items =
+            [
+                { Value = sunday.Key; Description = sunday.Name; Checked = true }
             ]
     }
 
@@ -79,12 +87,13 @@ let private participation =
     }
 
     Participation [
-        friday, participateOnFriday, participationTypeOnFriday
-        saturday, participateOnSaturday, participationTypeOnSaturday
+        friday, participateOnFriday, Some participationTypeOnFriday
+        saturday, participateOnSaturday, Some participationTypeOnSaturday
+        sunday, participateOnSunday, None
     ]
 
 let private reservations =
-    days
+    [ friday; saturday ]
     |> List.map (fun day ->
         day,
         [
@@ -96,7 +105,7 @@ let private reservations =
     |> Reservations
 
 let private food =
-    days
+    [ friday; saturday; sunday ]
     |> List.map (fun day ->
         day,
         [

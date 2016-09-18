@@ -72,7 +72,7 @@ module Report =
                     data
                     |> List.collect (fun (day, participate, participationType) ->
                         let getReport (day: Day) = function
-                            | CheckboxInput participate, RadioboxInput participationType ->
+                            | CheckboxInput participate, Some (RadioboxInput participationType) ->
                                 let participationTypes =
                                     participationType.Items
                                     |> List.map (fun item ->
@@ -87,13 +87,22 @@ module Report =
                                     sprintf "else"
                                     sprintf "{"
                                     sprintf "$participationTypes = array(%s);" participationTypes |> indent 1
-                                    addReport "%s: {$participationTypes[%s]}"  day.Name (getFormDataVar participationType.Name) |> indent 1
+                                    addReport "%s: {$participationTypes[%s]}" day.Name (getFormDataVar participationType.Name) |> indent 1
+                                    sprintf "}"
+                                ]
+                            | CheckboxInput participate, None ->
+                                [
+                                    sprintf "if (!%s)" (participatesAt day)
+                                    sprintf "{"
+                                    addReport "%s: \u2718" day.Name |> indent 1
+                                    sprintf "}"
+                                    sprintf "else"
+                                    sprintf "{"
+                                    addReport "%s: \u2714" day.Name
                                     sprintf "}"
                                 ]
                             | _ -> failwith "not implemented"
-                        [
-                            yield! getReport day (participate, participationType)
-                        ]
+                        getReport day (participate, participationType)
                     )
                 yield addReport ""
             ]
@@ -182,7 +191,7 @@ module Validation =
             |> List.map getValidatorName
         | Participation data ->
             data
-            |> List.collect (fun (_, p1, p2) -> [ p1; p2] )
+            |> List.collect (fun (_, p1, p2) -> [ yield p1; yield! p2 |> Option.toList] )
             |> List.map getValidatorName
         | Reservations data ->
             data

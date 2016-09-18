@@ -103,11 +103,14 @@ let Register ctx =
                     data
                     |> List.map (fun (day, participate, participationType) ->
                         Div [Class "day"] -< [
-                            getInput participate
-                            Br []
-                            Div [Class (sprintf "show_on_%s" day.Key)] -< [
-                                getInput participationType
-                            ]
+                            yield getInput participate
+                            match participationType with
+                            | Some participationType ->
+                                yield Br []
+                                yield Div [Class (sprintf "show_on_%s" day.Key)] -< [
+                                    getInput participationType
+                                ]
+                            | None -> ()
                         ]
                     )
                 yield Span [Class "hint"] -< [

@@ -31,6 +31,12 @@ function validate($formData)
     $errors["saturday-food-bierfass"] = validateSaturdayFoodBierfass($formData["saturday-food-bierfass"]);
     $errors["saturday-food-veggie"] = validateSaturdayFoodVeggie($formData["saturday-food-veggie"]);
     $errors["saturday-food-anti"] = validateSaturdayFoodAnti($formData["saturday-food-anti"]);
+    $errors["sunday-food-schnitzel"] = validateSundayFoodSchnitzel($formData["sunday-food-schnitzel"]);
+    $errors["sunday-food-bratwuerstel"] = validateSundayFoodBratwuerstel($formData["sunday-food-bratwuerstel"]);
+    $errors["sunday-food-hendl"] = validateSundayFoodHendl($formData["sunday-food-hendl"]);
+    $errors["sunday-food-bierfass"] = validateSundayFoodBierfass($formData["sunday-food-bierfass"]);
+    $errors["sunday-food-veggie"] = validateSundayFoodVeggie($formData["sunday-food-veggie"]);
+    $errors["sunday-food-anti"] = validateSundayFoodAnti($formData["sunday-food-anti"]);
     return $errors;
 }
 function generateReport($formData)
@@ -64,6 +70,14 @@ function generateReport($formData)
     {
         $participationTypes = array("marschwertung" => "Marschwertung", "gastkapelle" => "Gastkapelle");
         $report .= "Samstag, 10. Juni 2017: {$participationTypes[$formData["participation-type-saturday"]]}\r\n";
+    }
+    if (!(is_array($formData["participation-days"]) && in_array("sunday", $formData["participation-days"])))
+    {
+        $report .= "Sonntag, 11. Juni 2017: ✘\r\n";
+    }
+    else
+    {
+    $report .= "Sonntag, 11. Juni 2017: ✔\r\n";
     }
     $report .= "\r\n";
     $report .= "== Zimmerreservierung\r\n";
@@ -104,6 +118,17 @@ function generateReport($formData)
         $report .= "* " . intval(htmlentities($formData["saturday-food-bierfass"])) . " 15 l Fass am Tisch\r\n";
         $report .= "* " . intval(htmlentities($formData["saturday-food-veggie"])) . " Vegetarisch\r\n";
         $report .= "* " . intval(htmlentities($formData["saturday-food-anti"])) . " Kiste Anti gemischt\r\n";
+        $report .= "\r\n";
+    }
+    if((is_array($formData["participation-days"]) && in_array("sunday", $formData["participation-days"])))
+    {
+        $report .= "=== Sonntag, 11. Juni 2017\r\n";
+        $report .= "* " . intval(htmlentities($formData["sunday-food-schnitzel"])) . " Schnitzerl\r\n";
+        $report .= "* " . intval(htmlentities($formData["sunday-food-bratwuerstel"])) . " Bratwürstel\r\n";
+        $report .= "* " . intval(htmlentities($formData["sunday-food-hendl"])) . " Hendl\r\n";
+        $report .= "* " . intval(htmlentities($formData["sunday-food-bierfass"])) . " 15 l Fass am Tisch\r\n";
+        $report .= "* " . intval(htmlentities($formData["sunday-food-veggie"])) . " Vegetarisch\r\n";
+        $report .= "* " . intval(htmlentities($formData["sunday-food-anti"])) . " Kiste Anti gemischt\r\n";
         $report .= "\r\n";
     }
     return $report;

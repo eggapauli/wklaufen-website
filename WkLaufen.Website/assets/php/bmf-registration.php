@@ -66,7 +66,12 @@ function validateSaturdayFoodHendl($value) { return validateNumberGTE($value, 0)
 function validateSaturdayFoodBierfass($value) { return validateNumberGTE($value, 0); }
 function validateSaturdayFoodVeggie($value) { return validateNumberGTE($value, 0); }
 function validateSaturdayFoodAnti($value) { return validateNumberGTE($value, 0); }
-function validateSocialPrograms($value) { return null; }
+function validateSundayFoodSchnitzel($value) { return validateNumberGTE($value, 0); }
+function validateSundayFoodBratwuerstel($value) { return validateNumberGTE($value, 0); }
+function validateSundayFoodHendl($value) { return validateNumberGTE($value, 0); }
+function validateSundayFoodBierfass($value) { return validateNumberGTE($value, 0); }
+function validateSundayFoodVeggie($value) { return validateNumberGTE($value, 0); }
+function validateSundayFoodAnti($value) { return validateNumberGTE($value, 0); }
 
 include "bmf-registration-helper.php";
 
