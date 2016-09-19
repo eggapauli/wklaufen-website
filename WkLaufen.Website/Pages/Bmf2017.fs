@@ -186,32 +186,6 @@ let Register ctx =
                     Text "Bestellte F\u00e4sser \u0026 Kisten stehen auf dem f\u00fcr euch reservierten Tisch - selbst zapfbar!"
                 ]
             ]
-//        | SocialPrograms (programs, noProgram) ->
-//            Div [Class "section social-program"] -< [
-//                H2 [] -< [Text "Rahmenprogramm - Das w\u00fcrde uns gefallen:"]
-//                Table [] -< [
-//                    THead [] -< [
-//                        TR [] -< [
-//                            TH [] -< [Text "Sch\u00f6nwetterprogramm"]
-//                            TH [] -< [Text "Schlechtwettertauglich"]
-//                        ]
-//                    ]
-//                    TBody [] -< (
-//                        programs
-//                        |> List.map (fun (niceWeatherProgram, badWeatherProgram) ->
-//                            let getSocialProgramHtml = function
-//                            | Some socialProgram -> TD [] -< [ getInput socialProgram ]
-//                            | None -> TD [] -< [VerbatimContent "&nbsp;"]
-//
-//                            TR [] -< [
-//                                getSocialProgramHtml niceWeatherProgram
-//                                getSocialProgramHtml badWeatherProgram
-//                            ]
-//                        )
-//                    )
-//                ]
-//                getInput noProgram
-//            ]
         | Notes data ->
             Div [Class "section contact"] -< [
                 Table [] -< [
@@ -237,10 +211,6 @@ let Register ctx =
                 ]
 
                 getInput data
-
-//                Div [Class "hint"] -< [
-//                    Text "Aus organisatorischen Gr\u00fcnden sind kurzfristige Stornierungen von \u00dcbernachtungen nach verbindlicher Anmeldung nicht m\u00f6glich."
-//                ]
             ]
 
     let formAction = "bmf-registration.php"
