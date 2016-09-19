@@ -96,13 +96,14 @@ let private reservations =
     (
         {
             Name = "enable-reservation"
-            Items = [
-                {
-                    Description = "Ja, wir kommen auf Musiausflug und ben\u00f6tigen eine \u00dcbernachtungsm\u00f6glichkeit"
-                    Value = "true"
-                    Checked = true
-                }
-            ]
+            Items =
+                [
+                    {
+                        Description = "Ja, wir kommen auf Musiausflug und ben\u00f6tigen eine \u00dcbernachtungsm\u00f6glichkeit"
+                        Value = "true"
+                        Checked = true
+                    }
+                ]
             Description = None
         },
         [ friday; saturday ]
