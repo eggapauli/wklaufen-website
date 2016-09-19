@@ -1,4 +1,5 @@
 #if INTERACTIVE
+#I @"..\"
 #I @"..\..\"
 #I @"..\Common"
 #r @"packages\FAKE\tools\FakeLib.dll"
@@ -16,6 +17,7 @@
 #load "DownloadHelper.fsx"
 #load "Members.fsx"
 #load "News.fsx"
+#load @"Bmf2017\Registration.fsx"
 #endif
 
 #if COMPILED
@@ -72,6 +74,10 @@ Target "InsertCredentials" <| fun () ->
         |> replace "%MailPassword%" (getBuildParam "mail-password")
         |> fun t -> File.WriteAllText(f, t)
     )
+
+Target "BuildPhpSites" <| fun () ->
+    let content = Registration.generateRegistrationHandler()
+    File.WriteAllText(mainProjectDir @@ "assets" @@ "php" @@ "bmf-registration-helper.php", content)
 
 Target "DownloadMembers" <| fun () ->
     let ooebvUsername = getBuildParam "ooebv-username"
@@ -236,7 +242,7 @@ Target "Default" DoNothing
 "DownloadComposerDependencies" <== ["Clean"]
 "DownloadDependencies" <== ["DownloadNpmDependencies"]
 "DownloadDependencies" <== ["DownloadComposerDependencies"]
-"Build" <== ["DownloadMembers"; "DownloadNews"; "DownloadDependencies"; "InsertCredentials"]
+"Build" <== ["DownloadMembers"; "DownloadNews"; "DownloadDependencies"; "InsertCredentials"; "BuildPhpSites"]
 "ResizeImages" <== ["Build"]
 "CopyAssets" <== ["Build"]
 "AddHtAccessFile" <== ["Build"]

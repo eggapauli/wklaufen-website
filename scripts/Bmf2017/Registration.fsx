@@ -159,7 +159,14 @@ module Report =
                         ]
                     )
             ]
-        | Notes -> []
+        | Notes data ->
+            match data with
+            | TextAreaInput data ->
+                [
+                    addReport "== %s" data.Common.Description
+                    addReport "%s" (getPostVarInString data.Common.Name)
+                ]
+            | _ -> failwith "not implemented"
 
     let generate sections =
         sections
@@ -214,7 +221,7 @@ module Validation =
             data
             |> List.collect snd
             |> List.map (fst >> getValidatorName)
-        | Notes -> []
+        | Notes data -> [ getValidatorName data ]
 
     let generate sections =
         sections
@@ -229,7 +236,11 @@ module Validation =
     return $errors;
 }"""
 
-printfn "<?php"
-Validation.generate formSections |> printfn "%s"
-Report.generate formSections |> printfn "%s"
-printfn "?>"
+let generateRegistrationHandler() =
+    [
+        sprintf "<?php"
+        Validation.generate formSections |> sprintf "%s"
+        Report.generate formSections |> sprintf "%s"
+        sprintf "?>"
+    ]
+    |> String.concat System.Environment.NewLine
