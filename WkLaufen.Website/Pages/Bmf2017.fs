@@ -91,7 +91,7 @@ let Register ctx =
                     )
                 )
                 Div [Class "logo"] -< [
-                    Asset.htmlImage "bmf" "logo.png" (None, Some 220)
+                    Asset.htmlImage "bmf" "logo.png" (None, Some 300)
                 ]
 
                 Div [Class "clear"]
