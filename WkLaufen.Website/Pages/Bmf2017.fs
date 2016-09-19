@@ -212,7 +212,7 @@ let Register ctx =
 //                ]
 //                getInput noProgram
 //            ]
-        | Notes ->
+        | Notes data ->
             Div [Class "section contact"] -< [
                 Table [] -< [
                     THead [] -< [
@@ -236,7 +236,7 @@ let Register ctx =
                     )
                 ]
 
-//                getInput data
+                getInput data
 
 //                Div [Class "hint"] -< [
 //                    Text "Aus organisatorischen Gr\u00fcnden sind kurzfristige Stornierungen von \u00dcbernachtungen nach verbindlicher Anmeldung nicht m\u00f6glich."

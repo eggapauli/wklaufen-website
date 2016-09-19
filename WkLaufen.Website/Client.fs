@@ -60,7 +60,7 @@ module Client =
         ).Ignore
 
         let getInputFields() =
-            JQuery.Of("input[type!=submit]", rootId)
+            JQuery.Of("input[type!=submit],textarea", rootId)
 
         doc
             .On("submit", sprintf "%s form" rootId, fun form event ->

@@ -19,7 +19,7 @@ type FormSection =
     | Participation of (Day * FormData * FormData option) list
     | Reservations of CheckboxInputData * (Day * FormData list) list
     | Food of (Day * (FormData * int) list) list
-    | Notes
+    | Notes of FormData
 
 let friday = { Key = "friday"; Name = "Freitag, 9. Juni 2017" }
 let saturday = { Key = "saturday"; Name = "Samstag, 10. Juni 2017" }
@@ -133,10 +133,14 @@ let private food =
     )
     |> Food
 
+let private notes =
+    TextAreaInput { Common = { Name = "notes"; Description = "Fragen, Anmerkungen, etc."}; Rows = "7"; Cols = "50" }
+    |> Notes
+
 let formSections = [
     info
     participation
     reservations
     food
-    Notes
+    notes
 ]

@@ -73,6 +73,7 @@ function validateSundayFoodHendl($value) { return validateNumberGTE($value, 0); 
 function validateSundayFoodBierfass($value) { return validateNumberGTE($value, 0); }
 function validateSundayFoodVeggie($value) { return validateNumberGTE($value, 0); }
 function validateSundayFoodAnti($value) { return validateNumberGTE($value, 0); }
+function validateNotes($value) { return null; }
 
 include "bmf-registration-helper.php";
 
