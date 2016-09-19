@@ -33,36 +33,30 @@ module App =
 type Website() =
     interface IWebsite<EndPoint> with
         member this.Sitelet = App.Main
-        member this.Actions =
-            [
-                Home
-                Contacts
-                News
-            ]
-            @
-            (Data.News.getAll()
-            |> List.filter (fun n -> n.Images.Length > 0)
-            |> List.map (fun n -> NewsDetails n.FacebookId))
-            @
-            [
-                Activities
-                MemberGroups
-            ]
-            @
-            (Data.Members.getGroups()
-            |> List.map (fun (g, _) -> Members g.Id))
-            @
-            [
-                BMF2017Overview
-                BMF2017Flyer
-                BMF2017Register
-                AboutUs
-                Vision2020
-                Contests
-                Youths
-                RecorderKids
-                Impressum
-            ]
+        member this.Actions = [
+            yield Home
+            yield Contacts
+            yield News
+            yield!
+                Data.News.getAll()
+                |> List.filter (fun n -> n.Images.Length > 0)
+                |> List.map (fun n -> NewsDetails n.FacebookId)
+            yield Activities
+            yield MemberGroups
+            yield!
+                Data.Members.getGroups()
+                |> List.map (fun (g, _) -> Members g.Id)
+            yield BMF2017Overview
+            yield BMF2017Flyer
+            yield BMF2017Register
+            yield BMF2017Sponsor
+            yield AboutUs
+            yield Vision2020
+            yield Contests
+            yield Youths
+            yield RecorderKids
+            yield Impressum
+        ]
 
 [<assembly: Website(typeof<Website>)>]
 do ()
