@@ -167,7 +167,6 @@ let Register ctx =
                         let foodInput item price =
                             Div [Class "item"] -< [
                                 getInput item
-                                Span [Class "price"] -< [Text (sprintf "%d \u20ac" price)]
                             ]
 
                         Div [Class (sprintf "show_on_%s" day.Key)] -< (
