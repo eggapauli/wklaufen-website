@@ -18,20 +18,6 @@
     margin-top: 20px;
 }
 
-#bmf-2017-register .header .prefix,
-#bmf-2017-register .header .postfix {
-    font-family: 'Freestyle Script';
-}
-
-#bmf-2017-register .header .main {
-    text-align: center;
-    font-variant: small-caps;
-}
-
-#bmf-2017-register .header .postfix {
-    text-align: right;
-}
-
 #bmf-2017-register input[type=number] {
     width: 40px;
 }

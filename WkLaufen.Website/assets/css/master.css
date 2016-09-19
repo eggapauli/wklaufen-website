@@ -217,6 +217,27 @@ ul.menu li a.menu-item.loading .bg {
   }
 }
 
+.modern-header .prefix,
+.modern-header .postfix {
+    font-family: 'Freestyle Script';
+    font-weight: normal;
+}
+.modern-header .prefix::after {
+    content: "\2026";
+}
+.modern-header .postfix::before{
+    content: "\2026";
+}
+
+.modern-header .main {
+    text-align: center;
+    font-variant: small-caps;
+}
+
+.modern-header .postfix {
+    text-align: right;
+}
+
 /* Tooltipster error theme */
 .tooltipster-sidetip.tooltipster-shadow.tooltipster-error .tooltipster-content {
     color: #d64815;

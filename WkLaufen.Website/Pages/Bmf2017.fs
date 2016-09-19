@@ -226,15 +226,13 @@ let Register ctx =
                 Div [Class "rich-text"] -< [
                     Div [Class "scroll-container"] -< [
                         Form [Attr.Action formAction] -< [
-                            yield Div [Class "section header"] -< [
-                                H1 [Class "prefix"] -< [Text "Ja, wir m\u00f6chten uns f\u00fcr das\u2026"]
-                                H1 [Class "main"] -<
-                                    [
-                                        Span [Text "Bezirksmusikfest Gmunden der WK Laufen"]
-                                        Br []
-                                        Span [Text "von 9. bis 11. Juni 2017"]
-                                    ]
-                                H1 [Class "postfix"] -< [Text "\u2026anmelden!"]
+                            yield Div [Class "section"] -< [
+                                Span [] -< [
+                                    Text "Bezirksmusikfest Gmunden der WK Laufen"
+                                    Br []
+                                    Text "von 9. bis 11. Juni 2017"
+                                ]
+                                |> Html.modernHeader "Ja, wir m\u00f6chten uns f\u00fcr das" "anmelden!"
                             ]
 
                             yield!

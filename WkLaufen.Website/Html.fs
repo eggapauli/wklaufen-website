@@ -73,3 +73,10 @@ let htmlify (text: string) =
         | text -> Text text
     )
     |> Seq.toList
+
+let modernHeader prefix postfix main =
+    Div [Class "modern-header"] -< [
+        H1 [Class "prefix"] -< [Text prefix]
+        H1 [Class "main"] -< [ main ]
+        H1 [Class "postfix"] -< [Text postfix]
+    ]
