@@ -16,52 +16,11 @@ module Client =
             JS.Window.Location.Reload()
         Span []
 
-    let BMF2017Register() =
-        let rootId = "#bmf-2017-register"
-
-        let toggleShowDay day show =
-            let elems = JQuery.Of(sprintf ".show_on_%s" day, rootId)
-            if show
-            then elems.Show("slow").Promise()
-            else elems.Hide("slow").Promise()
-
-        let enableReservationInputSelector = sprintf "%s input[name='enable-reservation[]']" rootId
-        let updateDeadline() =
-            let deadlineReservation = JQuery.Of(".deadline.reservation", rootId)
-            let deadLineNoReservation = JQuery.Of(".deadline.no-reservation", rootId)
-
-            let reservationEnabled = JQuery.Of(enableReservationInputSelector).Is(":checked")
-            let deadlineReservationIsVisible = deadlineReservation.Is(":visible")
-            if reservationEnabled
-            then
-                deadLineNoReservation.Hide("slow").Ignore
-                deadlineReservation.Show("slow").Ignore
-            else
-                deadlineReservation.Hide("slow").Ignore
-                deadLineNoReservation.Show("slow").Ignore
-
-        let doc = JQuery.Of JS.Document
-        doc
-            .On("change", sprintf "%s input[name='participation-days[]']" rootId, fun s _ ->
-                let sender = JQuery.Of s
-                sender.Is(":checked")
-                |> toggleShowDay (sender.Val() |> string)
-                |> fun p -> p.Then(updateDeadline) |> ignore
-            )
-            .Ignore
-
-        doc.On("change", enableReservationInputSelector, fun s _ ->
-            let elem = JQuery.Of("#room-reservation-content")
-            let sender = JQuery.Of s
-            if sender.Is(":checked")
-            then elem.Show("slow").Ignore
-            else elem.Hide("slow").Ignore
-            updateDeadline()
-        ).Ignore
-
+    let InitForm (rootId: string) =
         let getInputFields() =
             JQuery.Of("input[type!=submit],textarea", rootId)
 
+        let doc = JQuery.Of JS.Document
         doc
             .On("submit", sprintf "%s form" rootId, fun form event ->
                 event.PreventDefault()
@@ -132,9 +91,61 @@ module Client =
                     Theme = [| "tooltipster-shadow"; "tooltipster-error" |]
                 )
             ThirdParty.Tooltipster.Create(getInputFields(), config) |> ignore
-
-            updateDeadline()
         ), false)
+
+    let BMF2017Register() =
+        let rootId = "#bmf-2017-register"
+        InitForm rootId
+
+        let toggleShowDay day show =
+            let elems = JQuery.Of(sprintf ".show_on_%s" day, rootId)
+            if show
+            then elems.Show("slow").Promise()
+            else elems.Hide("slow").Promise()
+
+        let enableReservationInputSelector = sprintf "%s input[name='enable-reservation[]']" rootId
+        let updateDeadline() =
+            let deadlineReservation = JQuery.Of(".deadline.reservation", rootId)
+            let deadLineNoReservation = JQuery.Of(".deadline.no-reservation", rootId)
+
+            let reservationEnabled = JQuery.Of(enableReservationInputSelector).Is(":checked")
+            let deadlineReservationIsVisible = deadlineReservation.Is(":visible")
+            if reservationEnabled
+            then
+                deadLineNoReservation.Hide("slow").Ignore
+                deadlineReservation.Show("slow").Ignore
+            else
+                deadlineReservation.Hide("slow").Ignore
+                deadLineNoReservation.Show("slow").Ignore
+
+        let doc = JQuery.Of JS.Document
+        doc
+            .On("change", sprintf "%s input[name='participation-days[]']" rootId, fun s _ ->
+                let sender = JQuery.Of s
+                sender.Is(":checked")
+                |> toggleShowDay (sender.Val() |> string)
+                |> fun p -> p.Then(updateDeadline) |> ignore
+            )
+            .Ignore
+
+        doc.On("change", enableReservationInputSelector, fun s _ ->
+            let elem = JQuery.Of("#room-reservation-content")
+            let sender = JQuery.Of s
+            if sender.Is(":checked")
+            then elem.Show("slow").Ignore
+            else elem.Hide("slow").Ignore
+            updateDeadline()
+        ).Ignore
+
+        JS.Document.AddEventListener(
+            "data-loaded",
+            (fun (evt: Dom.Event) -> updateDeadline()),
+            false
+        )
+
+    let BMF2017Sponsor() =
+        let rootId = "#bmf-2017-sponsor"
+        InitForm rootId
 
     let Main() =
         Info.init()
@@ -195,5 +206,6 @@ module Client =
         |> Async.Start
 
         BMF2017Register()
+        BMF2017Sponsor()
 
         Span []

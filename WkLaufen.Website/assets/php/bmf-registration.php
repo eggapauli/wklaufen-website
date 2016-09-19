@@ -1,36 +1,5 @@
 <?php
-// see http://php.net/manual/en/function.http-response-code.php
-if (!function_exists('http_response_code')) {
-    function http_response_code($code)
-    {
-       switch ($code)
-       {
-            case 400: $text = 'Bad Request'; break;
-            case 500: $text = 'Internal Server Error'; break;
-            default:
-                exit('Unknown http status code "' . htmlentities($code) . '"');
-            break;
-        }
-
-        $protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
-
-        header($protocol . ' ' . $code . ' ' . $text);
-    }
-}
-
-function validateNotEmpty($value) {
-    if (empty($value)) {
-        return "Darf nicht leer sein";
-    }
-    return null;
-}
-
-function validateNumberGTE($value, $comparand) {
-    if (intval($value) < $comparand) {
-        return "Muss größer oder gleich {$comparand} sein";
-    }
-    return null;
-}
+include_once 'common.php';
 
 function validateClubName($value) { return validateNotEmpty($value); }
 function validateContactPerson($value) { return validateNotEmpty($value); }
@@ -75,47 +44,19 @@ function validateSundayFoodVeggie($value) { return validateNumberGTE($value, 0);
 function validateSundayFoodAnti($value) { return validateNumberGTE($value, 0); }
 function validateNotes($value) { return null; }
 
-include "bmf-registration-helper.php";
+include_once "bmf-registration-helper.php";
 
-$errors = validate($_POST);
-$filteredErrors = array();
-foreach ($errors as $fieldName => $error)
-{
-    if (!is_null($error))
-    {
-        $filteredErrors[$fieldName] = $error;
-    }
-}
-if (count($filteredErrors) > 0) {
-    http_response_code(400);
-    exit(json_encode($filteredErrors));
-}
-
-$report = generateReport($_POST);
+$report = validateAndGenerateReport($_POST);
 
 function sendMail($content) {
-    require 'vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
-
-    $mail = new PHPMailer;
-    $mail->CharSet = 'UTF-8';
-    
-    $mail->isSMTP();
-    
-    $mail->Host = '%MailHost%';
-    $mail->Username = '%MailUsername%';
-    $mail->Password = '%MailPassword%';
-    $mail->Port = %MailPort%;
-    
-    $mail->SMTPAuth = true;
-    $mail->SMTPSecure = 'tls';
+    $mail = initMail();
 
     $mail->setFrom('bmf-registration@wk-laufen.at', 'Registrierungsservice BMF 2017');
     $mail->addAddress('marketing@wk-laufen.at');
     $mail->addCC('obmann@wk-laufen.at');
     $mail->addBCC('j.egger@posteo.at');
-    $mail->isHTML(false);
 
-    $mail->Subject = 'Registrierung BMF2017';
+    $mail->Subject = 'Registrierung BMF 2017';
     $mail->Body    = $content;
 
     if(!$mail->send())

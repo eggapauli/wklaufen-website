@@ -17,7 +17,10 @@
 #load "DownloadHelper.fsx"
 #load "Members.fsx"
 #load "News.fsx"
-#load @"Bmf2017\Registration.fsx"
+#load @"WkLaufen.Bmf2017\Form.fsx"
+#load @"Bmf2017\ReportGenerator.fsx"
+#load @"Bmf2017\RegistrationReportGenerator.fsx"
+#load @"Bmf2017\SponsorReportGenerator.fsx"
 #endif
 
 #if COMPILED
@@ -65,7 +68,7 @@ Target "Clean" <| fun () ->
     DeleteFile resizeDefinitionFilePath
 
 Target "InsertCredentials" <| fun () ->
-    !! (mainProjectDir @@ "assets" @@ "php" @@ "bmf-registration.php")
+    !! (mainProjectDir @@ "assets" @@ "php" @@ "common.php")
     |> Seq.iter (fun f ->
         File.ReadAllText f
         |> replace "%MailHost%" (getBuildParam "mail-host")
@@ -76,8 +79,11 @@ Target "InsertCredentials" <| fun () ->
     )
 
 Target "BuildPhpSites" <| fun () ->
-    let content = Registration.generateRegistrationHandler()
+    let content = RegistrationReportGenerator.generateRegistrationHandler()
     File.WriteAllText(mainProjectDir @@ "assets" @@ "php" @@ "bmf-registration-helper.php", content)
+
+    let content = SponsorReportGenerator.generateSponsorSubscriptionHandler()
+    File.WriteAllText(mainProjectDir @@ "assets" @@ "php" @@ "bmf-sponsor-helper.php", content)
 
 Target "DownloadMembers" <| fun () ->
     let ooebvUsername = getBuildParam "ooebv-username"

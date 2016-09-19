@@ -1,25 +1,21 @@
-﻿module WkLaufen.Bmf2017.RegistrationForm
+﻿#if COMPILED
+module WkLaufen.Bmf2017.RegistrationForm
+open WkLaufen.Bmf2017.Form
+#endif
+
+#if INTERACTIVE
+//#load "Form.fsx"
+open Form
+#endif
 
 type Day = { Key : string; Name: string }
-type SimpleInputData = { Name: string; Description: string }
-type CheckboxInputItem = { Value: string; Description: string; Checked: bool }
-type CheckboxInputData = { Name: string; Description: string option; Items: CheckboxInputItem list }
-type TextAreaInputData = { Common: SimpleInputData; Rows: string; Cols: string }
-
-type FormData =
-    | TextInput of SimpleInputData
-    | NumberInputWithPrefixTitle of SimpleInputData
-    | NumberInputWithPostfixTitle of SimpleInputData
-    | CheckboxInput of CheckboxInputData
-    | RadioboxInput of CheckboxInputData
-    | TextAreaInput of TextAreaInputData
 
 type FormSection =
-    | Info of FormData list list
-    | Participation of (Day * FormData * FormData option) list
-    | Reservations of CheckboxInputData * (Day * FormData list) list
-    | Food of (Day * (FormData * int) list) list
-    | Notes of FormData
+    | Info of Input list list
+    | Participation of (Day * Input * Input option) list
+    | Reservations of CheckboxInputData * (Day * Input list) list
+    | Food of (Day * (Input * int) list) list
+    | Notes of Input
 
 let friday = { Key = "friday"; Name = "Freitag, 9. Juni 2017" }
 let saturday = { Key = "saturday"; Name = "Samstag, 10. Juni 2017" }

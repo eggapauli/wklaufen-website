@@ -5,15 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>af396528-2077-4b09-a14c-a592f23d3776</ProjectGuid>
+    <ProjectGuid>549f62b1-752f-4a6d-90b1-52d3a6dfe392</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>WkLaufen.Bmf2017</RootNamespace>
-    <AssemblyName>WkLaufen.Bmf2017</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Bmf2017</RootNamespace>
+    <AssemblyName>Bmf2017</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>WkLaufen.Bmf2017</Name>
-    <TargetFrameworkProfile />
+    <Name>Bmf2017</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +22,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\WkLaufen.Bmf2017.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Bmf2017.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,23 +31,8 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\WkLaufen.Bmf2017.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Bmf2017.XML</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Form.fsx" />
-    <Compile Include="RegistrationForm.fsx" />
-    <Compile Include="SponsorForm.fsx" />
-  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
@@ -65,6 +49,30 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="..\..\WkLaufen.Bmf2017\Form.fsx">
+      <Link>Form.fsx</Link>
+    </Compile>
+    <Compile Include="..\..\WkLaufen.Bmf2017\RegistrationForm.fsx">
+      <Link>RegistrationForm.fsx</Link>
+    </Compile>
+    <Compile Include="..\..\WkLaufen.Bmf2017\SponsorForm.fsx">
+      <Link>SponsorForm.fsx</Link>
+    </Compile>
+    <Compile Include="ReportGenerator.fsx" />
+    <Compile Include="RegistrationReportGenerator.fsx" />
+    <Compile Include="SponsorReportGenerator.fsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+  </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

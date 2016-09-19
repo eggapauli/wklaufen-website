@@ -12,6 +12,7 @@ type EndPoint =
     | [<EndPoint "GET /">] Members of string
     | [<EndPoint "GET /bmf-2017">] BMF2017Overview
     | [<EndPoint "GET /bmf-2017-do-meld-i-mi-on">] BMF2017Register
+    | [<EndPoint "GET /bmf-2017-do-unterstuetzen-wir-euch">] BMF2017Sponsor
     | [<EndPoint "GET /bmf-2017-flyer">] BMF2017Flyer
     | [<EndPoint "GET /wir-ueber-uns">] AboutUs
     | [<EndPoint "GET /vision-2020">] Vision2020

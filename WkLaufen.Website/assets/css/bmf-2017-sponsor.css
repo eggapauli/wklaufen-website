@@ -1,0 +1,84 @@
+﻿#bmf-2017-sponsor .rich-text {
+    padding: 30px 40px;
+    height: 500px;
+}
+
+#bmf-2017-sponsor .rich-text .scroll-container {
+    height: 100%;
+    overflow-y: scroll;
+    padding-right: 20px;
+    position: relative;
+}
+
+#bmf-2017-sponsor .logo {
+    float: left;
+}
+
+#bmf-2017-sponsor .info,
+#bmf-2017-sponsor .package .choice {
+    float: right;
+    width: 450px;
+    line-height: 175%;
+}
+
+#bmf-2017-sponsor .info input {
+    width: 100%;
+}
+
+#bmf-2017-sponsor .package .choice {
+    margin-top: 10px;
+}
+
+#bmf-2017-sponsor .package .choice label {
+    display: block;
+    margin-left: 20px;
+}
+
+#bmf-2017-sponsor .package .packagelist {
+    clear: both;
+    border-collapse: collapse;
+}
+
+#bmf-2017-sponsor .package .packagelist thead td:not(:first-child) {
+    padding: 0 5px;
+}
+
+#bmf-2017-sponsor .package .packagelist tbody td.tick {
+    text-align: center;
+}
+
+#bmf-2017-sponsor .package .packagelist tbody td {
+    border-top: 1px solid black;
+}
+
+#bmf-2017-sponsor .package .packagelist td:not(:first-child) {
+    border-left: 1px solid black;
+}
+
+#bmf-2017-sponsor .contact table {
+    width: 100%;
+}
+
+#bmf-2017-sponsor .contact table th {
+    text-align: left;
+}
+
+#bmf-2017-sponsor .contact .role {
+    text-align: right;
+}
+
+#bmf-2017-sponsor .contact,
+#bmf-2017-sponsor .notes,
+#bmf-2017-sponsor .send {
+    margin-top: 10px;
+}
+
+#bmf-2017-sponsor .send input[type=submit] {
+    margin: 7px 0;
+}
+
+#bmf-2017-sponsor .send .success {
+    font-family: 'Freestyle Script';
+    font-size: 200%;
+    float: right;
+}

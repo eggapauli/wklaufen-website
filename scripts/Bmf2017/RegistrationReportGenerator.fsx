@@ -1,46 +1,22 @@
-﻿#load @"..\..\WkLaufen.Bmf2017\RegistrationForm.fs"
-
+﻿#if COMPILED
+module RegistrationReportGenerator
+open WkLaufen.Bmf2017.Form
 open WkLaufen.Bmf2017.RegistrationForm
+#endif
 
-let getFormDataVar = sprintf "$formData[\"%s\"]"
-
-let indent cols = sprintf "%s%s" (String.replicate (cols * 4) " ")
+#if INTERACTIVE
+#load @"..\..\WkLaufen.Bmf2017\RegistrationForm.fsx"
+//#load "ReportGenerator.fsx"
+open Form
+open RegistrationForm
+#endif
 
 module Report =
-    let addReport format =
-        let add = sprintf "$report .= \"%s\\r\\n\";"
-        Printf.ksprintf add format
-
-    let getPostVarText = getFormDataVar >> sprintf "htmlentities(%s)"
-    let getPostVarInString = getPostVarText >> sprintf "\" . %s . \""
-    let getPostIntegerInString = getPostVarText >> sprintf "\" . intval(%s) . \""
-
-    let inPostArray subKey key =
-        let postVar = getFormDataVar key
-        sprintf "(is_array(%s) && in_array(\"%s\", %s))" postVar subKey postVar
+    open ReportGenerator
+    open ReportGenerator.Report
 
     let participatesAt day =
-        inPostArray day.Key participationDaysKey
-
-    let getInputReportGenerator = function
-        | TextInput data
-        | TextAreaInput { Common = data } -> [ addReport "* %s: %s" data.Description (getPostVarInString data.Name) ]
-        | NumberInputWithPostfixTitle data ->
-            [ addReport "* %s %s" (getPostIntegerInString data.Name) data.Description ]
-        | NumberInputWithPrefixTitle data ->
-            [ addReport "* %s: %s" data.Description (getPostIntegerInString data.Name) ]
-        | CheckboxInput data
-        | RadioboxInput data ->
-            [
-                match data.Description with
-                | Some description -> yield addReport "=== %s" description
-                | None -> ()
-                yield!
-                    data.Items
-                    |> List.map (fun item ->
-                        addReport "* [\" . (%s ? \"x\" : \" \") . \"] %s" (inPostArray item.Value data.Name) item.Description
-                    )
-            ]
+        isValueChecked day.Key participationDaysKey
 
     let getSectionReportGenerator = function
         | Info data ->
@@ -155,37 +131,11 @@ module Report =
                 ]
             | _ -> failwith "not implemented"
 
-    let generate sections =
-        sections
-        |> List.collect getSectionReportGenerator
-        |> List.map (indent 1)
-        |> String.concat System.Environment.NewLine
-        |> sprintf """function generateReport($formData)
-{
-    $report = "";
-%s
-    return $report;
-}"""
+    let generate = ReportGenerator.Report.generate getSectionReportGenerator
 
 module Validation =
-    let getPhpIdentifier text =
-        System.Text.RegularExpressions.Regex.Replace(
-            text,
-            "(?:^|-)(\w)",
-            System.Text.RegularExpressions.MatchEvaluator(fun m -> m.Groups.[1].Value.ToUpper())
-        )
-
-    let getValidator name =
-        sprintf "$errors[\"%s\"] = validate%s(%s);" name (getPhpIdentifier name) (getFormDataVar name)
-
-    let getValidatorName input =
-        match input with
-        | TextInput data
-        | NumberInputWithPrefixTitle data
-        | NumberInputWithPostfixTitle data
-        | TextAreaInput { Common = data } -> data.Name
-        | CheckboxInput data
-        | RadioboxInput data -> data.Name
+    open ReportGenerator
+    open ReportGenerator.Validation
 
     let getSectionValidatorNames = function
         | Info data ->
@@ -210,24 +160,7 @@ module Validation =
             |> List.map (fst >> getValidatorName)
         | Notes data -> [ getValidatorName data ]
 
-    let generate sections =
-        sections
-        |> List.collect getSectionValidatorNames
-        |> List.distinct
-        |> List.map (getValidator >> indent 1)
-        |> String.concat System.Environment.NewLine
-        |> sprintf """function validate($formData)
-{
-    $errors = array();
-%s
-    return $errors;
-}"""
+    let generate = ReportGenerator.Validation.generate getSectionValidatorNames
 
 let generateRegistrationHandler() =
-    [
-        sprintf "<?php"
-        Validation.generate formSections |> sprintf "%s"
-        Report.generate formSections |> sprintf "%s"
-        sprintf "?>"
-    ]
-    |> String.concat System.Environment.NewLine
+    ReportGenerator.generateValidatedReportGenerator (Validation.generate formSections) (Report.generate formSections)

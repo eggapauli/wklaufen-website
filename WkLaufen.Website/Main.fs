@@ -21,6 +21,7 @@ module App =
             | BMF2017Overview -> WkLaufen.Website.Pages.Bmf2017.BMF2017Overview ctx
             | BMF2017Flyer -> WkLaufen.Website.Pages.Bmf2017.BMF2017Flyer ctx
             | BMF2017Register -> WkLaufen.Website.Pages.Bmf2017.Register ctx
+            | BMF2017Sponsor -> WkLaufen.Website.Pages.Bmf2017.Sponsor ctx
             | AboutUs -> WkLaufen.Website.Pages.AboutUs.Page ctx
             | Vision2020 -> WkLaufen.Website.Pages.Vision2020.Page ctx
             | Contests -> WkLaufen.Website.Pages.Contests.Page ctx
@@ -49,6 +50,7 @@ type Website() =
             yield BMF2017Overview
             yield BMF2017Flyer
             yield BMF2017Register
+            yield BMF2017Sponsor
             yield AboutUs
             yield Vision2020
             yield Contests

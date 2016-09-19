@@ -43,7 +43,6 @@
     <Content Include="assets\css\home.css" />
     <Content Include="assets\css\contacts.css" />
     <Content Include="assets\css\activities.css" />
-    <Content Include="assets\css\bmf-2017-register.css" />
     <Content Include="assets\css\news.css" />
     <Content Include="assets\css\about-us.css" />
     <Content Include="assets\css\vision-2020.css" />
@@ -56,6 +55,8 @@
     <Content Include="assets\css\impressum.css" />
     <Content Include="assets\css\bmf-2017.css" />
     <Content Include="assets\css\bmf-2017-flyer.css" />
+    <Content Include="assets\css\bmf-2017-register.css" />
+    <Content Include="assets\css\bmf-2017-sponsor.css" />
     <None Include="data\activities.json" />
     <None Include="data\member-groups.json" />
     <None Include="data\members.json" />
