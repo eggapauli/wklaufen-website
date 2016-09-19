@@ -5,6 +5,10 @@ set uploadUrl=
 set uploadUsername=
 set uploadPassword=
 set tempUrl=
+set mailHost=
+set mailPort=
+set mailUsername=
+set mailPassword=
 set phpExePath=php.exe
 set activitiesPath=
 
@@ -16,6 +20,10 @@ set activitiesPath=
 -ev temp-url %tempUrl% ^
 -ev upload-username %uploadUsername% ^
 -ev upload-password %uploadPassword% ^
+-ev mail-host %mailHost% ^
+-ev mail-port %mailPort% ^
+-ev mail-username %mailUsername% ^
+-ev mail-password %mailPassword% ^
 -ev php-exe-path %phpExePath%
 
 REM pushd .\scripts\build
