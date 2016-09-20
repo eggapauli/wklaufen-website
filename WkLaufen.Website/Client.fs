@@ -67,6 +67,11 @@ module Client =
                 event.PreventDefault()
                 let submitButton = JQuery.Of("input[type=submit]", rootId)
                 async {
+                    let errorClass = "error"
+                    getInputFields()
+                        .RemoveClass(errorClass)
+                        .Ignore
+                    ThirdParty.Tooltipster.Disable(getInputFields())
                     try
                         submitButton
                             .Attr("disabled", "disabled")
@@ -90,7 +95,6 @@ module Client =
                         JQuery.Of(".success", rootId)
                             .Show("slow")
                             .Ignore
-
                     with e ->
 #if DEBUG
                         Console.Error ("Error", e.Message)
@@ -101,17 +105,13 @@ module Client =
                             .Ignore
 
                         try
-                            let errorClass = "error"
-                            getInputFields()
-                                .RemoveClass(errorClass)
-                                .Ignore
-
                             let response = Json.Deserialize e.Message
                             response
                             |> Map.iter (fun inputName error ->
                                 let target = JQuery.Of(sprintf "input[name='%s'],input:checkbox[name='%s[]']" inputName inputName, rootId)
                                 target.AddClass(errorClass).Ignore
                                 ThirdParty.Tooltipster.SetContent(target, error)
+                                ThirdParty.Tooltipster.Enable(target)
                             )
                             let scrollContainer = JQuery.Of(".scroll-container", rootId)
                             let firstErrorTop = JQuery.Of("." + errorClass).First().Position().Top

@@ -115,6 +115,8 @@ module Definition =
             "create" => (T<JQuery>?target * TooltipsterConfig?config ^-> TSelf) |> WithInline "$target.tooltipster($config)"
             "open" => (T<JQuery>?target ^-> T<unit>) |> WithInline "$target.tooltipster('open')"
             "destroy" => (T<JQuery>?target ^-> T<unit>) |> WithInline "$target.tooltipster('destroy')"
+            "enable" => (T<JQuery>?target ^-> T<unit>) |> WithInline "$target.tooltipster('enable')"
+            "disable" => (T<JQuery>?target ^-> T<unit>) |> WithInline "$target.tooltipster('disable')"
             "status" => (T<JQuery>?target ^-> TooltipsterStatus) |> WithInline "$target.tooltipster('status')"
             "setContent" => (T<JQuery>?target * T<string>?content ^-> T<unit>) |> WithInline "$target.tooltipster('content', $content)"
         ]
