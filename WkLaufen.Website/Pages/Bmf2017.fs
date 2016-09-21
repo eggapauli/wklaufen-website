@@ -114,7 +114,7 @@ let Register ctx =
                         ]
                     )
                 yield Span [Class "hint"] -< [
-                    Text "Die Anmeldung f\u00fcr die Marschwertungsteilnahme muss wie \u00fcblich zus\u00e4tzlich zu dieser Anmeldung direkt beim Blasmusikverband Gmunden erfolgen!"
+                    Text "Die Anmeldung f\u00fcr die Marschwertungsteilnahme muss zus\u00e4tzlich zu dieser Anmeldung wie \u00fcblich direkt beim Blasmusikverband Gmunden erfolgen. Diese wird voraussichtlich im Fr\u00fchjahr 2017 freigeschaltet."
                 ]
             ]
         | Reservations (enabled, data) ->
