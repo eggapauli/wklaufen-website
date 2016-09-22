@@ -23,23 +23,29 @@ let getContentString (response: HttpResponseMessage) = async {
         |> targetEncoding.GetString
 }
 
+let private contentToString = function
+    | null -> "<empty>"
+    | (content: HttpContent) ->
+        content.ReadAsStringAsync()
+        |> Async.AwaitTask
+        |> Async.RunSynchronously
+
+let private requestToString (request: HttpRequestMessage) =
+    [
+        yield "## Request" 
+        yield sprintf "%O %O" request.Method request.RequestUri
+        yield "### Headers" 
+        yield! request.Headers
+            |> Seq.cast<System.Collections.Generic.KeyValuePair<string, string seq>>
+            |> Seq.map (fun t -> sprintf "* %s: %s" t.Key (t.Value |> String.concat "|"))
+        yield "### Content"
+        yield contentToString request.Content
+    ]
+    |> String.concat Environment.NewLine
+
 let sendRequest (request: HttpRequestMessage) = async {
-    let getHttpResponseErrorMessage (response: HttpResponseMessage) =
-        let contentToString = function
-            | null -> "<empty>"
-            | (content: HttpContent) ->
-                content.ReadAsStringAsync()
-                |> Async.AwaitTask
-                |> Async.RunSynchronously
+    let responseToString (response: HttpResponseMessage) =
         [
-            yield "## Request" 
-            yield sprintf "%O %O" request.Method request.RequestUri
-            yield "### Headers" 
-            yield! request.Headers
-                |> Seq.cast<System.Collections.Generic.KeyValuePair<string, string seq>>
-                |> Seq.map (fun t -> sprintf "* %s: %s" t.Key (t.Value |> String.concat "|"))
-            yield "### Content"
-            yield contentToString request.Content
             yield "## Response"
             yield sprintf "Status code: %d (%O)" (int response.StatusCode) response.StatusCode
             yield "### Content"
@@ -50,11 +56,13 @@ let sendRequest (request: HttpRequestMessage) = async {
     use client = new HttpClient(Timeout=TimeSpan.FromMinutes 10.0)
     return!
         try async {
+            let requestString = requestToString request
             let! response = client.SendAsync request |> Async.AwaitTask
+            let responseString = responseToString response
             return
                 if response.IsSuccessStatusCode
                 then Choice1Of2 response
-                else Choice2Of2 (getHttpResponseErrorMessage response)
+                else Choice2Of2 (requestString + System.Environment.NewLine + responseString)
             }
         with :? HttpRequestException as e -> async { return Choice2Of2 e.Message }
 }
