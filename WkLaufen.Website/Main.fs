@@ -49,7 +49,6 @@ type Website() =
             yield BMF2017Overview
             yield BMF2017Flyer
             yield BMF2017Register
-            yield BMF2017Sponsor
             yield AboutUs
             yield Vision2020
             yield Contests
