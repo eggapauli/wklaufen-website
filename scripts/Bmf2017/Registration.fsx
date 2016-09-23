@@ -2,19 +2,6 @@
 
 open WkLaufen.Bmf2017.RegistrationForm
 
-let getSocialProgramInputs programs noProgram =
-    [
-        yield!
-            programs
-            |> List.collect (fun (p1, p2) ->
-                [
-                    yield! p1 |> Option.toList
-                    yield! p2 |> Option.toList
-                ]
-            )
-        yield noProgram
-    ]
-
 let getFormDataVar = sprintf "$formData[\"%s\"]"
 
 let indent cols = sprintf "%s%s" (String.replicate (cols * 4) " ")

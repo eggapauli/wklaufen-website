@@ -117,31 +117,6 @@
     width: 140px;
 }
 
-#bmf-2017-register .social-program table {
-    border-collapse: collapse;
-}
-
-#bmf-2017-register .social-program table thead,
-#bmf-2017-register .social-program table tbody {
-    border-top: 1px solid #666;
-    border-bottom: 1px solid #666;
-}
-
-#bmf-2017-register .social-program table th,
-#bmf-2017-register .social-program table td {
-    padding: 2px 5px;
-    width: 50%;
-}
-
-#bmf-2017-register .social-program table th:first-child,
-#bmf-2017-register .social-program table td:first-child {
-    border-right: 1px solid #666;
-}
-
-#bmf-2017-register .social-program table tbody tr:nth-child(2n+1) {
-    background: #ccc;
-}
-
 #bmf-2017-register .contact table {
     width: 100%;
 }
