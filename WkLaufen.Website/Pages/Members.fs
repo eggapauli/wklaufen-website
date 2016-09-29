@@ -49,8 +49,8 @@ let MembersPage ctx groupId =
                                 yield UL [] -< seq {
                                     if m.Instruments |> Array.isEmpty |> not
                                     then
-                                        yield LI [Text (if m.Instruments.Length = 1 then "Instrument: " else "Instrumente: ")] -< [
-                                            Text (m.Instruments |> String.concat ", ")
+                                        yield LI [Text "Instrument: "] -< [
+                                            Text (m.Instruments |> Array.head)
                                         ]
                                     if m.Roles |> Array.isEmpty |> not
                                     then
