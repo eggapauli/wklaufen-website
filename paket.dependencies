@@ -11,3 +11,5 @@ nuget npm.js
 nuget SharpZipLib
 nuget WebSharper
 nuget websharper.html
+
+http https://getcomposer.org/installer "composer-setup.php"

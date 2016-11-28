@@ -1,0 +1,42 @@
+environment:
+    ooebv-username: EGGER5
+    ooebv-password:
+        secure: fohNC7EhImjczRjtEvJx4Q==
+    facebook-access-token:
+        secure: EOlYUOaQ1scCKt91CiPIO2CFddfnLN/0B6qhZ+U1wkoLvwzbgIxmbcnWVR5p5MYCxLxIDl0hOTTqMhMFIUbVhfgBTTzQeb27qjpoCfUKh7tQZtB9cD+kvXhAua13DgqfYflq6dY76VDFPKWGVV365uvTlz7ssZgyLBT7o9hdQnLwYWGIpvFvVeHfIF7wsnssghp3LY/g0xlPak+oEzHlquDqewtLfHX2HaR2bs8lcKKesMJoAq8jToRpvVjO1c+w
+    upload-url: ftp://s1.meinehp.at/web/a/
+    temp-url: ftp://s1.meinehp.at/tmp/upload/
+    upload-username: wk-laufenatftp
+    upload-password:
+        secure: w4rIlEoHl+x1gtgnZvCHzw==
+    mail-host: s1.meinehp.at
+    mail-port: 587
+    mail-username: web@wk-laufen.at
+    mail-password:
+        secure: Hx38EcvsQtvuXz09Mu4i5A==
+
+install:
+    - cinst php --version 7.0.9 -y
+    - cmd: refreshenv
+    - ps: cp c:\tools\php\php.ini-development c:\tools\php\php.ini
+    - ps: Add-Content -Path C:\tools\php\php.ini -Value "extension_dir = ext"
+    - ps: Add-Content -Path C:\tools\php\php.ini -Value "extension=php_openssl.dll"
+    - cmd: .paket\paket.bootstrapper.exe
+    - cmd: .paket\paket.exe install
+    - cmd: php.exe paket-files\getcomposer.org\composer-setup.php
+
+build_script:
+    - cmd: packages\FAKE\tools\FAKE.exe Scripts\Build\run.fsx
+
+test: off
+
+artifacts:
+  - path: WkLaufen.Website\bin\html\**\*.*
+
+deploy: off
+
+notifications:
+    - provider: Email
+      to:
+        - j.egger@posteo.at
+      on_build_status_changed: true
