@@ -51,7 +51,7 @@ let dataDir = mainProjectDir @@ "data"
 
 type ResizeDefinition = JsonProvider<"""{ "Path": "members\\image.jpg", "Width": 500, "Height": 1000 }""">
 let resizeDefinitionFileName = "resize.txt"
-let resizeDefinitionFilePath = mainProjectDir @@ "assets" @@ "resize.txt"
+let resizeDefinitionFilePath = mainProjectDir @@ "assets" @@ resizeDefinitionFileName
 
 Target "Clean" <| fun () ->
     CleanDir outputDir
