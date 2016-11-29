@@ -54,17 +54,7 @@ let resizeDefinitionFileName = "resize.txt"
 let resizeDefinitionFilePath = mainProjectDir @@ "assets" @@ "resize.txt"
 
 Target "Clean" <| fun () ->
-    // Cleaning the project fails on Azure because https://github.com/intellifactory/websharper/issues/504
-    //let setParams (p: MSBuildParams) =
-    //    { p with
-    //        Targets = ["Clean"]
-    //        Properties =
-    //            [
-    //                "Configuration", "Release"
-    //            ]
-    //    }
-    //build setParams slnFile
-
+    CleanDir outputDir
     DeleteFile resizeDefinitionFilePath
 
 Target "InsertCredentials" <| fun () ->
