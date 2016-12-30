@@ -288,10 +288,10 @@ let Sponsor ctx =
                 THead [] -< [
                     TR [] -< [
                         TD [] -< [ Text "\u00a0" ]
-                        TD [Class "platinum"] -< [ Text "Platin" ]
-                        TD [Class "gold"] -< [ Text "Gold" ]
-                        TD [Class "silver"] -< [ Text "Silber" ]
                         TD [Class "bronze"] -< [ Text "Bronze" ]
+                        TD [Class "silver"] -< [ Text "Silber" ]
+                        TD [Class "gold"] -< [ Text "Gold" ]
+                        TD [Class "platinum"] -< [ Text "Platin" ]
                     ]
                 ]
                 TBody [] -< [
@@ -300,10 +300,10 @@ let Sponsor ctx =
                         |> List.map (fun (isPlatinum, isGold, isSilver, isBronze, content) ->
                             TR [] -< [
                                 TD [] -< [ content ]
-                                TD [Class "tick"] -< [ if isPlatinum then yield Text "\u2714" ]
-                                TD [Class "tick"] -< [ if isGold then yield Text "\u2714" ]
-                                TD [Class "tick"] -< [ if isSilver then yield Text "\u2714" ]
                                 TD [Class "tick"] -< [ if isBronze then yield Text "\u2714" ]
+                                TD [Class "tick"] -< [ if isSilver then yield Text "\u2714" ]
+                                TD [Class "tick"] -< [ if isGold then yield Text "\u2714" ]
+                                TD [Class "tick"] -< [ if isPlatinum then yield Text "\u2714" ]
                             ]
                         )
                 ]

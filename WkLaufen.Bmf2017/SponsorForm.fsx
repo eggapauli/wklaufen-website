@@ -27,10 +27,10 @@ let private package =
         Description = Some "Hiermit beantrage ich f\u00fcr das Bezirksmusikfest Gmunden das Sponsoring-Paket"
         Items =
         [
-            { Value = "platinum"; Description = "Platin um 5.000 \u20ac"; Checked = false }
-            { Value = "gold"; Description = "Gold um 1.000 \u20ac"; Checked = true }
-            { Value = "silver"; Description = "Silber um 500 \u20ac"; Checked = false }
             { Value = "bronze"; Description = "Bronze um 100 \u20ac"; Checked = false }
+            { Value = "silver"; Description = "Silber um 500 \u20ac"; Checked = false }
+            { Value = "gold"; Description = "Gold um 1.000 \u20ac"; Checked = true }
+            { Value = "platinum"; Description = "Platin um 5.000 \u20ac"; Checked = false }
         ]
     }
     |> Package
