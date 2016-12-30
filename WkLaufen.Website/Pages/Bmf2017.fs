@@ -287,7 +287,12 @@ let Sponsor ctx =
             Table [Class "packagelist"] -< [
                 THead [] -< [
                     TR [] -< [
-                        TD [] -< [ Text "\u00a0" ]
+                        TD [] -< [
+                            B [
+                                yield Text "Bitte senden Sie Ihr Logo an "
+                                yield! Html.obfuscateEmail (Some "obmann@wk-laufen.at")
+                            ]
+                        ]
                         TD [Class "bronze"] -< [ Text "Bronze" ]
                         TD [Class "silver"] -< [ Text "Silber" ]
                         TD [Class "gold"] -< [ Text "Gold" ]
