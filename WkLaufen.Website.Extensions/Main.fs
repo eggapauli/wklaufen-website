@@ -121,6 +121,18 @@ module Definition =
             "setContent" => (T<JQuery>?target * T<string>?content ^-> T<unit>) |> WithInline "$target.tooltipster('content', $content)"
         ]
 
+    let MomentInstance =
+        Class "MomentInstance"
+
+    let Moment =
+        Class "Moment"
+        |+> Static [
+            "locale" => (T<string>?locale ^-> T<unit>) |> WithInline "window.moment.locale($locale)"
+            "moment" => (T<unit>?dummy ^-> MomentInstance) |> WithInline "window.moment()"
+            "moment" => (T<int>?year * T<int>?month * T<int>?day ^-> MomentInstance) |> WithInline "window.moment([$year, $month, $day])"
+            "fromNow" => (MomentInstance?m ^-> T<string>) |> WithInline "$m.fromNow(true)"
+        ]
+
     let Assembly =
         Assembly [
             Namespace "WebSharper.JavaScript" [
@@ -144,6 +156,9 @@ module Definition =
                 TooltipsterConfig
                 TooltipsterStatus
                 Tooltipster
+
+                Moment
+                MomentInstance
             ]
         ]
 

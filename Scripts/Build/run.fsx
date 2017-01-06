@@ -187,6 +187,7 @@ Target "CopyAssets" <| fun () ->
     -- ("assets/" + resizeDefinitionFileName)
     -- ("assets/images/*/**/*.*")
     -- ("assets/php/**/*")
+    ++ ("node_modules/moment/min/moment-with-locales.min.js")
     ++ ("node_modules/slick-carousel/slick/slick.min.js")
     ++ ("node_modules/slick-carousel/slick/slick.css")
     ++ ("node_modules/slick-carousel/slick/slick-theme.css")

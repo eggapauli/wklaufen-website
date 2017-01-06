@@ -16,6 +16,22 @@ module Client =
             JS.Window.Location.Reload()
         Span []
 
+    let BMF2017CountDown() =
+        JS.Window.AddEventListener("load", (fun () ->
+            ThirdParty.Moment.Locale "de-AT"
+            let countDown =
+                ThirdParty.Moment.Moment(2017, 6, 9)
+                |> ThirdParty.Moment.FromNow
+            let config =
+                ThirdParty.TooltipsterConfig(
+                    Theme = [| "tooltipster-shadow"; "tooltipster-highlight" |],
+                    Content = "Countdown: " + countDown
+                )
+            let target = JQuery.Of("#home a.menu-item[href='bmf-2017.html']")
+            ThirdParty.Tooltipster.Create(target, config) |> ignore
+            ThirdParty.Tooltipster.Open(target)
+        ), false)
+
     let InitForm (rootId: string) =
         let getInputFields() =
             JQuery.Of("input[type!=submit],textarea", rootId)
@@ -205,6 +221,7 @@ module Client =
         }
         |> Async.Start
 
+        BMF2017CountDown()
         BMF2017Register()
         BMF2017Sponsor()
 

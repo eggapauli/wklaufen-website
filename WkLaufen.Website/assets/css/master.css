@@ -242,3 +242,7 @@ ul.menu li a.menu-item.loading .bg {
 .tooltipster-sidetip.tooltipster-shadow.tooltipster-error .tooltipster-content {
     color: #d64815;
 }
+
+.tooltipster-sidetip.tooltipster-shadow.tooltipster-highlight .tooltipster-box {
+    box-shadow: 0 0 10px 6px #dbab1c;
+}
