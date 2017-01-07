@@ -37,6 +37,7 @@ module Members =
     let private isMember groupId (m: Members.Root) =
         let hasAnyInstrument instruments =
             m.Instruments
+            |> Array.truncate 1
             |> Set.ofArray
             |> Set.intersect (instruments |> Set.ofList)
             |> Set.isEmpty
