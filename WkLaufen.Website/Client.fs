@@ -17,19 +17,44 @@ module Client =
         Span []
 
     let BMF2017CountDown() =
+        let getTarget() = JQuery.Of("#home a.menu-item[href='bmf-2017.html']")
+
+        let openToolTip() =
+            getTarget()
+            |> ThirdParty.Tooltipster.Open
+
+        let closeToolTip() =
+            getTarget()
+            |> ThirdParty.Tooltipster.Close
+
+        let createToolTip config =
+            let target = getTarget()
+            ThirdParty.Tooltipster.Create(target, config) |> ignore
+            ThirdParty.Tooltipster.Open target
+
         JS.Window.AddEventListener("load", (fun () ->
             ThirdParty.Moment.Locale "de-AT"
             let countDown =
                 ThirdParty.Moment.Moment(2017, 6, 9)
                 |> ThirdParty.Moment.FromNow
-            let config =
-                ThirdParty.TooltipsterConfig(
-                    Theme = [| "tooltipster-shadow"; "tooltipster-highlight" |],
-                    Content = "Countdown: " + countDown
-                )
-            let target = JQuery.Of("#home a.menu-item[href='bmf-2017.html']")
-            ThirdParty.Tooltipster.Create(target, config) |> ignore
-            ThirdParty.Tooltipster.Open(target)
+            ThirdParty.TooltipsterConfig(
+                Theme = [| "tooltipster-shadow"; "tooltipster-highlight" |],
+                Content = "Countdown: " + countDown,
+                Trigger = "custom"
+            )
+            |> createToolTip
+        ), false)
+
+        JS.Document.AddEventListener("show-info", (fun (evt: Dom.Event) ->
+            closeToolTip()
+        ), false)
+
+        JS.Document.AddEventListener("close-info", (fun (evt: Dom.Event) ->
+            let dataId = JS.Window.Location.Hash
+            if System.String.IsNullOrEmpty dataId
+            then
+                getTarget()
+                |> ThirdParty.Tooltipster.Open
         ), false)
 
     let InitForm (rootId: string) =

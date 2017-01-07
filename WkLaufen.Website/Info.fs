@@ -67,6 +67,9 @@ module Info =
 
         (JS.Document :?> Dom.Document2).Title <- content.Attr windowTitleAttributeName
 
+        let event = Dom.Event2("show-info", Dom.EventConfig(Bubbles = true))
+        content.Each(fun c -> c.DispatchEvent event |> ignore).Ignore
+
         content
 
     let private closeInfo() =
