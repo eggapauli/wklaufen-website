@@ -55,6 +55,7 @@
     <Content Include="assets\css\impressum.css" />
     <Content Include="assets\css\bmf-2017.css" />
     <Content Include="assets\css\bmf-2017-flyer.css" />
+    <Content Include="assets\css\bmf-2017-musiausflug.css" />
     <Content Include="assets\css\bmf-2017-register.css" />
     <Content Include="assets\css\bmf-2017-sponsor.css" />
     <None Include="data\activities.json" />

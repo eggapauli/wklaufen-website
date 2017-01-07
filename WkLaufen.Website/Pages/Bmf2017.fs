@@ -39,6 +39,21 @@ let BMF2017Flyer ctx =
             ]
         }
 
+let BMF2017Musiausflug ctx =
+    Templating.Main ctx EndPoint.BMF2017Musiausflug
+        {
+            Id = "bmf-2017-musiausflug"
+            Title = Html.pages.Bmf2017.Title
+            Css = [ "bmf-2017-musiausflug.css" ]
+            BackgroundImageUrl = Html.pages.Bmf2017.BackgroundImage
+            Body =
+            [
+                Div [Class "content rich-text"] -< [
+                    Tags.Object [Class "musiausflug"; Deprecated.Data ("assets/binary/BMF2017-Gmunden-Musiausflug.pdf"); Attr.Type "application/pdf"]
+                ]
+            ]
+        }
+
 module HtmlForm =
     let getCheckboxOrRadioboxInput inputType data nameFn =
         Span [] -< (
@@ -146,6 +161,14 @@ let Register ctx =
         | RegistrationForm.Reservations (enabled, data) ->
             Div [Class "section room-reservation"] -< [
                 yield HtmlForm.getCheckboxInput enabled
+                yield Br []
+                yield Span [
+                    Text "(Mehr Infos zum Musiausflug finden Sie "
+                    A [ HRef "bmf-2017-musiausflug.html" ] -< [
+                        Text "hier"
+                    ]
+                    Text ")"
+                ]
                 yield Div [Id "room-reservation-content"] -< [
                     yield H2 [] -< [Text "Unterkunft f\u00fcr die \u00dcbernachtungen"]
                     yield!
