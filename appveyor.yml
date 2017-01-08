@@ -39,4 +39,4 @@ notifications:
     - provider: Email
       to:
         - j.egger@posteo.at
-      on_build_failure: true
+      on_build_success: false
