@@ -43,7 +43,7 @@
   },
   {
     "Title": "Schlosskonzert",
-    "BeginTime": null,
+    "BeginTime": "2000-01-01 00:00:00",
     "EndTime": null,
     "Location": "Seeschloss Ort",
     "IsPublic": true
@@ -64,9 +64,9 @@
   },
   {
     "Title": "Konzertwertung",
-    "BeginTime": null,
+    "BeginTime": "2000-01-01 00:00:00",
     "EndTime": null,
-    "Location": null,
+    "Location": "",
     "IsPublic": true
   },
   {
