@@ -45,7 +45,7 @@ let data =
         }
         {
             Title = "Fronleichnam"
-            BeginTime = DateTime(2017, 06, 15, 07, 45, 00)
+            BeginTime = DateTime(2017, 06, 15, 08, 00, 00)
             EndTime = None
             Location = "Stadtpfarrkirche"
         }
@@ -63,9 +63,15 @@ let data =
         }
         {
             Title = "Tag der Tracht"
-            BeginTime = DateTime(2017, 10, 29, 10, 00, 00)
+            BeginTime = DateTime(2017, 09, 10, 10, 00, 00)
             EndTime = None
             Location = "Kapuzinerkirche"
+        }
+        {
+            Title = "Heldenehrung"
+            BeginTime = DateTime(2017, 10, 29, 10, 00, 00)
+            EndTime = None
+            Location = "Klosterplatz"
         }
 //        {
 //            Title = "Konzertwertung"
@@ -73,6 +79,12 @@ let data =
 //            EndTime = None
 //            Location = ""
 //        }
+        {
+            Title = "Adventkonzert"
+            BeginTime = DateTime(2017, 12, 10, 18, 00, 00)
+            EndTime = None
+            Location = "Kapuzinerkirche"
+        }
         {
             Title = "Weihnachtsfeier"
             BeginTime = DateTime(2017, 12, 16, 19, 30, 00)
