@@ -70,15 +70,6 @@ module Members =
         )
         |> Array.toList
 
-module Activities =
-    [<Literal>]
-    let DataPath = @"data\activities.json"
-
-    type private Activities = JsonProvider<DataPath>
-
-    let getAll() =
-        Activities.GetSamples()
-
 module News =
     [<Literal>]
     let DataPath = @"data\news.json"

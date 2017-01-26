@@ -58,7 +58,6 @@
     <Content Include="assets\css\bmf-2017-musiausflug.css" />
     <Content Include="assets\css\bmf-2017-register.css" />
     <Content Include="assets\css\bmf-2017-sponsor.css" />
-    <None Include="data\activities.json" />
     <None Include="data\member-groups.json" />
     <None Include="data\members.json" />
     <None Include="data\menu-items.json" />

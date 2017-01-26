@@ -4,6 +4,95 @@ open System
 open WkLaufen.Website
 open WebSharper.Html.Server
 
+type Activity = {
+    Title: string
+    BeginTime: DateTime
+    EndTime: DateTime option
+    Location: string
+}
+
+let data =
+    [
+        {
+            Title = "Jahreskonzert"
+            BeginTime = DateTime(2017, 03, 04, 19, 43, 00)
+            EndTime = None
+            Location = "Toscana"
+        }
+        {
+            Title = "Glockenweihe"
+            BeginTime = DateTime(2017, 04, 17, 09, 00, 00)
+            EndTime = None
+            Location = "Stadtpfarrkirche"
+        }
+        {
+            Title = "Weckruf"
+            BeginTime = DateTime(2017, 05, 01, 00, 00, 00)
+            EndTime = None
+            Location = "Gmunden"
+        }
+        {
+            Title = "Erstkommunion"
+            BeginTime = DateTime(2017, 05, 21, 08, 30, 00)
+            EndTime = None
+            Location = "Stadtpfarrkirche"
+        }
+        {
+            Title = "Bezirksmusikfest"
+            BeginTime = DateTime(2017, 06, 09, 00, 00, 00)
+            EndTime = DateTime(2017, 06, 11, 00, 00, 00) |> Some
+            Location = "Engelhof"
+        }
+        {
+            Title = "Fronleichnam"
+            BeginTime = DateTime(2017, 06, 15, 07, 45, 00)
+            EndTime = None
+            Location = "Stadtpfarrkirche"
+        }
+//        {
+//            Title = "Schlosskonzert"
+//            BeginTime = DateTime(2017, 06, 15, 07, 45, 00)
+//            EndTime = None
+//            Location = "Seeschloss Ort"
+//        }
+        {
+            Title = "Töpfermarkt"
+            BeginTime = DateTime(2017, 08, 25, 17, 00, 00)
+            EndTime = None
+            Location = "Rathausplatz"
+        }
+        {
+            Title = "Tag der Tracht"
+            BeginTime = DateTime(2017, 10, 29, 10, 00, 00)
+            EndTime = None
+            Location = "Kapuzinerkirche"
+        }
+//        {
+//            Title = "Konzertwertung"
+//            BeginTime = DateTime(2017, 10, 29, 10, 00, 00)
+//            EndTime = None
+//            Location = ""
+//        }
+        {
+            Title = "Weihnachtsfeier"
+            BeginTime = DateTime(2017, 12, 16, 19, 30, 00)
+            EndTime = None
+            Location = "Engelhof"
+        }
+        {
+            Title = "Neujahrsblasen"
+            BeginTime = DateTime(2017, 12, 29, 00, 00, 00)
+            EndTime = DateTime(2017, 12, 30, 00, 00, 00) |> Some
+            Location = "Gmunden"
+        }
+        {
+            Title = "Silvester"
+            BeginTime = DateTime(2017, 12, 31, 13, 00, 00)
+            EndTime = None
+            Location = "Rathausplatz"
+        }
+    ]
+
 let Page ctx =
         let formatTime (beginTime: DateTime) endTime =
             let endTime = endTime |> function | Some x -> x | None -> beginTime
@@ -33,17 +122,15 @@ let Page ctx =
                         Div [Class "list"] -< [
                             Table [] -< [
                                 TBody [] -< (
-                                    Data.Activities.getAll()
-                                    |> Seq.filter (fun act -> act.IsPublic)
-                                    |> Seq.filter (fun act -> act.BeginTime.IsSome)
-                                    |> Seq.filter (fun act -> act.BeginTime.Value > DateTime.Today.AddDays(-7.))
-                                    |> Seq.groupBy (fun act -> act.BeginTime.Value.Year)
+                                    data
+                                    |> Seq.filter (fun act -> act.BeginTime > DateTime.Today.AddDays(-7.))
+                                    |> Seq.groupBy (fun act -> act.BeginTime.Year)
                                     |> Seq.map (fun (year, entries) ->
                                         let entryNodes =
                                             entries
                                             |> Seq.map (fun entry ->
                                                 TR [] -< [
-                                                    TD [ Text (formatTime entry.BeginTime.Value entry.EndTime)]
+                                                    TD [ Text (formatTime entry.BeginTime entry.EndTime)]
                                                     TD [ Text entry.Title]
                                                     TD [ Text entry.Location]
                                                 ]
