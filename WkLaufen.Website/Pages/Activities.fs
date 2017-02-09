@@ -20,6 +20,12 @@ let data =
             Location = "Toscana"
         }
         {
+            Title = "Liebstattsonntag"
+            BeginTime = DateTime(2017, 03, 26, 13, 00, 00)
+            EndTime = None
+            Location = "Rathausplatz"
+        }
+        {
             Title = "Glockenweihe"
             BeginTime = DateTime(2017, 04, 17, 09, 00, 00)
             EndTime = None
@@ -49,12 +55,12 @@ let data =
             EndTime = None
             Location = "Stadtpfarrkirche"
         }
-//        {
-//            Title = "Schlosskonzert"
-//            BeginTime = DateTime(2017, 06, 15, 07, 45, 00)
-//            EndTime = None
-//            Location = "Seeschloss Ort"
-//        }
+        {
+            Title = "Schlosskonzert"
+            BeginTime = DateTime(2017, 08, 23, 00, 00, 00)
+            EndTime = None
+            Location = "Seeschloss Ort"
+        }
         {
             Title = "Töpfermarkt"
             BeginTime = DateTime(2017, 08, 25, 17, 00, 00)
