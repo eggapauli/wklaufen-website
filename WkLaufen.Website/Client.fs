@@ -146,18 +146,19 @@ module Client =
 
         let enableReservationInputSelector = sprintf "%s input[name='enable-reservation[]']" rootId
         let updateDeadline() =
+            let roomReservationContent = JQuery.Of("#room-reservation-content")
             let deadlineReservation = JQuery.Of(".deadline.reservation", rootId)
-            let deadLineNoReservation = JQuery.Of(".deadline.no-reservation", rootId)
+            let deadlineNoReservation = JQuery.Of(".deadline.no-reservation", rootId)
 
-            let reservationEnabled = JQuery.Of(enableReservationInputSelector).Is(":checked")
-            let deadlineReservationIsVisible = deadlineReservation.Is(":visible")
-            if reservationEnabled
+            if JQuery.Of(enableReservationInputSelector).Is(":checked")
             then
-                deadLineNoReservation.Hide("slow").Ignore
+                roomReservationContent.Show("slow").Ignore
                 deadlineReservation.Show("slow").Ignore
+                deadlineNoReservation.Hide("slow").Ignore
             else
+                roomReservationContent.Hide("slow").Ignore
                 deadlineReservation.Hide("slow").Ignore
-                deadLineNoReservation.Show("slow").Ignore
+                deadlineNoReservation.Show("slow").Ignore
 
         let doc = JQuery.Of JS.Document
         doc
@@ -169,12 +170,7 @@ module Client =
             )
             .Ignore
 
-        doc.On("change", enableReservationInputSelector, fun s _ ->
-            let elem = JQuery.Of("#room-reservation-content")
-            let sender = JQuery.Of s
-            if sender.Is(":checked")
-            then elem.Show("slow").Ignore
-            else elem.Hide("slow").Ignore
+        doc.On("change", enableReservationInputSelector, fun _ _ ->
             updateDeadline()
         ).Ignore
 
