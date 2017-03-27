@@ -97,7 +97,7 @@ let private reservations =
                     {
                         Description = "Ja, wir kommen auf Musiausflug und ben\u00f6tigen eine \u00dcbernachtungsm\u00f6glichkeit"
                         Value = "true"
-                        Checked = true
+                        Checked = false
                     }
                 ]
             Description = None
