@@ -48,10 +48,9 @@ function sendMail($content) {
     $mail = initMail();
 
     $mail->setFrom('bmf-registration@wk-laufen.at', 'Registrierungsservice BMF 2017');
-    //$mail->addAddress('marketing@wk-laufen.at');
-    //$mail->addCC('obmann@wk-laufen.at');
-    //$mail->addBCC('j.egger@posteo.at');
-    $mail->addAddress('j.egger@posteo.at');
+    $mail->addAddress('marketing@wk-laufen.at');
+    $mail->addCC('obmann@wk-laufen.at');
+    $mail->addBCC('j.egger@posteo.at');
 
     $mail->Subject = 'Registrierung BMF 2017';
     $mail->Body    = $content;
