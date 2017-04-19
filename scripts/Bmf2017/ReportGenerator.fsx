@@ -21,10 +21,18 @@ module Report =
         let postVar = getFormDataVar key
         sprintf "((is_array(%s) && in_array(\"%s\", %s)) || %s === \"%s\")" postVar subKey postVar postVar subKey
 
-
     let addReport format =
         let add = sprintf "$report .= \"%s\\r\\n\";"
         Printf.ksprintf add format
+
+    let reportRadioboxDescription map key =
+        let postVar = getFormDataVar key
+        [
+            yield!
+                map
+                |> List.mapi (fun i (k, v) -> sprintf "%sif (%s == \"%s\") { %s }" (if i = 0 then "" else "else ") postVar k (addReport "%s" v))
+            yield sprintf "else { %s }" (addReport "{%s}" postVar)
+        ]
 
     let getInputReportGenerator = function
         | TextInput data

@@ -24,7 +24,6 @@ module Report =
                 yield addReport "== Info"
                 yield!
                     data
-                    |> List.collect id
                     |> List.collect getInputReportGenerator
                 yield addReport ""
             ]
@@ -69,37 +68,6 @@ module Report =
                     )
                 yield addReport ""
             ]
-        | Reservations (enabled, data) ->
-            [
-                yield addReport "== Zimmerreservierung"
-                yield sprintf "if(%s[0])" (getFormDataVar enabled.Name)
-                yield "{"
-                yield!
-                    data
-                    |> List.collect (fun (day, reservations) ->
-                        [
-                            yield sprintf "if(%s)" (participatesAt day)
-                            yield sprintf "{"
-                            yield!
-                                [
-                                    yield addReport "=== %s" day.Name
-                                    yield!
-                                        reservations
-                                        |> List.collect getInputReportGenerator
-                                    yield addReport ""
-                                ]
-                                |> List.map (indent 1)
-                            yield sprintf "}"
-                        ]
-                    )
-                    |> List.map (indent 1)
-                yield "}"
-                yield "else"
-                yield "{"
-                yield addReport "Nicht ben\u00f6tigt" |> indent 1
-                yield addReport "" |> indent 1
-                yield "}"
-            ]
         | Food data -> 
             [
                 yield addReport "== Vorbestellung Festzelt"
@@ -122,12 +90,25 @@ module Report =
                         ]
                     )
             ]
-        | Notes data ->
+        | Arrival data ->
+            match data with
+            | RadioboxInput data ->
+                [
+                    yield addReport "== Anreise"
+                    let map =
+                        data.Items
+                        |> List.map (fun i -> i.Value, i.Description)
+                    yield! reportRadioboxDescription map data.Name
+                    yield addReport ""
+                ]
+            | _ -> failwith "not implemented"
+        | ClubInfo data ->
             match data with
             | TextAreaInput data ->
                 [
                     addReport "== %s" data.Common.Description
                     addReport "%s" (getPostVarInString data.Common.Name)
+                    addReport ""
                 ]
             | _ -> failwith "not implemented"
 
@@ -140,25 +121,17 @@ module Validation =
     let getSectionValidatorNames = function
         | Info data ->
             data
-            |> List.collect id
             |> List.map getValidatorName
         | Participation data ->
             data
             |> List.collect (fun (_, p1, p2) -> [ yield p1; yield! p2 |> Option.toList] )
             |> List.map getValidatorName
-        | Reservations (enabled, data) ->
-            [
-                yield enabled.Name
-                yield!
-                    data
-                    |> List.collect snd
-                    |> List.map getValidatorName
-            ]
         | Food data ->
             data
             |> List.collect snd
             |> List.map (fst >> getValidatorName)
-        | Notes data -> [ getValidatorName data ]
+        | Arrival data -> [ getValidatorName data ]
+        | ClubInfo data -> [ getValidatorName data ]
 
     let generate = ReportGenerator.Validation.generate getSectionValidatorNames
 

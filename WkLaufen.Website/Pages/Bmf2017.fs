@@ -128,11 +128,15 @@ let Register ctx =
                 Div [Class "inputs"] -< (
                     data
                     |> List.map (fun row ->
-                        Div [Class "row"] -< (row |> List.map HtmlForm.getInput)
+                        Div [Class "row"] -< [ HtmlForm.getInput row ]
                     )
                 )
                 Div [Class "logo"] -< [
                     Asset.htmlImage "bmf" "logo.png" (None, Some 300)
+                ]
+
+                Div [Class "deadline"] -< [
+                    Text "Wir bitten um eure verbindliche Anmeldung bis 3. Mai 2017!"
                 ]
 
                 Div [Class "clear"]
@@ -155,56 +159,7 @@ let Register ctx =
                         ]
                     )
                 yield Span [Class "hint"] -< [
-                    Text "Die Anmeldung f\u00fcr die Marschwertungsteilnahme muss zus\u00e4tzlich zu dieser Anmeldung wie \u00fcblich direkt beim Blasmusikverband Gmunden erfolgen. Diese wird voraussichtlich im Fr\u00fchjahr 2017 freigeschaltet."
-                ]
-            ]
-        | RegistrationForm.Reservations (enabled, data) ->
-            Div [Class "section room-reservation"] -< [
-                yield HtmlForm.getCheckboxInput enabled
-                yield Br []
-                yield Span [
-                    Text "(Mehr Infos zum Musiausflug finden Sie "
-                    A [ HRef "bmf-2017-musiausflug.html" ] -< [
-                        Text "hier"
-                    ]
-                    Text ")"
-                ]
-                yield Div [Id "room-reservation-content"] -< [
-                    yield H2 [] -< [Text "Unterkunft f\u00fcr die \u00dcbernachtungen"]
-                    yield!
-                        data
-                        |> List.map (fun (day, reservations) ->
-                            let rec join separator = function
-                                | [] -> []
-                                | [ head ] -> [ head ]
-                                | head :: tail -> head :: separator :: (join separator tail)
-
-                            Div [Class (sprintf "day show_on_%s" day.Key)] -< [
-                                H3 [] -< [Text day.Name]
-                                Span [] -< (
-                                    reservations
-                                    |> List.map HtmlForm.getInput
-                                    |> join (Br [])
-                                )
-                            ]
-                        )
-                    yield Div [Class "clear"]
-                    yield Div [] -< [
-                        Span [Class "hint"] -< [
-                            Text "Bitte alle Fragen \u0026 W\u00fcnsche zur Unterkunft mit der Ferienregion Traunsee kl\u00e4ren:"
-                            Br []
-                            Text "Bettina Ellmauer"
-                            Span [Style "display: inline-block; text-indent: 10px"] -< Html.obfuscatePhone "+43 (7612) 64305 12"
-                            Span [Style "display: inline-block; text-indent: 10px"] -< Html.obfuscateEmail (Some "ellmauer@traunsee.at")
-                        ]
-                    ]
-                ]
-
-                yield Div [Class "deadline reservation"] -< [
-                    Text "Wir bitten um eure verbindliche Anmeldung bis 15. Dez. 2016!"
-                ]
-                yield Div [Class "deadline no-reservation"] -< [
-                    Text "Wir bitten um eure verbindliche Anmeldung bis 30. April 2017!"
+                    Text "Die Anmeldung für die Marschwertungsteilnahme muss wie üblich ZUSÄTZLICH direkt beim Blasmusikverband Gmunden erfolgen!"
                 ]
             ]
         | RegistrationForm.Food data ->
@@ -216,6 +171,7 @@ let Register ctx =
                         let foodInput item price =
                             Div [Class "item"] -< [
                                 HtmlForm.getInput item
+                                Text (sprintf "à %.2f €" price)
                             ]
 
                         Div [Class (sprintf "show_on_%s" day.Key)] -< (
@@ -227,16 +183,19 @@ let Register ctx =
                                     foodInput item price
                                 )
                             )
-                            @
-                            [ Div [Class "clear"] ]
                         )
                     )
                 yield Span [Class "hint"] -< [
                     Text "Bestellte F\u00e4sser \u0026 Kisten stehen auf dem f\u00fcr euch reservierten Tisch - selbst zapfbar!"
                 ]
             ]
-        | RegistrationForm.Notes data ->
-            Div [Class "section contact"] -< [
+        | RegistrationForm.Arrival data ->
+            Div [Class "section arrival"] -< [
+                H2 [] -< [Text "Anreise"]
+                HtmlForm.getInput data
+            ]
+        | RegistrationForm.ClubInfo data ->
+            Div [Class "section club-info"] -< [
                 contact
                 HtmlForm.getInput data
             ]

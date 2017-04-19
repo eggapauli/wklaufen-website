@@ -35,9 +35,12 @@
 }
 
 #bmf-2017-register .info .row input[type=text] {
-    width: 100%;
+    width: 350px;
 }
 
+#bmf-2017-register .info .row input[type=number] {
+    float: right;
+}
 
 #bmf-2017-register .info .title {
     display: inline-block;
@@ -53,6 +56,23 @@
     right: 0;
 }
 
+#bmf-2017-register .deadline {
+    position: absolute;
+    border-width: 5px;
+    border-style: outset;
+    right: 35px;
+    bottom: -45px;
+    transform: rotate(-10deg);
+    width: 250px;
+    text-align: center;
+    background: orangered;
+    color: white;
+    font-weight: bold;
+    padding-bottom: 5px;
+    border-color: forestgreen;
+    background: forestgreen;
+}
+
 #bmf-2017-register .participation .title {
     margin-left: 10px;
 }
@@ -62,70 +82,20 @@
     font-weight: bold;
 }
 
-#bmf-2017-register .room-reservation {
-    position: relative;
-}
-#bmf-2017-register .room-reservation .day {
-    width: 50%;
-    float: left;
-}
-
-#bmf-2017-register .room-reservation .title {
-    display: inline-block;
-    margin-left: 10px;
-}
-
-#bmf-2017-register .room-reservation .deadline {
-    position: absolute;
-    border-width: 5px;
-    border-style: outset;
-    right: 15px;
-    bottom: -35px;
-    transform: rotate(-10deg);
-    width: 250px;
-    text-align: center;
-    background: orangered;
-    color: white;
-    font-weight: bold;
-    padding-bottom: 5px;
-}
-
-#bmf-2017-register .room-reservation .deadline.reservation {
-    border-color: orangered;
-    background: orangered;
-}
-
-#bmf-2017-register .room-reservation .deadline.no-reservation {
-    border-color: forestgreen;
-    background: forestgreen;
-}
-
-#bmf-2017-register .food .item {
-    width: 50%;
-    float: left;
-}
-
 #bmf-2017-register .food .item .title {
     display: inline-block;
     margin-left: 10px;
-    width: 140px;
 }
 
-#bmf-2017-register .food .item .title {
-    display: inline-block;
-    margin-left: 10px;
-    width: 140px;
-}
-
-#bmf-2017-register .contact table {
+#bmf-2017-register .club-info table {
     width: 100%;
 }
 
-#bmf-2017-register .contact table th {
+#bmf-2017-register .club-info table th {
     text-align: left;
 }
 
-#bmf-2017-register .contact .role {
+#bmf-2017-register .club-info .role {
     text-align: right;
 }
 
