@@ -171,7 +171,7 @@ let Register ctx =
                         let foodInput item price =
                             Div [Class "item"] -< [
                                 HtmlForm.getInput item
-                                Text (sprintf "à %.2f €" price)
+                                Text (sprintf " à %.2f €" price)
                             ]
 
                         Div [Class (sprintf "show_on_%s" day.Key)] -< (
