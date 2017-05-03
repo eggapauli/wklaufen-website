@@ -32,7 +32,7 @@
     <Name>WkLaufen.Website</Name>
     <RootNamespace>website_fsharp</RootNamespace>
     <AssemblyName>website_fsharp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <WarningLevel>3</WarningLevel>
     <StartAction>Program</StartAction>
     <StartProgram>$([System.Environment]::GetEnvironmentVariable(`WinDir`))\explorer.exe</StartProgram>
