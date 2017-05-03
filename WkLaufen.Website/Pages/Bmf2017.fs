@@ -136,7 +136,7 @@ let Register ctx =
                 ]
 
                 Div [Class "deadline"] -< [
-                    Text "Wir bitten um eure verbindliche Anmeldung bis 3. Mai 2017!"
+                    Text "Wir bitten um eure verbindliche Anmeldung bis 18. Mai 2017!"
                 ]
 
                 Div [Class "clear"]
