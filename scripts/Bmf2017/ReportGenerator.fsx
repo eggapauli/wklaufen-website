@@ -13,7 +13,7 @@ let getFormDataVar = sprintf "$formData[\"%s\"]"
 let indent cols = sprintf "%s%s" (String.replicate (cols * 4) " ")
 
 module Report =
-    let getPostVarText = getFormDataVar >> sprintf "htmlentities(%s)"
+    let getPostVarText = getFormDataVar >> sprintf "%s"
     let getPostVarInString = getPostVarText >> sprintf "\" . %s . \""
     let getPostIntegerInString = getPostVarText >> sprintf "\" . intval(%s) . \""
 
