@@ -13,3 +13,18 @@
   line-height: 150%;
   margin: 0;
 }
+
+#bmf-2017 .bmf-videos {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#bmf-2017 .bmf-program {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+#bmf-2017 .bmf-program .text {
+    margin: 20px;
+}

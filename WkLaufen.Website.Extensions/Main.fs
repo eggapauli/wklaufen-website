@@ -130,8 +130,10 @@ module Definition =
         |+> Static [
             "locale" => (T<string>?locale ^-> T<unit>) |> WithInline "window.moment.locale($locale)"
             "moment" => (T<unit>?dummy ^-> MomentInstance) |> WithInline "window.moment()"
-            "moment" => (T<int>?year * T<int>?month * T<int>?day ^-> MomentInstance) |> WithInline "window.moment([$year, $month, $day])"
+            "moment" => (T<int>?year * T<int>?month * T<int>?day ^-> MomentInstance) |> WithInline "window.moment([$year, $month - 1, $day])"
             "fromNow" => (MomentInstance?m ^-> T<string>) |> WithInline "$m.fromNow(true)"
+            "diffDays" => (MomentInstance?a * MomentInstance?b ^-> T<int>) |> WithInline "$a.diff($b, 'days')"
+            "isSameOrAfter" => (MomentInstance?a * MomentInstance?b ^-> T<bool>) |> WithInline "$a.isSameOrAfter($b)"
         ]
 
     let Assembly =

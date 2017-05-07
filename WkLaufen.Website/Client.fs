@@ -27,23 +27,28 @@ module Client =
             getTarget()
             |> ThirdParty.Tooltipster.Close
 
-        let createToolTip config =
-            let target = getTarget()
-            ThirdParty.Tooltipster.Create(target, config) |> ignore
-            ThirdParty.Tooltipster.Open target
+        let now = ThirdParty.Moment.Moment()
+        let startDate = ThirdParty.Moment.Moment(2017, 6, 9)
+        if not <| ThirdParty.Moment.IsSameOrAfter(now, startDate)
+        then
+            let createToolTip config =
+                let target = getTarget()
+                ThirdParty.Tooltipster.Create(target, config) |> ignore
+                ThirdParty.Tooltipster.Open target
 
-        JS.Window.AddEventListener("load", (fun () ->
-            ThirdParty.Moment.Locale "de-AT"
-            let countDown =
-                ThirdParty.Moment.Moment(2017, 6, 9)
-                |> ThirdParty.Moment.FromNow
-            ThirdParty.TooltipsterConfig(
-                Theme = [| "tooltipster-shadow"; "tooltipster-highlight" |],
-                Content = "Countdown: " + countDown,
-                Trigger = "custom"
-            )
-            |> createToolTip
-        ), false)
+            JS.Window.AddEventListener("load", (fun () ->
+                ThirdParty.Moment.Locale "de-AT"
+                let countDown =
+                    match ThirdParty.Moment.DiffDays(startDate, now) with
+                    | 1 -> "1 Tag"
+                    | x -> sprintf "%d Tage" x
+                ThirdParty.TooltipsterConfig(
+                    Theme = [| "tooltipster-shadow"; "tooltipster-highlight" |],
+                    Content = "Countdown: " + countDown,
+                    Trigger = "custom"
+                )
+                |> createToolTip
+            ), false)
 
         JS.Document.AddEventListener("show-info", (fun (evt: Dom.Event) ->
             closeToolTip()

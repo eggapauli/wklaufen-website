@@ -15,10 +15,70 @@ let BMF2017Overview ctx =
             BackgroundImageUrl = Html.pages.Bmf2017.BackgroundImage
             Body =
             [
+                Div [ Class "bmf-videos" ] -< (
+                    [
+                        "https://www.youtube.com/embed/Jfe6rPUB9b4"
+                        "https://www.youtube.com/embed/iyM-thn_KvU"
+                    ]
+                    |> List.map (fun url ->
+                        IFrame [
+                            Width "300"
+                            Height "160"
+                            Src url
+                            FrameBorder "0"
+                            NewAttr "allowfullscreen" "allowfullscreen"
+                        ]
+                        |> List.singleton
+                    )
+                    |> List.reduceBack (fun item state -> item @ [ Br [] ] @ state)
+                )
+                Div [Class "bmf-program rich-text"] -< [
+                    Div [Class "text"] -< [
+                        B [] -< [ Text "Freitag ab 16.00 Uhr:" ]
+                        Br []
+                        Text "Marschwertung"
+                        Br []
+                        Text "JPT - Junge Pongauer Tanzlmusi"
+                        Br []
+                        Br []
+                        B [] -< [ Text "Samstag ab 14.00 Uhr:" ]
+                        Br []
+                        Text "Marschwertung"
+                        Br []
+                        Text "Viera Blech"
+                        Br []
+                        Br []
+                        B [] -< [ Text "Sonntag:" ]
+                        Br []
+                        Text "9.30 Uhr Feldmesse"
+                        Br []
+                        Text "10.30 Uhr Frühschoppen + Oldtimer-Treffen"
+                    ]
+                ]
                 Div [Class "content rich-text"] -< [
                     Div [Class "text"] -< [
                         H1 [Text Html.pages.Bmf2017.Headline]
-                        VerbatimContent (Html.md.Transform Html.pages.Bmf2017.Content)
+                        P [] -< [
+                            Text "Wir haben die Ehre & das Vergnügen, das BMF Gmunden 2017 ausrichten zu dürfen."
+                            Br []
+                            B [Style "font-variant: small-caps"] -< [
+                                Text "Musikvereine können sich "
+                                A [ HRef "bmf-2017-do-meld-i-mi-on.html" ] -< [ Text "hier" ]
+                                Text " anmelden."
+                            ]
+                            Br []
+                            Span [] -< [
+                                Text "Nähere Infos zum Fest auf unserem "
+                                A [ HRef "bmf-2017-flyer.html" ] -< [ Text "Flyer" ]
+                                Text "."
+                            ]
+                            Br []
+                            Span [] -< [
+                                Text "Die Veranstaltung eines Bezirksmusikfests funktioniert nur mit finanzieller Unterstützung. Werden Sie "
+                                A [ HRef "bmf-2017-do-unterstuetzen-wir-euch.html" ] -< [ Text "Sponsor" ]
+                                Text "."
+                            ]
+                        ]
                     ]
                 ]
             ]

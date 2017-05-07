@@ -29,6 +29,12 @@ let Page ctx =
                             Html.menuItem item.Title (Html.getHref item.Title) (Asset.resize "menu-items" item.BackgroundImage (Some 150, Some 100))
                     ]
                 ]
+                A [ Id "home-bmf-logo"; HRef "bmf-2017.html" ] -< [
+                    Asset.htmlImage "bmf" "logo.png" (Some 120, None)
+                ]
+                A [ Id "home-bmf-inserat"; HRef "bmf-2017.html" ] -< [
+                    Asset.htmlImage "bmf" "inserat.jpg" (Some 150, None)
+                ]
                 Span [ClientSide <@ Client.Main() @>]
             ]
         }
