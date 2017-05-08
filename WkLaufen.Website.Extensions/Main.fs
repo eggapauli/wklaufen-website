@@ -134,6 +134,7 @@ module Definition =
             "fromNow" => (MomentInstance?m ^-> T<string>) |> WithInline "$m.fromNow(true)"
             "diffDays" => (MomentInstance?a * MomentInstance?b ^-> T<int>) |> WithInline "$a.diff($b, 'days')"
             "isSameOrAfter" => (MomentInstance?a * MomentInstance?b ^-> T<bool>) |> WithInline "$a.isSameOrAfter($b)"
+            "today" => (T<unit>?dummy ^-> MomentInstance) |> WithInline "window.moment().startOf('day')"
         ]
 
     let Assembly =

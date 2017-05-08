@@ -27,7 +27,7 @@ module Client =
             getTarget()
             |> ThirdParty.Tooltipster.Close
 
-        let now = ThirdParty.Moment.Moment()
+        let now = ThirdParty.Moment.Today()
         let startDate = ThirdParty.Moment.Moment(2017, 6, 9)
         if not <| ThirdParty.Moment.IsSameOrAfter(now, startDate)
         then
