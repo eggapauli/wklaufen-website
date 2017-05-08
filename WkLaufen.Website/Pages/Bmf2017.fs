@@ -300,69 +300,6 @@ let Register ctx =
         }
 
 let Sponsor ctx =
-    let renderSection = function
-    | SponsorForm.Info data ->
-        Div [Class "info"] -< [
-            yield!
-                data
-                |> List.map (fun input ->
-                    Div[] -< [ HtmlForm.getInput input ]
-                )
-        ]
-    | SponsorForm.Package data ->
-        let packages = [
-            (true, false, false, false, Text "Logo auf Orderman-Kassazettel, die bei jedem Getr\u00e4nke- oder Essenskauf ausgegeben werden")
-            (true, false, false, false, Span [] -< [Text "Auf Wunsch benennen wir eine Bar nach Ihnen!"; Br []; Text "z.B.: DRIMAS-Bierbar, Schrabacher-Metallwerkst\u00e4tte-Kuchenbar\u2026"])
-            (true, false, false, false, Text "Die Tischreservierung eines Vereins enth\u00e4lt Logo \u0026 \"Wir w\u00fcnschen dem Musikverein X ein fantastischen Bezirksmusikfest \u0026 viel Erfolg bei der Marschwertung!\"")
-            (true, false, false, false, Text "Logo auf Transparente. Diese h\u00e4ngen im Raum Gmunden. Aus Brandschutzgr\u00fcnden d\u00fcrfen keine Transparente im Zelt h\u00e4ngen")
-            (true, true, false, false, Text "Logo auf Bezirksmusikfest-Leiberl")
-            (true, true, false, false, Text "Logo auf Preislisten \u0026 Speisekarten im Zelt")
-            (true, true, false, false, Text "Sie werden als Sponsor auf der Facebook-Veranstaltung gelistet")
-            (true, true, true, false, Text "Logo auf Plakate")
-            (true, true, true, false, Text "Logo auf Flyer")
-            (true, true, true, true, Text "3 Tage Logo in der PowerPoint-Pr\u00e4sentation, die via Beamer durchgehend im Festzelt l\u00e4uft (50 \u20ac pro Tag)")
-        ]
-        Div [Class "package"] -< [
-            Div [Class "choice"] -< [
-                HtmlForm.getInput data
-            ]
-            Table [Class "packagelist"] -< [
-                THead [] -< [
-                    TR [] -< [
-                        TD [] -< [
-                            B [
-                                yield Text "Bitte senden Sie Ihr Logo an "
-                                yield! Html.obfuscateEmail (Some "obmann@wk-laufen.at")
-                            ]
-                        ]
-                        TD [Class "bronze"] -< [ Text "Bronze" ]
-                        TD [Class "silver"] -< [ Text "Silber" ]
-                        TD [Class "gold"] -< [ Text "Gold" ]
-                        TD [Class "platinum"] -< [ Text "Platin" ]
-                    ]
-                ]
-                TBody [] -< [
-                    yield!
-                        packages
-                        |> List.map (fun (isPlatinum, isGold, isSilver, isBronze, content) ->
-                            TR [] -< [
-                                TD [] -< [ content ]
-                                TD [Class "tick"] -< [ if isBronze then yield Text "\u2714" ]
-                                TD [Class "tick"] -< [ if isSilver then yield Text "\u2714" ]
-                                TD [Class "tick"] -< [ if isGold then yield Text "\u2714" ]
-                                TD [Class "tick"] -< [ if isPlatinum then yield Text "\u2714" ]
-                            ]
-                        )
-                ]
-            ]
-        ]
-    | SponsorForm.Notes data ->
-        Div [Class "contact"] -< [
-            contact
-            HtmlForm.getInput data
-        ]
-
-    let formAction = "bmf-sponsor.php"
     Templating.Main ctx EndPoint.BMF2017Register
         {
             Id = "bmf-2017-sponsor"
@@ -371,35 +308,8 @@ let Sponsor ctx =
             BackgroundImageUrl = Html.pages.Bmf2017.BackgroundImage
             Body =
             [
-                Div [Class "rich-text"] -< [
-                    Div [Class "scroll-container"] -< [
-                        Form [Attr.Action formAction] -< [
-                            yield Span [] -< [
-                                Text "Bezirksmusikfest Gmunden der WK Laufen"
-                                Br []
-                                Text "von 9. bis 11. Juni 2017"
-                            ]
-                            |> Html.modernHeader "Ja, wir wollen das" "unterst\u00fctzen!"
-
-                            yield Div [Class "logo"] -< [
-                                Asset.htmlImage "bmf" "logo.png" (None, Some 300)
-                            ]
-
-                            yield!
-                                SponsorForm.formSections
-                                |> List.map renderSection
-
-                            yield Text "Durch Ihre Unterst\u00fctzung unserer Veranstaltung f\u00f6rdern Sie nicht nur die WK Laufen Gmunden-Engelhof und ihre Jugendarbeit, sondern auch die Traditionen der heimischen Blasmusik \u0026 somit \u00f6sterreichisches Kulturgut."
-
-                            yield Div [Class "send"] -< [
-                                Input [Type "submit"; Value "Abschicken"]
-                                Div [Class "success hidden"] -< [
-                                    Span [] -< [Text "Danke f\u00fcr Ihre Unterst\u00fctzung!"]
-                                ]
-                                Div [Class "clear"]
-                            ]
-                        ]
-                    ]
+                Div [Class "content rich-text"] -< [
+                    Tags.Object [Class "document"; Deprecated.Data ("assets/" + Html.pages.Bmf2017.SponsorFormular); Attr.Type "application/pdf"]
                 ]
             ]
         }

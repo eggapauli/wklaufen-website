@@ -20,7 +20,6 @@
 #load @"WkLaufen.Bmf2017\Form.fsx"
 #load @"Bmf2017\ReportGenerator.fsx"
 #load @"Bmf2017\RegistrationReportGenerator.fsx"
-#load @"Bmf2017\SponsorReportGenerator.fsx"
 #endif
 
 #if COMPILED
@@ -71,9 +70,6 @@ Target "InsertCredentials" <| fun () ->
 Target "BuildPhpSites" <| fun () ->
     let content = RegistrationReportGenerator.generateRegistrationHandler()
     File.WriteAllText(mainProjectDir @@ "assets" @@ "php" @@ "bmf-registration-helper.php", content)
-
-    let content = SponsorReportGenerator.generateSponsorSubscriptionHandler()
-    File.WriteAllText(mainProjectDir @@ "assets" @@ "php" @@ "bmf-sponsor-helper.php", content)
 
 Target "DownloadMembers" <| fun () ->
     let ooebvUsername = getBuildParam "ooebv-username"

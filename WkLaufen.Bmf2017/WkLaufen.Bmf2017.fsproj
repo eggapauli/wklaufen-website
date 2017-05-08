@@ -54,7 +54,6 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Form.fsx" />
     <Compile Include="RegistrationForm.fsx" />
-    <Compile Include="SponsorForm.fsx" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
