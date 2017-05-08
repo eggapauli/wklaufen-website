@@ -34,7 +34,7 @@ let BMF2017Overview ctx =
                 )
                 Div [Class "bmf-program rich-text"] -< [
                     Div [Class "text"] -< [
-                        B [] -< [ Text "Freitag ab 16.00 Uhr:" ]
+                        B [] -< [ Text "Freitag ab 18.00 Uhr:" ]
                         Br []
                         Text "Marschwertung"
                         Br []
