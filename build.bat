@@ -23,8 +23,7 @@ set activitiesPath=
 -ev mail-host %mailHost% ^
 -ev mail-port %mailPort% ^
 -ev mail-username %mailUsername% ^
--ev mail-password %mailPassword% ^
--ev php-exe-path %phpExePath%
+-ev mail-password %mailPassword%
 
 REM pushd .\scripts\build
 

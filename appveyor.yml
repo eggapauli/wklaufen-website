@@ -16,11 +16,6 @@ environment:
         secure: Hx38EcvsQtvuXz09Mu4i5A==
 
 install:
-    - cinst php --version 7.0.9 -y --allow-empty-checksums
-    - cmd: refreshenv
-    - ps: cp c:\tools\php\php.ini-development c:\tools\php\php.ini
-    - ps: Add-Content -Path C:\tools\php\php.ini -Value "extension_dir = ext"
-    - ps: Add-Content -Path C:\tools\php\php.ini -Value "extension=php_openssl.dll"
     - cmd: .paket\paket.bootstrapper.exe
     - cmd: .paket\paket.exe install
     - cmd: php.exe paket-files\getcomposer.org\composer-setup.php
