@@ -54,10 +54,6 @@
     <Content Include="assets\css\news-details.css" />
     <Content Include="assets\css\impressum.css" />
     <Content Include="assets\css\bmf-2017.css" />
-    <Content Include="assets\css\bmf-2017-flyer.css" />
-    <Content Include="assets\css\bmf-2017-musiausflug.css" />
-    <Content Include="assets\css\bmf-2017-register.css" />
-    <Content Include="assets\css\bmf-2017-sponsor.css" />
     <None Include="data\member-groups.json" />
     <None Include="data\members.json" />
     <None Include="data\menu-items.json" />
@@ -141,11 +137,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WkLaufen.Bmf2017\WkLaufen.Bmf2017.fsproj">
-      <Name>WkLaufen.Bmf2017</Name>
-      <Project>{af396528-2077-4b09-a14c-a592f23d3776}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\WkLaufen.Website.Extensions\WkLaufen.Website.Extensions.fsproj">
       <Name>WkLaufen.Website.Extensions</Name>
       <Project>{80cf6044-3b57-4dd4-bd14-8763e7e0b563}</Project>

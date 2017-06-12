@@ -19,10 +19,7 @@ module App =
             | MemberGroups -> WkLaufen.Website.Pages.Members.GroupsPage ctx
             | Members groupId -> WkLaufen.Website.Pages.Members.MembersPage ctx groupId
             | BMF2017Overview -> WkLaufen.Website.Pages.Bmf2017.BMF2017Overview ctx
-            | BMF2017Flyer -> WkLaufen.Website.Pages.Bmf2017.BMF2017Flyer ctx
-            | BMF2017Musiausflug -> WkLaufen.Website.Pages.Bmf2017.BMF2017Musiausflug ctx
-            | BMF2017Register -> WkLaufen.Website.Pages.Bmf2017.Register ctx
-            | BMF2017Sponsor -> WkLaufen.Website.Pages.Bmf2017.Sponsor ctx
+            | BMF2017SponsorList -> WkLaufen.Website.Pages.Bmf2017.BMF2017SponsorListPage ctx
             | AboutUs -> WkLaufen.Website.Pages.AboutUs.Page ctx
             | Vision2020 -> WkLaufen.Website.Pages.Vision2020.Page ctx
             | Contests -> WkLaufen.Website.Pages.Contests.Page ctx
@@ -49,10 +46,7 @@ type Website() =
                 Data.Members.getGroups()
                 |> List.map (fun (g, _) -> Members g.Id)
             yield BMF2017Overview
-            yield BMF2017Flyer
-            yield BMF2017Musiausflug
-            yield BMF2017Register
-            yield BMF2017Sponsor
+            yield BMF2017SponsorList
             yield AboutUs
             yield Vision2020
             yield Contests

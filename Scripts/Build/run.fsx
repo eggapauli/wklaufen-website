@@ -17,9 +17,6 @@
 #load "DownloadHelper.fsx"
 #load "Members.fsx"
 #load "News.fsx"
-#load @"WkLaufen.Bmf2017\Form.fsx"
-#load @"Bmf2017\ReportGenerator.fsx"
-#load @"Bmf2017\RegistrationReportGenerator.fsx"
 #endif
 
 #if COMPILED
@@ -55,21 +52,6 @@ let resizeDefinitionFilePath = mainProjectDir @@ "assets" @@ resizeDefinitionFil
 Target "Clean" <| fun () ->
     CleanDir outputDir
     DeleteFile resizeDefinitionFilePath
-
-Target "InsertCredentials" <| fun () ->
-    !! (mainProjectDir @@ "assets" @@ "php" @@ "common.php")
-    |> Seq.iter (fun f ->
-        File.ReadAllText f
-        |> replace "%MailHost%" (getBuildParam "mail-host")
-        |> replace "%MailPort%" (getBuildParam "mail-port")
-        |> replace "%MailUsername%" (getBuildParam "mail-username")
-        |> replace "%MailPassword%" (getBuildParam "mail-password")
-        |> fun t -> File.WriteAllText(f, t)
-    )
-
-Target "BuildPhpSites" <| fun () ->
-    let content = RegistrationReportGenerator.generateRegistrationHandler()
-    File.WriteAllText(mainProjectDir @@ "assets" @@ "php" @@ "bmf-registration-helper.php", content)
 
 Target "DownloadMembers" <| fun () ->
     let ooebvUsername = getBuildParam "ooebv-username"
@@ -112,16 +94,6 @@ Target "DownloadNpmDependencies" <| fun () ->
             NpmFilePath = rootDir @@ x.NpmFilePath
         }
     Npm setParams
-
-Target "DownloadComposerDependencies" <| fun () ->
-    let startInfoFn (info: System.Diagnostics.ProcessStartInfo) =
-        info.FileName <- getBuildParamOrDefault "php-exe-path" "php.exe"
-        info.Arguments <- @"..\composer.phar install"
-        info.WorkingDirectory <- mainProjectDir
-    let returnCode = ProcessHelper.ExecProcess startInfoFn System.Threading.Timeout.InfiniteTimeSpan
-    if returnCode <> 0 then failwith "Error while installing composer dependencies"
-
-Target "DownloadDependencies" DoNothing
 
 Target "Build" <| fun () ->
     let setParams (p: MSBuildParams) =
@@ -182,7 +154,6 @@ Target "CopyAssets" <| fun () ->
     !! ("assets/**/*")
     -- ("assets/" + resizeDefinitionFileName)
     -- ("assets/images/*/**/*.*")
-    -- ("assets/php/**/*")
     ++ ("node_modules/moment/min/moment-with-locales.min.js")
     ++ ("node_modules/slick-carousel/slick/slick.min.js")
     ++ ("node_modules/slick-carousel/slick/slick.css")
@@ -193,14 +164,7 @@ Target "CopyAssets" <| fun () ->
     ++ ("node_modules/tooltipster/dist/js/tooltipster.bundle.min.js")
     ++ ("node_modules/tooltipster/dist/css/tooltipster.bundle.min.css")
     ++ ("node_modules/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css")
-    ++ ("vendor/phpmailer/phpmailer/PHPMailerAutoload.php")
-    ++ ("vendor/phpmailer/phpmailer/class.*.php")
     |> SetBaseDir mainProjectDir
-    |> Seq.singleton
-    |> CopyWithSubfoldersTo outputDir
-
-    !! ("**/*")
-    |> SetBaseDir (mainProjectDir @@ "assets" @@ "php")
     |> Seq.singleton
     |> CopyWithSubfoldersTo outputDir
     
@@ -232,10 +196,7 @@ Target "Default" DoNothing
 "DownloadMembers" <== ["Clean"]
 "DownloadNews" <== ["Clean"]
 "DownloadNpmDependencies" <== ["Clean"]
-"DownloadComposerDependencies" <== ["Clean"]
-"DownloadDependencies" <== ["DownloadNpmDependencies"]
-"DownloadDependencies" <== ["DownloadComposerDependencies"]
-"Build" <== ["DownloadMembers"; "DownloadNews"; "DownloadDependencies"; "InsertCredentials"; "BuildPhpSites"]
+"Build" <== ["DownloadMembers"; "DownloadNews"; "DownloadNpmDependencies"]
 "ResizeImages" <== ["Build"]
 "CopyAssets" <== ["Build"]
 "AddHtAccessFile" <== ["Build"]
