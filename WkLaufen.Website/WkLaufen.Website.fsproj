@@ -54,6 +54,7 @@
     <Content Include="assets\css\news-details.css" />
     <Content Include="assets\css\impressum.css" />
     <Content Include="assets\css\bmf-2017.css" />
+    <Content Include="assets\css\bmf-2017-sponsorlist.css" />
     <None Include="data\member-groups.json" />
     <None Include="data\members.json" />
     <None Include="data\menu-items.json" />
