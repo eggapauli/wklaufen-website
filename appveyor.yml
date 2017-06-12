@@ -18,7 +18,6 @@ environment:
 install:
     - cmd: .paket\paket.bootstrapper.exe
     - cmd: .paket\paket.exe install
-    - cmd: php.exe paket-files\getcomposer.org\composer-setup.php
 
 build_script:
     - cmd: packages\FAKE\tools\FAKE.exe Scripts\Build\run.fsx
