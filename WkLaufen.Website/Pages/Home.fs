@@ -22,7 +22,11 @@ let Page ctx =
                     for item in topMenuItems ->
                         Html.menuItem item.Title (Html.getHref item.Title) (Asset.resize "menu-items" item.BackgroundImage (Some 150, Some 100))
                 ]
-                H1 [ VerbatimContent (Html.md.Transform Html.pages.Home.Content)]
+                H1 [] -< [
+                    Text "Willkommen bei der"
+                    Br []
+                    Text "Werkskapelle Laufen Gmunden-Engelhof"
+                ]
                 Div [ Id "bottom-menu-container" ] -< [
                     UL [ Id "bottom-menu"; Class "menu" ] -< [
                         for item in bottomMenuItems ->
