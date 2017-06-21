@@ -59,7 +59,7 @@ let data =
             Title = "Festzug Kameradschaftsbund"
             BeginTime = DateTime(2017, 06, 25, 08, 30, 00)
             EndTime = None
-            Location = "Stadtpfarrkirche"
+            Location = "Altmünster"
         }
         {
             Title = "Schlosskonzert"
