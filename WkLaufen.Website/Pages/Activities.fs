@@ -56,8 +56,14 @@ let data =
             Location = "Stadtpfarrkirche"
         }
         {
+            Title = "Festzug Kameradschaftsbund"
+            BeginTime = DateTime(2017, 06, 25, 08, 30, 00)
+            EndTime = None
+            Location = "Stadtpfarrkirche"
+        }
+        {
             Title = "Schlosskonzert"
-            BeginTime = DateTime(2017, 08, 23, 00, 00, 00)
+            BeginTime = DateTime(2017, 08, 23, 19, 30, 00)
             EndTime = None
             Location = "Seeschloss Ort"
         }
@@ -74,28 +80,34 @@ let data =
             Location = "Kapuzinerkirche"
         }
         {
+            Title = "Frühschoppen JVP"
+            BeginTime = DateTime(2017, 09, 17, 10, 30, 00)
+            EndTime = None
+            Location = "Toscanaparkplatz"
+        }
+        {
             Title = "Heldenehrung"
             BeginTime = DateTime(2017, 10, 29, 10, 00, 00)
             EndTime = None
             Location = "Klosterplatz"
         }
-//        {
-//            Title = "Konzertwertung"
-//            BeginTime = DateTime(2017, 10, 29, 10, 00, 00)
-//            EndTime = None
-//            Location = ""
-//        }
+        {
+            Title = "Konzertwertung"
+            BeginTime = DateTime(2017, 11, 04, 00, 00, 00)
+            EndTime = None
+            Location = ""
+        }
+        // {
+        //     Title = "Weihnachtsfeier"
+        //     BeginTime = DateTime(2017, 12, 16, 19, 30, 00)
+        //     EndTime = None
+        //     Location = "Engelhof"
+        // }
         {
             Title = "Adventkonzert"
-            BeginTime = DateTime(2017, 12, 10, 18, 00, 00)
+            BeginTime = DateTime(2017, 12, 17, 16, 30, 00)
             EndTime = None
             Location = "Kapuzinerkirche"
-        }
-        {
-            Title = "Weihnachtsfeier"
-            BeginTime = DateTime(2017, 12, 16, 19, 30, 00)
-            EndTime = None
-            Location = "Engelhof"
         }
         {
             Title = "Neujahrsblasen"
