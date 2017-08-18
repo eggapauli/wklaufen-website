@@ -3,7 +3,7 @@ environment:
     ooebv-password:
         secure: fohNC7EhImjczRjtEvJx4Q==
     facebook-access-token:
-        secure: aosT6Pij2ZCUaqqDsA3BJhmuKxDB86shytg2jxRI5gl3SFHLal91T0Z1KFIbmUvE2NJxfV6bAeXn//a3Dq63azDOykPIXR+wtZ04kTAvU+sv9rO88wzc9knV0uLgReH1aRGpSTWmtVoFHR6SO/+GPru8M91bBqiF1PL1lsg5ESXnLdfDacn0hodb7SWi141pJ2EQuEpxGwjB0OLkO1qhjC2kz9pcWslcpdN+jxOjmoC08OZxmdNLt7atg5P9Wvcz
+        secure: 66WgMSI23Zp+cbm/mcTtBUK641HsnWs8yUr1vt6U9l20eT3czK+Zm7J2ZC5VuLfo9GllOtS7EbVRHENZphl7RrSiOKnXJ1ZC6+nenPOo+x3snPKhVvmytUJQGPmPtDL2Z5EYAOU46hCEsGupJ2gwUkvrhFkBOWZrwEgmNc0cEcB9rh89ZEsbbPWyTlrvQzXpKMEuy6liv550fzrCxm4ThuAA4datow0OgbVvbSfRE1E=
     upload-url: ftp://s1.meinehp.at/web/a/
     temp-url: ftp://s1.meinehp.at/tmp/upload/
     upload-username: wk-laufenatftp
