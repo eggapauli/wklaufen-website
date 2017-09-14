@@ -95,14 +95,14 @@ let data =
             Title = "Konzertwertung"
             BeginTime = DateTime(2017, 11, 04, 00, 00, 00)
             EndTime = None
-            Location = ""
+            Location = "Kitzmantelfabrik Vorchdorf"
         }
-        // {
-        //     Title = "Weihnachtsfeier"
-        //     BeginTime = DateTime(2017, 12, 16, 19, 30, 00)
-        //     EndTime = None
-        //     Location = "Engelhof"
-        // }
+        {
+            Title = "Weihnachtsfeier"
+            BeginTime = DateTime(2017, 12, 9, 19, 30, 00)
+            EndTime = None
+            Location = "Engelhof"
+        }
         {
             Title = "Adventkonzert"
             BeginTime = DateTime(2017, 12, 17, 16, 30, 00)
