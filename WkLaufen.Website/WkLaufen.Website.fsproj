@@ -60,6 +60,7 @@
     <None Include="data\menu-items.json" />
     <None Include="data\news.json" />
     <None Include="data\pages.json" />
+    <None Include="data\contests.json" />
     <Compile Include="Data.fs" />
     <Compile Include="Asset.fs" />
     <Compile Include="Info.fs" />
