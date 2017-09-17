@@ -16,6 +16,7 @@
 #load "Facebook.fsx"
 #load "DownloadHelper.fsx"
 #load "Members.fsx"
+#load "Contests.fsx"
 #load "News.fsx"
 #endif
 
@@ -71,6 +72,18 @@ Target "DownloadMembers" <| fun () ->
     |> function
     | Choice1Of2 () -> printfn "Successfully downloaded members."
     | Choice2Of2 x -> failwithf "Error while downloading members. %s" x
+
+Target "DownloadContests" <| fun () ->
+    let ooebvUsername = getBuildParam "ooebv-username"
+    let ooebvPassword = getBuildParam "ooebv-password"
+
+    Contests.download(ooebvUsername, ooebvPassword)
+    |> Async.RunSynchronously
+    |> Choice.map (List.map Contests.getJson)
+    |> Choice.map (saveEntries (dataDir @@ "contests.json"))
+    |> function
+    | Choice1Of2 () -> printfn "Successfully downloaded contests."
+    | Choice2Of2 x -> failwithf "Error while downloading contests. %s" x
 
 Target "DownloadNews" <| fun () ->
     let facebookAccessToken = getBuildParam "facebook-access-token"
@@ -194,9 +207,10 @@ Target "Upload" <| fun () ->
 Target "Default" DoNothing
 
 "DownloadMembers" <== ["Clean"]
+"DownloadContests" <== ["Clean"]
 "DownloadNews" <== ["Clean"]
 "DownloadNpmDependencies" <== ["Clean"]
-"Build" <== ["DownloadMembers"; "DownloadNews"; "DownloadNpmDependencies"]
+"Build" <== ["DownloadMembers"; "DownloadContests"; "DownloadNews"; "DownloadNpmDependencies"]
 "ResizeImages" <== ["Build"]
 "CopyAssets" <== ["Build"]
 "AddHtAccessFile" <== ["Build"]

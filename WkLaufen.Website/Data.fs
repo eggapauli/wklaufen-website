@@ -70,6 +70,20 @@ module Members =
         )
         |> Array.toList
 
+module Contests =
+    [<Literal>]
+    let ContestsPath = @"data\contests.json"
+    type private Contests = JsonProvider<ContestsPath>
+
+    let private getGroupName name = name + "en" // pluralize
+    
+    let getContests() =
+        let members = Contests.GetSamples()
+        members
+        |> Seq.sortBy (fun m -> m.Year)
+        |> Seq.groupBy (fun m -> m.Type)
+        |> Seq.map (fun (key, list) -> getGroupName key , list |> Seq.rev |> Seq.take 5 |> Seq.rev |> Seq.toList)
+
 module News =
     [<Literal>]
     let DataPath = @"data\news.json"

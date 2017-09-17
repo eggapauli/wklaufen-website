@@ -16,10 +16,10 @@ let Page ctx =
                 Div [Class "rich-text contest-container"] -< [
                     H1 [Text Html.pages.Contests.Title]
                     Div [Class "rich-text-content"] -< (
-                        Html.pages.Contests.Results
-                        |> Seq.map (fun item ->
+                        Data.Contests.getContests()
+                        |> Seq.map (fun (title, items) ->
                             Div [Class "contest"] -< [
-                                H2 [Text item.Title]
+                                H2 [Text title]
                                 Table [] -< [
                                     THead [] -< [
                                         TR [] -< [
@@ -30,13 +30,13 @@ let Page ctx =
                                         ]
                                     ]
                                     TBody [] -< (
-                                        item.Entries
-                                        |> Seq.map (fun entry ->
+                                        items
+                                        |> Seq.map (fun item ->
                                             TR [] -< [
-                                                TD [Text (entry.Year.ToString())]
-                                                TD [Text entry.Category]
-                                                TD [Text (entry.Points.ToString("F2", CultureInfo.GetCultureInfo "de-AT"))]
-                                                TD [Text (if entry.Result.IsSome then entry.Result.Value else "")]
+                                                TD [Text (sprintf "%d" item.Year)]
+                                                TD [Text item.Category]
+                                                TD [Text (item.Points.ToString("F2", CultureInfo.GetCultureInfo "de-AT"))]
+                                                TD [Text (if item.Result.IsSome then item.Result.Value else "")]
                                             ]
                                         )
                                     )

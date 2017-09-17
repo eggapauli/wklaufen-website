@@ -21,8 +21,8 @@ open DownloadHelper
 
 let download credentials =
     OOEBV.login credentials
-    |> Async.bind (Choice.bindAsync OOEBV.loadAndResetMemberOverviewPage)
-    |> Async.bind (Choice.bindAsync OOEBV.loadActiveMembers)
+    |> Async.bind (Choice.bindAsync OOEBV.Members.loadAndResetMemberOverviewPage)
+    |> Async.bind (Choice.bindAsync OOEBV.Members.loadActiveMembers)
 
 let getJson (m: DataModels.OoebvMember, image) =
     let formatPhoneNumber text =

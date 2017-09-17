@@ -49,3 +49,25 @@ type ContentfulNews = {
     Title: string
     ImageIds: string list
 }
+
+type ContestType =
+    | Concert
+    | Marching
+
+module ContestType =
+    let toString = function
+        | Concert -> "Konzertwertung"
+        | Marching -> "Marschwertung"
+    let fromString = function
+        | "Konzertwertung" -> Some Concert
+        | "Marschwertung" -> Some Marching
+        | _ -> None
+
+type Contest = {
+    Year: int
+    Type: ContestType
+    Category: string
+    Points: float
+    Result: string
+    Location: string
+}
