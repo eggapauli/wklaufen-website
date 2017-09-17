@@ -15,7 +15,7 @@ NUGET
     FAKE (4.58.6)
     FSharp.Core (4.0.0.1)
     FSharp.Data (2.3.2)
-      Zlib.Portable (>= 1.11) - framework: >= netstandard11, portable-net45+sl5+win8, portable-net45+win8, portable-net45+win8+wp8+wpa81
+      Zlib.Portable (>= 1.11) - restriction: || (>= portable-net45+win8+sl5) (>= portable-net45+win8+wp8+wpa81)
     HtmlAgilityPack (1.4.9.5)
     ImageProcessor (2.4.4)
     IntelliFactory.Xml (0.6.63.95)
@@ -40,7 +40,7 @@ NUGET
     WebSharper.Html (3.6.10.22)
       IntelliFactory.Xml (>= 0.6.63.95)
       WebSharper (>= 3.6.12.235)
-    Zlib.Portable (1.11) - framework: >= netstandard11, portable-net45+sl5+win8, portable-net45+win8, portable-net45+win8+wp8+wpa81
+    Zlib.Portable (1.11) - restriction: || (>= portable-net45+win8+sl5) (>= portable-net45+win8+wp8+wpa81)
 HTTP
   remote: https://getcomposer.org
     composer-setup.php (/installer)

@@ -50,9 +50,11 @@ type ContentfulNews = {
     ImageIds: string list
 }
 
-type ContestType =
-    | Concert
-    | Marching
+[<AutoOpen>]
+module ContestType_ =
+    type ContestType =
+        | Concert
+        | Marching
 
 module ContestType =
     let toString = function
