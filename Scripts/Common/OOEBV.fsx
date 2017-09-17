@@ -405,7 +405,6 @@ module Contests =
         |> Async.bind (Choice.mapAsync loadHtmlResponse)
 
     let loadContests (contestPage: HtmlDocument) =
-        printfn "Contest page: %s" contestPage.DocumentNode.OuterHtml
         contestPage.DocumentNode.SelectNodes("//table[@class=\"table_head\"]/tr[@id]")
         |> Seq.map (fun row ->
             let points =
