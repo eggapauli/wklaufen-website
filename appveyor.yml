@@ -17,7 +17,7 @@ environment:
 
 install:
     - cmd: .paket\paket.bootstrapper.exe
-    - cmd: .paket\paket.exe install
+    - cmd: .paket\paket.exe restore
 
 build_script:
     - cmd: packages\FAKE\tools\FAKE.exe Scripts\Build\run.fsx
