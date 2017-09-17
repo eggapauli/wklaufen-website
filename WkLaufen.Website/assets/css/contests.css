@@ -17,6 +17,6 @@
 #contests .contest-container .rich-text-content .contest table td {
   white-space: nowrap;
 }
-#contests .contest-container .rich-text-content .contest table td:not(:last-child) p {
+#contests .contest-container .rich-text-content .contest table td:not(:last-child) {
   text-align: center;
 }
