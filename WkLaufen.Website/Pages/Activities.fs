@@ -14,84 +14,6 @@ type Activity = {
 let data =
     [
         {
-            Title = "Jahreskonzert"
-            BeginTime = DateTime(2017, 03, 04, 19, 43, 00)
-            EndTime = None
-            Location = "Toscana"
-        }
-        {
-            Title = "Liebstattsonntag"
-            BeginTime = DateTime(2017, 03, 26, 13, 00, 00)
-            EndTime = None
-            Location = "Rathausplatz"
-        }
-        {
-            Title = "Glockenweihe"
-            BeginTime = DateTime(2017, 04, 17, 09, 00, 00)
-            EndTime = None
-            Location = "Stadtpfarrkirche"
-        }
-        {
-            Title = "Weckruf"
-            BeginTime = DateTime(2017, 05, 01, 00, 00, 00)
-            EndTime = None
-            Location = "Gmunden"
-        }
-        {
-            Title = "Erstkommunion"
-            BeginTime = DateTime(2017, 05, 21, 08, 30, 00)
-            EndTime = None
-            Location = "Stadtpfarrkirche"
-        }
-        {
-            Title = "Bezirksmusikfest"
-            BeginTime = DateTime(2017, 06, 09, 00, 00, 00)
-            EndTime = DateTime(2017, 06, 11, 00, 00, 00) |> Some
-            Location = "Engelhof"
-        }
-        {
-            Title = "Fronleichnam"
-            BeginTime = DateTime(2017, 06, 15, 08, 00, 00)
-            EndTime = None
-            Location = "Stadtpfarrkirche"
-        }
-        {
-            Title = "Festzug Kameradschaftsbund"
-            BeginTime = DateTime(2017, 06, 25, 08, 30, 00)
-            EndTime = None
-            Location = "Altmünster"
-        }
-        {
-            Title = "Schlosskonzert"
-            BeginTime = DateTime(2017, 08, 23, 19, 30, 00)
-            EndTime = None
-            Location = "Seeschloss Ort"
-        }
-        {
-            Title = "Töpfermarkt"
-            BeginTime = DateTime(2017, 08, 25, 17, 00, 00)
-            EndTime = None
-            Location = "Rathausplatz"
-        }
-        {
-            Title = "Tag der Tracht"
-            BeginTime = DateTime(2017, 09, 10, 10, 00, 00)
-            EndTime = None
-            Location = "Kapuzinerkirche"
-        }
-        {
-            Title = "Frühschoppen JVP"
-            BeginTime = DateTime(2017, 09, 17, 10, 30, 00)
-            EndTime = None
-            Location = "Toscanaparkplatz"
-        }
-        {
-            Title = "Heldenehrung"
-            BeginTime = DateTime(2017, 10, 29, 10, 00, 00)
-            EndTime = None
-            Location = "Klosterplatz"
-        }
-        {
             Title = "Konzertwertung"
             BeginTime = DateTime(2017, 11, 04, 00, 00, 00)
             EndTime = None
@@ -105,7 +27,7 @@ let data =
         }
         {
             Title = "Adventkonzert"
-            BeginTime = DateTime(2017, 12, 17, 16, 30, 00)
+            BeginTime = DateTime(2017, 12, 17, 18, 00, 00)
             EndTime = None
             Location = "Kapuzinerkirche"
         }
@@ -117,9 +39,63 @@ let data =
         }
         {
             Title = "Silvester"
-            BeginTime = DateTime(2017, 12, 31, 13, 00, 00)
+            BeginTime = DateTime(2017, 12, 31, 00, 00, 00)
             EndTime = None
             Location = "Rathausplatz"
+        }
+        // {
+        //     Title = "BTV Spielerei"
+        //     BeginTime = DateTime(2018, 1, 29, 00, 00, 00)
+        //     EndTime = None
+        //     Location = "SEP"
+        // }
+        {
+            Title = "Jahreskonzert"
+            BeginTime = DateTime(2018, 3, 3, 00, 00, 00)
+            EndTime = None
+            Location = "Toscana Gmunden"
+        }
+        {
+            Title = "Liebstattsonntag"
+            BeginTime = DateTime(2018, 3, 11, 00, 00, 00)
+            EndTime = None
+            Location = "Gmunden"
+        }
+        {
+            Title = "Palmsonntag"
+            BeginTime = DateTime(2018, 3, 25, 00, 00, 00)
+            EndTime = None
+            Location = "Gmunden"
+        }
+        {
+            Title = "Maibaum aufstellen"
+            BeginTime = DateTime(2018, 4, 30, 00, 00, 00)
+            EndTime = None
+            Location = "Rathausplatz"
+        }
+        {
+            Title = "Weckruf"
+            BeginTime = DateTime(2018, 5, 1, 00, 00, 00)
+            EndTime = None
+            Location = "Gmunden"
+        }
+        {
+            Title = "Fronleichnam"
+            BeginTime = DateTime(2018, 5, 31, 00, 00, 00)
+            EndTime = None
+            Location = "Stadtpfarrkirche"
+        }
+        {
+            Title = "BMF MV Roitham am Traunfall"
+            BeginTime = DateTime(2018, 6, 9, 00, 00, 00)
+            EndTime = None
+            Location = "Roitham"
+        }
+        {
+            Title = "BMF MV Hofkirchen an der Trattnach"
+            BeginTime = DateTime(2018, 6, 30, 00, 00, 00)
+            EndTime = None
+            Location = "Hofkirchen"
         }
     ]
 
