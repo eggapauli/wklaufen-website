@@ -8,10 +8,6 @@ Push-Location $PSScriptRoot
 
 $rootDir = Resolve-Path "..\.."
 dotnet run -- `
-    --root-dir $rootDir `
-    --data-dir "src\WkLaufen.Website\generated" `
-    --image-dir "images" `
-    --deploy-dir "public" `
     --ooebv-username $ooebvUsername `
     --ooebv-password $ooebvPassword `
     --facebook-access-token $facebookAccessToken

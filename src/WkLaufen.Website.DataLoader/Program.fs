@@ -61,14 +61,8 @@ let resizeImages sourceDir targetDir =
                 imageWidth, imageHeight
 
         let computeSizeNoCrop (desiredWidthOpt, desiredHeightOpt) (imageWidth, imageHeight) =
-            let desiredWidth =
-                match desiredWidthOpt with
-                | Some x -> x
-                | None -> imageWidth
-            let desiredHeight =
-                match desiredHeightOpt with
-                | Some x -> x
-                | None -> imageHeight
+            let desiredWidth = desiredWidthOpt |> Option.defaultValue imageWidth
+            let desiredHeight = desiredHeightOpt |> Option.defaultValue imageHeight
 
             let widthRatio = (float imageWidth) / (float desiredWidth)
             let heightRatio = (float imageHeight) / (float desiredHeight)
@@ -88,23 +82,23 @@ let resizeImages sourceDir targetDir =
 
         printfn "Resizing %s to Width = %d, Height = %d" sourcePath width height
 
-        // let resizeLayer =
-        //     let widthRatio = (float image.Width) / (float width)
-        //     let heightRatio = (float image.Height) / (float height)
-        //     let resizeSize =
-        //         if widthRatio > heightRatio
-        //         then Drawing.Size(0, height)
-        //         else Drawing.Size(width, 0)
-        //     Imaging.ResizeLayer resizeSize
-        // image.Resize resizeLayer |> ignore
+        image.Mutate(fun x ->
+            let width', height' =
+                let widthRatio = (float image.Width) / (float width)
+                let heightRatio = (float image.Height) / (float height)
+                if widthRatio > heightRatio
+                then 0, height
+                else width, 0
+            x.Resize(width', height') |> ignore
 
-        let cropRect =
-            let srcX = (image.Width - width) / 2
-            let srcY = (image.Height - height) / 2
-            SixLabors.Primitives.Rectangle(srcX, srcY, width, height)
+            let cropRect =
+                let srcX = (image.Width - width) / 2
+                let srcY = (image.Height - height) / 2
+                SixLabors.Primitives.Rectangle(srcX, srcY, width, height)
+            x.Crop(cropRect) |> ignore
+        )
 
-        image.Mutate(fun x -> x.Resize(width, height).Crop(cropRect) |> ignore)
-
+        Path.GetDirectoryName targetPath |> Directory.CreateDirectory |> ignore
         image.Save targetPath |> ignore
 
     let defaultResizeOptions = {
@@ -155,20 +149,18 @@ let tryGetArg args name =
 [<EntryPoint>]
 let main argv =
     match
-        tryGetArg argv "root-dir",
-        tryGetArg argv "data-dir",
-        tryGetArg argv "image-dir",
-        tryGetArg argv "deploy-dir",
         tryGetArg argv "ooebv-username",
         tryGetArg argv "ooebv-password",
         tryGetArg argv "facebook-access-token" with
-    | Some rootDir, Some dataDir, Some imageDir, Some deployDir, Some ooebvUsername, Some ooebvPassword, Some facebookAccessToken ->
-        let absDataDir = rootDir @@ dataDir
-        let absImageDir = rootDir @@ imageDir
-        let absDeployDir = rootDir @@ deployDir
-        downloadMembers (ooebvUsername, ooebvPassword) absDataDir absImageDir
-        downloadNews facebookAccessToken absDataDir absImageDir
-        resizeImages absImageDir absDeployDir
+    | Some ooebvUsername, Some ooebvPassword, Some facebookAccessToken ->
+        let rootDir = Path.GetFullPath @"..\.."
+        let dataDir = rootDir @@ "src" @@ "WkLaufen.Website" @@ "generated"
+        let imageDir = rootDir @@ "assets" @@ "images"
+        let deployDir = rootDir @@ "public"
+
+        // downloadMembers (ooebvUsername, ooebvPassword) dataDir imageDir
+        // downloadNews facebookAccessToken dataDir imageDir
+        resizeImages imageDir (deployDir @@ "images")
         0
     | _ ->
         eprintfn "Usage: dotnet run -- --root-dir <path> --data-dir <path> --image-dir <path> --deploy-dir <path> --ooebv-username <username> --ooebv-password <password> --facebook-access-token <access-token>"

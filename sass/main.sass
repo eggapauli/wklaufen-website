@@ -1,22 +1,249 @@
-// Colors
-$purple: #7a325d
-$primary: $purple
-$black: #202020
+// Needed otherwise iframes show a disabled scrollbar
+html,
+body
+  overflow-y: auto
+  overflow-x: hidden
 
-@import '../node_modules/bulma/bulma'
+body
+  padding: 50px
+  font-family: "Segoe UI Light", "Segoe UI"
+  font-weight: lighter
 
-.navbar-bg
-  background-color: $black
-  .nav
-    background-color: $black
-  .title
-    color: #686868
-    font-weight: 600
+h1
+  margin-top: 0
+  margin-bottom: 10px
 
-.twitter
-  color: #55acee !important // Override bulma
-  border-color: #55acee
+h2
+  margin: 0 0 5px
+  font-size: 130%
 
-.github
-  color: $black !important // Override bulma
-  border-color: $black
+a
+  color: inherit
+
+table p
+  margin: 0
+
+strong
+  font-weight: bold
+
+.rich-text
+  background: rgba(255, 255, 255, 0.8)
+  border-radius: 50px
+
+.outer-main
+  width: 1000px
+  height: 600px
+  margin: 0 auto
+  background: #fff
+  position: relative
+  z-index: 10
+
+  .content-background
+    position: absolute
+    height: 100%
+    width: 100%
+    background-size: 100%
+    background-repeat: no-repeat
+
+    .horizontal-outer-border
+      background: linear-gradient(to right, #fff 0%, rgba(0,0,0,0) 15px, rgba(0,0,0,0) 985px, #fff 100%)
+
+      .vertical-outer-border
+        background: linear-gradient(to bottom, #fff 0%, rgba(0,0,0,0) 15px, rgba(0,0,0,0) 585px, #fff 100%)
+        overflow: auto
+
+        .inner-main
+          height: 560px
+          margin: 20px
+          position: relative
+
+          :focus
+            outline: none
+
+          ul.menu
+            list-style: none
+            padding: 0
+            margin: 0
+            text-align: center
+
+            li
+              display: inline-block
+              margin: 0 15px
+              width: 150px
+              height: 100px
+              position: relative
+
+              a.menu-item
+                cursor: pointer
+                display: inline-block
+                width: 100%
+                height: 100%
+
+                span.bg
+                  display: inline-block
+                  width: 100%
+                  height: 100%
+
+                span.title-bar
+                  display: inline-block
+                  background: rgba(255,255,255,0.8)
+                  position: absolute
+                  left: 0
+                  bottom: 0
+                  width: 100%
+
+                  span.title
+                    display: block
+                    border: 1px solid #222
+                    padding: 10px
+                    text-align: center
+
+              a.menu-item.loading .bg
+                animation: fadeoutin 2s infinite
+
+.slick-slider
+  margin: 0
+  padding-bottom: 60px
+
+  .slick-prev,
+  .slick-next
+    top: inherit
+    bottom: 10px
+    color: #222
+    width: auto
+    height: auto
+
+  .slick-prev:before,
+  .slick-next:before
+    color: inherit
+    font-size: 40px
+
+  .slick-prev:hover,
+  .slick-next:hover,
+  .slick-prev:focus,
+  .slick-next:focus
+    color: #222
+
+  .slick-prev
+    right: inherit
+    left: 10%
+    -webkit-transform: initial
+    -ms-transform: initial
+    transform: initial
+
+  .slick-next
+    right: 10%
+    left: inherit
+    -webkit-transform: initial
+    -ms-transform: initial
+    transform: initial
+
+#home
+  h1
+    margin: 10px 0 20px 0
+    text-align: center
+    text-shadow: 0px 0px 10px white
+
+  #top-menu
+    padding-top: 30px
+
+  #bottom-menu-container
+    position: absolute
+    bottom: 0
+    width: 100%
+
+  #bottom-menu
+    padding-bottom: 30px
+
+#contacts
+  .info 
+    position: absolute
+    left: 200px
+
+  .info > div 
+    font-size: 120%
+
+  .info > div p 
+    margin: 0
+
+  .contacts 
+    position: absolute
+    right: 0
+    color: #fff
+
+  .contacts .contact 
+    width: 400px
+    clear: both
+    line-height: 200%
+
+  .contacts .image 
+    float: left
+    margin-right: 20px
+
+#activities
+  .activities
+    position: absolute
+    bottom: 0
+    padding: 20px
+
+    .list
+      font-size: 130%
+      height: 300px
+      overflow-y: auto
+
+      table
+        border-collapse: collapse
+        margin-right: 30px
+
+        td,
+        th
+          border: 1px solid #222
+          white-space: nowrap
+
+        td
+          padding: 0 20px 0 5px
+
+#news
+  h1
+    margin-left: 10px
+
+  #news-frame
+    font-size: 130%
+    width: 440px
+    height: 440px
+    padding: 30px 20px 20px 20px
+
+    .slick-slider
+      height: 100%
+
+      .date
+        text-align: right
+        margin-bottom: 5px
+
+      .content
+        overflow-x: hidden
+        overflow-y: auto
+        height: 340px
+
+      a img
+        display: initial
+
+  #facebook-news-hint
+    display: inline-block
+    position: absolute
+    right: 90px
+    font-size: 150%
+    bottom: 20px
+    font-weight: bold
+    color: #fff
+    text-decoration: none
+
+    img
+      vertical-align: bottom
+
+#news-details
+  .image img
+    margin: 0 auto
+
+  .rich-text
+    padding-top: 20px
