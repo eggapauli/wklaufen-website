@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Async.fs" />
+    <Compile Include="Choice.fs" />
+    <Compile Include="AsyncChoice.fs" />
+    <Compile Include="Http.fs" />
+    <Compile Include="DataModels.fs" />
+    <Compile Include="DownloadHelper.fs" />
+    <Compile Include="Serialize.fs" />
+    <Compile Include="OOEBV.fs" />
+    <Compile Include="Facebook.fs" />
+    <Compile Include="Members.fs" />
+    <Compile Include="News.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <PropertyGroup>
+    <FscToolPath>..\..\packages\FSharp.Compiler.Tools\tools</FscToolPath>
+    <FscToolExe>fsc.exe</FscToolExe>
+  </PropertyGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

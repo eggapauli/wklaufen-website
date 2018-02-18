@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- 3rd party -->
+    <Compile Include="ReactSlick.fs" />
+    <!-- Global to the app -->
+    <Compile Include="Global.fs" />
+    <Compile Include="generated/Members.fs" />
+    <Compile Include="generated/News.fs" />
+    <Compile Include="Data.fs" />
+    <Compile Include="Html.fs" />
+    <!-- Pages -->
+    <Compile Include="Pages/Layout.fs" />
+    <Compile Include="Pages/Home/View.fs" />
+    <Compile Include="Pages/Kontakte/View.fs" />
+    <Compile Include="Pages/Termine/View.fs" />
+    <Compile Include="Pages/News/View.fs" />
+    <!-- App -->
+    <Compile Include="Types.fs" />
+    <Compile Include="State.fs" />
+    <Compile Include="App.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.fsproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>
