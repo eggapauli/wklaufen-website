@@ -43,7 +43,12 @@ type ResizeOptions = {
     Crop: bool
 }
 
-let resizeImages sourceDir targetDir =
+type CodeGeneration =
+    | IncludeSizeInName
+    | Indexed of string
+    | IndexedList of string
+
+let resizeImages dataDir sourceDir deployBaseDir deployDir =
     let resize (sourcePath: string) resizeOptions (targetPath: string) =
         let computeSize desiredSize (imageWidth, imageHeight) =
             match desiredSize with
@@ -95,7 +100,7 @@ let resizeImages sourceDir targetDir =
                 let srcX = (image.Width - width) / 2
                 let srcY = (image.Height - height) / 2
                 SixLabors.Primitives.Rectangle(srcX, srcY, width, height)
-            x.Crop(cropRect) |> ignore
+            x.Crop cropRect |> ignore
         )
 
         Path.GetDirectoryName targetPath |> Directory.CreateDirectory |> ignore
@@ -112,33 +117,103 @@ let resizeImages sourceDir targetDir =
         extensions
         |> Seq.exists (fun ext -> equalsIgnoreCase ext fileExt) 
 
-    let getImages dir resizeOptions =
+    let getImages dir =
         Directory.EnumerateFiles(sourceDir @@ dir)
         |> Seq.filter (fileHasExtension [ ".png"; ".jpg"; ".jpeg" ])
-        |> Seq.map (fun f -> f, resizeOptions)
+        |> Seq.toList
 
-    [
-        yield! getImages "menu-items" { defaultResizeOptions with Width = Some 150; Height = Some 100 }
-        yield! getImages "member-groups" { defaultResizeOptions with Width = Some 200; Height = Some 130 }
-        yield! getImages "members" { defaultResizeOptions with Width = Some 200; Height = Some 270 }
-        yield!
-            [ "600.jpg"; "31180.jpg" ]
-            |> List.map (fun f ->
-                (sourceDir @@ "members" @@ f)
-                , { defaultResizeOptions with Width = Some 110; Height = Some 160 }
-            )
-        yield! getImages "pages" { defaultResizeOptions with Width = Some 1000; Height = Some 600 }
-        yield! getImages "news" { defaultResizeOptions with Width = Some 940; Height = Some 480; Crop = false }
-    ]
-    |> List.iter (fun (path, resizeOptions) ->
-        let widthName = match resizeOptions.Width with Some x -> sprintf "w%d" x | None -> ""
-        let heightName = match resizeOptions.Height with Some x -> sprintf "h%d" x | None -> ""
+    let images =
+        [
+            yield getImages "menu-items", { defaultResizeOptions with Width = Some 150; Height = Some 100 }, IncludeSizeInName
+            yield getImages "member-groups", { defaultResizeOptions with Width = Some 200; Height = Some 130 }, IncludeSizeInName
+            yield getImages "members", { defaultResizeOptions with Width = Some 200; Height = Some 270 }, Indexed "members"
+            yield
+                [ "600.jpg"; "31180.jpg" ]
+                |> List.map (fun f -> sourceDir @@ "members" @@ f),
+                { defaultResizeOptions with Width = Some 110; Height = Some 160 }, Indexed "contacts"
+            yield getImages "pages", { defaultResizeOptions with Width = Some 1000; Height = Some 600 }, IncludeSizeInName
+            yield getImages "news", { defaultResizeOptions with Width = Some 940; Height = Some 480; Crop = false }, IndexedList "news"
+        ]
+        |> List.map (fun (paths, resizeOptions, codeGeneration) ->
+            let size =
+                match resizeOptions.Width, resizeOptions.Height with
+                | Some width, Some height -> sprintf "_w%dh%d" width height
+                | Some width, None -> sprintf "_w%d" width
+                | None, Some height -> sprintf "_h%d" height
+                | None, None -> ""
 
-        let fileName = sprintf "%s_%s%s%s" (Path.GetFileNameWithoutExtension path) widthName heightName (Path.GetExtension path)
-        let targetPath = targetDir @@ (Path.GetDirectoryName path |> Path.GetFileName) @@ fileName
-
-        resize (sourceDir @@ path) resizeOptions targetPath
+            paths
+            |> List.map (fun path ->
+                let fileName = sprintf "%s%s%s" (Path.GetFileNameWithoutExtension path) size (Path.GetExtension path)
+                let targetPath = deployBaseDir @@ deployDir @@ (Path.GetDirectoryName path |> Path.GetFileName) @@ fileName
+                let sourcePath = sourceDir @@ path
+                sourcePath, targetPath
+            ),
+            resizeOptions,
+            codeGeneration
+        )
+    images
+    |> List.iter (fun (paths, resizeOptions, _) ->
+        paths
+        |> List.iter (fun (sourcePath, targetPath) ->
+            resize sourcePath resizeOptions targetPath
+        )
     )
+
+    images
+    |> List.collect (fun (paths, _, codeGeneration) ->
+        let getRelativeTargetPath (path: string) =
+            path.Substring(deployBaseDir.Length).TrimStart('\\').Replace("\\", "/")
+
+        match codeGeneration with
+        | IncludeSizeInName ->
+            paths
+            |> List.map (fun (_sourcePath, targetPath) ->
+                let name =
+                    Path.GetFileNameWithoutExtension targetPath
+                    |> fun n -> n.Replace("-", "_")
+                let value = getRelativeTargetPath targetPath
+                sprintf "let %s = \"%s\"" name value
+            )
+        | Indexed name ->
+            [
+                yield sprintf "let %s =" name
+                yield "  ["
+                yield!
+                    paths
+                    |> List.map (fun (_sourcePath, targetPath) ->
+                        sprintf "    \"%s\", \"%s\""
+                            (Path.GetFileNameWithoutExtension targetPath)
+                            (getRelativeTargetPath targetPath)
+                    )
+                yield "  ]"
+                yield "  |> Map.ofList"
+            ]
+        | IndexedList name ->
+            [
+                yield sprintf "let %s =" name
+                yield "  ["
+                yield!
+                    paths
+                    |> List.groupBy (fst >> Path.GetFileNameWithoutExtension >> fun sourcePath ->
+                        let markerPosition = sourcePath.LastIndexOf "_"
+                        sourcePath.Substring(0, markerPosition)
+                    )
+                    |> List.collect (fun (group, paths) ->
+                        [
+                            yield sprintf "    \"%s\", [" group
+                            yield!
+                                paths
+                                |> List.map (snd >> getRelativeTargetPath >> sprintf "      \"%s\"")
+                            yield "    ]"
+                        ]
+                    )
+                yield "  ]"
+                yield "  |> Map.ofList"
+            ]
+    )
+    |> List.append ["module Images"; ""]
+    |> fun l -> File.WriteAllLines(dataDir @@ "Images.fs", l)
 
 let tryGetArg args name =
     args
@@ -158,9 +233,9 @@ let main argv =
         let imageDir = rootDir @@ "assets" @@ "images"
         let deployDir = rootDir @@ "public"
 
-        // downloadMembers (ooebvUsername, ooebvPassword) dataDir imageDir
-        // downloadNews facebookAccessToken dataDir imageDir
-        resizeImages imageDir (deployDir @@ "images")
+        downloadMembers (ooebvUsername, ooebvPassword) dataDir imageDir
+        downloadNews facebookAccessToken dataDir imageDir
+        resizeImages dataDir imageDir deployDir "images"
         0
     | _ ->
         eprintfn "Usage: dotnet run -- --root-dir <path> --data-dir <path> --image-dir <path> --deploy-dir <path> --ooebv-username <username> --ooebv-password <password> --facebook-access-token <access-token>"

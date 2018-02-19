@@ -9,6 +9,7 @@
     <Compile Include="Global.fs" />
     <Compile Include="generated/Members.fs" />
     <Compile Include="generated/News.fs" />
+    <Compile Include="generated/Images.fs" />
     <Compile Include="Data.fs" />
     <Compile Include="Html.fs" />
     <!-- Pages -->
