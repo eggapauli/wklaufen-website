@@ -4,9 +4,9 @@ open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
-open Global
 open System
-open System.IO
+open Global
+open Generated
 
 type Activity = {
   Title: string
@@ -120,7 +120,7 @@ let formatTime (beginTime: DateTime) endTime =
 let root =
   Layout.page
     "activities"
-    "terminkalender.jpg"
+    Images.terminkalender_w1000h600
     [
       div [ ClassName "activities rich-text" ] [
         h1 [] [ str "Terminkalender" ]
@@ -128,7 +128,7 @@ let root =
           table [] [
             tbody [] (
               data
-              |> List.filter (fun act -> act.BeginTime > DateTime.Today.AddDays(-7.))
+              |> List.filter (fun act -> act.BeginTime > DateTime.Today.AddDays -7.)
               |> List.groupBy (fun act -> act.BeginTime.Year)
               |> List.collect (fun (year, entries) ->
                 let entryNodes =

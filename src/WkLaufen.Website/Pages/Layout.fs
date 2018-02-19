@@ -3,8 +3,7 @@ module Layout
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 
-let page pageId bgImage content =
-  let bgImageUrl = App.Html.imageUrl "pages" bgImage (Some 1000, Some 600)
+let page pageId bgImageUrl content =
   div
     [ ClassName "content-background"; Style [ BackgroundImage (sprintf "url(%s)" bgImageUrl) ] ]
     [

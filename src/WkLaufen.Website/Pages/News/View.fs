@@ -3,12 +3,13 @@ module News.View
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fable.Import.Slick
+open Generated
 open Global
 
 let root =
   Layout.page
     "news"
-    "news.jpg"
+    Images.news_w1000h600
     [
       div [ ClassName "info" ] [
         h1 [] [ str "News" ]
@@ -76,10 +77,12 @@ let details newsId =
                 AdaptiveHeight true
               ]
               (
-                news.Images
-                |> List.map (fun image ->
+                Images.news
+                |> Map.tryFind news.Id
+                |> Option.defaultValue []
+                |> List.map (fun imageUrl ->
                   div [ ClassName "image"; Style [ Height 480 ] ] [
-                    App.Html.image "news" image (Some 940, Some 480)
+                    App.Html.image imageUrl (Some 940, Some 480)
                   ]
                 )
               )

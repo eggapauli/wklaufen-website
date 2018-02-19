@@ -4,14 +4,11 @@ open Microsoft.FSharp.Reflection
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Global
+open Generated
 
 let private menuItem page =
   let href = toHash page
-  let render (bgImage: string) text =
-    let lastDotIndex = bgImage.LastIndexOf '.'
-    let fileName = bgImage.Substring(0, lastDotIndex)
-    let extension = bgImage.Substring lastDotIndex
-    let bgImagePath = sprintf "images/menu-items/%s_w150h100%s" fileName extension
+  let render bgImagePath text =
 
     li
       [ ClassName "menu-item"; Style [ BackgroundImage (sprintf "url(%s)" bgImagePath) ] ]
@@ -25,18 +22,18 @@ let private menuItem page =
       ]
   match page with
   | Home -> None
-  | Kontakte -> Some ((1, 1), render "kontakte.png" "Kontakte")
-  | News -> Some ((1, 2), render "news.jpg" "News")
+  | Kontakte -> Some ((1, 1), render Images.kontakte_w150h100 "Kontakte")
+  | News -> Some ((1, 2), render Images.news_w150h100 "News")
   | NewsDetails _ -> None
-  | Termine -> Some ((1, 3), render "termine.png" "Termine")
-  | Musiker -> Some ((1, 4), render "musiker.png" "Musiker")
+  | Termine -> Some ((1, 3), render Images.termine_w150h100 "Termine")
+  | Musiker -> Some ((1, 4), render Images.musiker_w150h100 "Musiker")
   | MusikerRegister _ -> None
-  | BMF2017 -> Some ((1, 5), render "bmf-2017.jpg" "BMF 2017")
-  | WirUeberUns -> Some ((2, 1), render "wir-ueber-uns.jpg" "Wir über uns")
-  | Vision2020 -> Some ((2, 2), render "vision-2020.png" "Vision 2020")
-  | Wertungen -> Some ((2, 3), render "wertungen.png" "Wertungen")
-  | Jugend -> Some ((2, 4), render "jugend.png" "Jugend")
-  | Floetenkids -> Some ((2, 5), render "floetenkids.png" "Flötenkids")
+  | BMF2017 -> Some ((1, 5), render Images.bmf_2017_w150h100 "BMF 2017")
+  | WirUeberUns -> Some ((2, 1), render Images.wir_ueber_uns_w150h100 "Wir über uns")
+  | Vision2020 -> Some ((2, 2), render Images.vision_2020_w150h100 "Vision 2020")
+  | Wertungen -> Some ((2, 3), render Images.wertungen_w150h100 "Wertungen")
+  | Jugend -> Some ((2, 4), render Images.jugend_w150h100 "Jugend")
+  | Floetenkids -> Some ((2, 5), render Images.floetenkids_w150h100 "Flötenkids")
 
 let private pages =
   Microsoft.FSharp.Reflection.FSharpType.GetUnionCases typeof<Page>
@@ -54,7 +51,7 @@ let root =
   
   Layout.page
     "home"
-    "home.jpg"
+    Images.home_w1000h600
     [
       ul [ Id "top-menu"; ClassName "menu" ] topMenuItems
       h1 [] [ str "Willkommen bei der"; br []; str "Werkskapelle Laufen Gmunden-Engelhof" ]

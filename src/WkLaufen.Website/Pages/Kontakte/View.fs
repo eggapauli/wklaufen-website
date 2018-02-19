@@ -2,11 +2,12 @@ module Kontakte.View
 
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
+open Generated
 
 let root =
   Layout.page
     "contacts"
-    "kontakte.jpg"
+    Images.kontakte_w1000h600
     [
       div [ ClassName "info" ] [
         h1 [] [ str "Kontakte" ]
@@ -26,8 +27,9 @@ let root =
             |> Map.find memberId
           div [ ClassName "contact" ] [
             div [ ClassName "image" ] (
-              m.Image
-              |> Option.map (fun p -> App.Html.image "members" p (Some 110, Some 160))
+              Images.members_w200h270
+              |> Map.tryFind (string m.Member.OoebvId)
+              |> Option.map (fun p ->  App.Html.image p (Some 110, Some 160))
               |> Option.toList
             )
             span [] [ str (sprintf "%s %s" m.Member.FirstName m.Member.LastName) ]

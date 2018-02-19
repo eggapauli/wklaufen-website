@@ -10,17 +10,9 @@ let splitFileName (fileName: string) =
   | -1 -> fileName, ""
   | idx -> fileName.Substring(0, idx), fileName.Substring idx
 
-let imageUrl container fileName (width: int option, height: int option) =
-  let fileNameWithSize =
-    let fileNameWithoutExtensions, extension = splitFileName fileName
-    let widthPart = match width with | Some v -> sprintf "w%d" v | None -> ""
-    let heightPart = match height with | Some v -> sprintf "h%d" v | None -> ""
-    sprintf "%s_%s%s%s" fileNameWithoutExtensions widthPart heightPart extension
-  sprintf "images/%s/%s" container fileNameWithSize
-
-let image container fileName (width: int option, height: int option) =
+let image path (width: int option, height: int option) =
   [
-    Src (imageUrl container fileName (width, height)) |> Some
+    Src path |> Some
     //width |> Option.map (fun v -> Fable.Helpers.React.Props.Width v)
     //height |> Option.map (fun v -> Fable.Helpers.React.Props.Height v)
   ]
