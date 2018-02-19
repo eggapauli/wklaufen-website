@@ -31,6 +31,15 @@ let downloadMembers credentials dataDir imageBaseDir =
     | Choice1Of2 () -> printfn "Successfully downloaded members."
     | Choice2Of2 x -> failwithf "Error while downloading members. %s" x
 
+let downloadContests credentials dataDir =
+    Contests.download credentials
+    |> Async.RunSynchronously
+    |> Choice.map Contests.serialize
+    |> Choice.map (fun s -> File.WriteAllText(dataDir @@ "Contests.fs", s))
+    |> function
+    | Choice1Of2 () -> printfn "Successfully downloaded contests."
+    | Choice2Of2 x -> failwithf "Error while downloading contests. %s" x
+
 let downloadNews accessToken dataDir imageBaseDir =
     News.download accessToken
     |> Async.bind (Choice.bindAsync ((List.map (News.downloadImages imageBaseDir)) >> Async.ofList >> Async.map Choice.ofList))
@@ -239,6 +248,7 @@ let main argv =
         let deployDir = rootDir @@ "public"
 
         downloadMembers (ooebvUsername, ooebvPassword) dataDir imageDir
+        downloadContests (ooebvUsername, ooebvPassword) dataDir
         downloadNews facebookAccessToken dataDir imageDir
         resizeImages dataDir imageDir deployDir "images"
         0

@@ -8,6 +8,7 @@
     <!-- Global to the app -->
     <Compile Include="Global.fs" />
     <Compile Include="generated/Members.fs" />
+    <Compile Include="generated/Contests.fs" />
     <Compile Include="generated/News.fs" />
     <Compile Include="generated/Images.fs" />
     <Compile Include="Data.fs" />
@@ -19,6 +20,11 @@
     <Compile Include="Pages/Termine/View.fs" />
     <Compile Include="Pages/News/View.fs" />
     <Compile Include="Pages/Musiker/View.fs" />
+    <Compile Include="Pages/WirUeberUns/View.fs" />
+    <Compile Include="Pages/Vision2020/View.fs" />
+    <Compile Include="Pages/Wertungen/View.fs" />
+    <Compile Include="Pages/Jugend/View.fs" />
+    <Compile Include="Pages/Floetenkids/View.fs" />
     <!-- App -->
     <Compile Include="Types.fs" />
     <Compile Include="State.fs" />

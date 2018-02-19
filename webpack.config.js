@@ -68,10 +68,7 @@ module.exports = {
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2|gif)$/,
-                loader: "file-loader",
-                options: {
-                    "name": "public/fonts/[name].[ext]"
-                }
+                loader: "file-loader"
             }
         ]
     },

@@ -10,14 +10,18 @@
     <Compile Include="Choice.fs" />
     <Compile Include="AsyncChoice.fs" />
     <Compile Include="Http.fs" />
-    <Compile Include="DataModels.fs" />
     <Compile Include="DownloadHelper.fs" />
     <Compile Include="Serialize.fs" />
     <Compile Include="OOEBV.fs" />
     <Compile Include="Facebook.fs" />
     <Compile Include="Members.fs" />
     <Compile Include="News.fs" />
+    <Compile Include="Contests.fs" />
     <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.fsproj" />
   </ItemGroup>
   <PropertyGroup>
     <FscToolPath>..\..\packages\FSharp.Compiler.Tools\tools</FscToolPath>

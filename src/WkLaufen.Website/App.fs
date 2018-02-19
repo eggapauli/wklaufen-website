@@ -25,12 +25,12 @@ let view model dispatch =
     | NewsDetails newsId -> News.View.details newsId
     | Musiker -> Musiker.View.root
     | MusikerRegister groupId -> Musiker.View.detail groupId
-    | BMF2017
-    | WirUeberUns
-    | Vision2020
-    | Wertungen
-    | Jugend
-    | Floetenkids -> div [] [ str "Not implemented" ]
+    | BMF2017 -> div [] [ str "Not implemented" ]
+    | WirUeberUns -> WirUeberUns.View.root
+    | Vision2020 -> Vision2020.View.root
+    | Wertungen -> Wertungen.View.root
+    | Jugend -> Jugend.View.root
+    | Floetenkids -> Floetenkids.View.root
 
   pageHtml model.currentPage
 

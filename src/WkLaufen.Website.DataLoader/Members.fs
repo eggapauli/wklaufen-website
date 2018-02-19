@@ -17,8 +17,8 @@ open System.Text.RegularExpressions
 
 let download credentials =
     OOEBV.login credentials
-    |> AsyncChoice.bind OOEBV.loadAndResetMemberOverviewPage
-    |> AsyncChoice.bind OOEBV.loadActiveMembers
+    |> AsyncChoice.bind OOEBV.Members.loadAndResetMemberOverviewPage
+    |> AsyncChoice.bind OOEBV.Members.loadActiveMembers
 
 let serializeMember (m: DataModels.Member) =
     [
