@@ -27,18 +27,18 @@ let root =
             |> Map.find memberId
           div [ ClassName "contact" ] [
             div [ ClassName "image" ] (
-              Images.members_w200h270
-              |> Map.tryFind (string m.Member.OoebvId)
+              Images.contacts
+              |> Map.tryFind (string m.OoebvId)
               |> Option.map (fun p ->  App.Html.image p (Some 110, Some 160))
               |> Option.toList
             )
-            span [] [ str (sprintf "%s %s" m.Member.FirstName m.Member.LastName) ]
+            span [] [ str (sprintf "%s %s" m.FirstName m.LastName) ]
             br []
-            span [] [ str (m.Member.Roles |> String.concat ", ") ]
+            span [] [ str (m.Roles |> String.concat ", ") ]
             br []
-            span [] (m.Member.Phones |> String.concat ", " |> App.Html.obfuscatePhone)
+            span [] (m.Phones |> String.concat ", " |> App.Html.obfuscatePhone)
             br []
-            span [] (App.Html.obfuscateEmail m.Member.Email)
+            span [] (App.Html.obfuscateEmail m.Email)
           ]
         )
       )

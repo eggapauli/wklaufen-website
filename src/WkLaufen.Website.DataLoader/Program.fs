@@ -3,6 +3,7 @@
 open System
 open System.IO
 open SixLabors.ImageSharp
+open DataModels
 
 let (@@) a b = System.IO.Path.Combine(a, b)
 
@@ -15,9 +16,12 @@ let downloadMembers credentials dataDir imageBaseDir =
     Members.download credentials
     |> Async.bind (
         Choice.bindAsync (
-            List.map (Members.tryDownloadImage imageBaseDir)
+            List.map (fun m ->
+                Members.tryDownloadImage imageBaseDir m
+                |> AsyncChoice.map (fun () -> m.Member)
+            )
             >> Async.ofList
-            >> (Async.map Choice.ofList)
+            >> Async.map Choice.ofList
         )
     )
     |> Async.RunSynchronously
@@ -126,7 +130,7 @@ let resizeImages dataDir sourceDir deployBaseDir deployDir =
         [
             yield getImages "menu-items", { defaultResizeOptions with Width = Some 150; Height = Some 100 }, IncludeSizeInName
             yield getImages "member-groups", { defaultResizeOptions with Width = Some 200; Height = Some 130 }, IncludeSizeInName
-            yield getImages "members", { defaultResizeOptions with Width = Some 200; Height = Some 270 }, Indexed "members"
+            yield getImages "members", { defaultResizeOptions with Width = Some 200; Height = Some 270 }, Indexed "members_w200h270"
             yield
                 [ "600.jpg"; "31180.jpg" ]
                 |> List.map (fun f -> sourceDir @@ "members" @@ f),
@@ -152,6 +156,7 @@ let resizeImages dataDir sourceDir deployBaseDir deployDir =
             resizeOptions,
             codeGeneration
         )
+
     images
     |> List.iter (fun (paths, resizeOptions, _) ->
         paths
@@ -181,9 +186,9 @@ let resizeImages dataDir sourceDir deployBaseDir deployDir =
                 yield "  ["
                 yield!
                     paths
-                    |> List.map (fun (_sourcePath, targetPath) ->
+                    |> List.map (fun (sourcePath, targetPath) ->
                         sprintf "    \"%s\", \"%s\""
-                            (Path.GetFileNameWithoutExtension targetPath)
+                            (Path.GetFileNameWithoutExtension sourcePath)
                             (getRelativeTargetPath targetPath)
                     )
                 yield "  ]"

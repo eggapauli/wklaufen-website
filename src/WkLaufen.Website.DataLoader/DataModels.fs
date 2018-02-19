@@ -21,11 +21,6 @@ type OoebvMember = {
     IsActive: bool
 }
 
-type LocalMember = {
-    Member: Member
-    Image: string option
-}
-
 type NewsEntry = {
     Timestamp: DateTime
     Content: string

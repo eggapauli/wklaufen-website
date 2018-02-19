@@ -9,19 +9,19 @@ module Members =
     Photo: string
   }
 
-  let private isMember groupId (m: DataModels.LocalMember) =
+  let private isMember groupId (m: DataModels.Member) =
     let hasAnyInstrument instruments =
-      m.Member.Instruments
+      m.Instruments
       |> List.truncate 1
       |> Set.ofList
       |> Set.intersect (instruments |> Set.ofList)
       |> Set.isEmpty
       |> not
     match groupId with
-    | "vorstandsteam" -> m.Member.Roles |> List.isEmpty |> not
+    | "vorstandsteam" -> m.Roles |> List.isEmpty |> not
     | "saxophon" -> hasAnyInstrument [ "Saxophon" ]
     | "klarinette-und-fagott" -> hasAnyInstrument [ "B-Klarinette"; "Fagott" ]
-    | "marketenderinnen" -> m.Member.Instruments |> List.isEmpty || hasAnyInstrument [ "Sonstige" ]
+    | "marketenderinnen" -> m.Instruments |> List.isEmpty || hasAnyInstrument [ "Sonstige" ]
     | "tiefes-blech" -> hasAnyInstrument [ "Tenorhorn"; "Tuba"; "Posaune"; "Horn" ]
     | "hohes-blech" -> hasAnyInstrument [ "Fl\u00fcgelhorn"; "Trompete" ]
     | "schlagzeug" -> hasAnyInstrument [ "Schlagzeug" ]
@@ -30,7 +30,7 @@ module Members =
 
   let getIndexed() =
     Generated.Members.items
-    |> List.map (fun m -> m.Member.OoebvId, m)
+    |> List.map (fun m -> m.OoebvId, m)
     |> Map.ofList
 
   let getGroups() =

@@ -49,21 +49,10 @@ let serializeMember (m: DataModels.Member) =
         yield "}"
     ]
 
-let serializeLocalMember (m: DataModels.LocalMember) =
-    [
-        yield "{"
-        yield "  Member ="
-        yield!
-            serializeMember m.Member
-            |> List.map (sprintf "    %s")
-        yield sprintf "  Image = %s" (Serialize.stringOption m.Image)
-        yield "}"
-    ]
-
 let serialize members =
     members
     |> Seq.map (
-        serializeLocalMember
+        serializeMember
         >> List.map (sprintf "    %s")
         >> String.concat Environment.NewLine
     )
@@ -83,16 +72,5 @@ let tryDownloadImage baseDir (m: DataModels.OoebvMember) =
         let fileName = sprintf "%d%s" m.Member.OoebvId (DownloadHelper.getExtension imageUri)
         let filePath = Path.Combine(baseDir, "members", fileName)
         DownloadHelper.tryDownload imageUri filePath
-        |> Async.map(
-            Choice.map(fun () ->
-            {
-                DataModels.LocalMember.Member = m.Member
-                DataModels.LocalMember.Image = Some fileName
-            })
-        )
     | None ->
-        {
-            DataModels.LocalMember.Member = m.Member
-            DataModels.LocalMember.Image = None
-        }
-        |> AsyncChoice.success
+        AsyncChoice.success ()
