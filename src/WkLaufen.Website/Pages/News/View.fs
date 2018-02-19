@@ -91,4 +91,4 @@ let details newsId =
     | None ->
       Fable.Import.Browser.console.error ("Can't find news with id " + newsId)
       []
-  |> (Layout.page "news-details" "news.jpg")
+  |> Layout.page "news-details" "news.jpg"

@@ -23,8 +23,8 @@ let view model dispatch =
     | Termine -> Termine.View.root
     | News -> News.View.root
     | NewsDetails newsId -> News.View.details newsId
-    | Musiker
-    | MusikerRegister _
+    | Musiker -> Musiker.View.root
+    | MusikerRegister groupId -> Musiker.View.detail groupId
     | BMF2017
     | WirUeberUns
     | Vision2020

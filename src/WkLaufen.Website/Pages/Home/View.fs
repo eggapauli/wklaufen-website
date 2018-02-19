@@ -9,17 +9,8 @@ open Generated
 let private menuItem page =
   let href = toHash page
   let render bgImagePath text =
-
-    li
-      [ ClassName "menu-item"; Style [ BackgroundImage (sprintf "url(%s)" bgImagePath) ] ]
-      [
-        a
-          [ ClassName "menu-item"; Href href ]
-          [
-            span [ ClassName "bg"; Style [ BackgroundImage (sprintf "url(%s)" bgImagePath) ] ] []      
-            span [ ClassName "title-bar" ] [ span [ ClassName "title" ] [ str text ] ]
-          ]
-      ]
+    App.Html.menuItem bgImagePath text href
+    
   match page with
   | Home -> None
   | Kontakte -> Some ((1, 1), render Images.kontakte_w150h100 "Kontakte")

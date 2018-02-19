@@ -129,7 +129,7 @@ let resizeImages dataDir sourceDir deployBaseDir deployDir =
     let images =
         [
             yield getImages "menu-items", { defaultResizeOptions with Width = Some 150; Height = Some 100 }, IncludeSizeInName
-            yield getImages "member-groups", { defaultResizeOptions with Width = Some 200; Height = Some 130 }, IncludeSizeInName
+            yield getImages "member-groups", { defaultResizeOptions with Width = Some 200; Height = Some 130 }, Indexed "memberGroups_w200h130"
             yield getImages "members", { defaultResizeOptions with Width = Some 200; Height = Some 270 }, Indexed "members_w200h270"
             yield
                 [ "600.jpg"; "31180.jpg" ]

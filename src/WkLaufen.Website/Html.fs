@@ -13,12 +13,24 @@ let splitFileName (fileName: string) =
 let image path (width: int option, height: int option) =
   [
     Src path |> Some
-    //width |> Option.map (fun v -> Fable.Helpers.React.Props.Width v)
-    //height |> Option.map (fun v -> Fable.Helpers.React.Props.Height v)
+    width |> Option.map (fun v -> Fable.Helpers.React.Props.Width v)
+    height |> Option.map (fun v -> Fable.Helpers.React.Props.Height v)
   ]
   |> List.choose id
   |> List.map (fun p -> p :> IHTMLProp)
   |> img
+
+let menuItem bgImagePath text href =
+  li
+    [ ClassName "menu-item"; Style [ BackgroundImage (sprintf "url(%s)" bgImagePath) ] ]
+    [
+      a
+        [ ClassName "menu-item"; Href href ]
+        [
+          span [ ClassName "bg"; Style [ BackgroundImage (sprintf "url(%s)" bgImagePath) ] ] []      
+          span [ ClassName "title-bar" ] [ span [ ClassName "title" ] [ str text ] ]
+        ]
+    ]
 
 let private random = Random()
 let private obfuscate (text: string) =
