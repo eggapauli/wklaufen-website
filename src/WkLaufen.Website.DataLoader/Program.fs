@@ -212,7 +212,7 @@ let resizeImages dataDir sourceDir deployBaseDir deployDir =
                 yield "  |> Map.ofList"
             ]
     )
-    |> List.append ["module Images"; ""]
+    |> List.append ["module Generated.Images"; ""]
     |> fun l -> File.WriteAllLines(dataDir @@ "Images.fs", l)
 
 let tryGetArg args name =
