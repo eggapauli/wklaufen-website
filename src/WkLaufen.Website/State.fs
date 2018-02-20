@@ -1,6 +1,5 @@
 module App.State
 
-open Elmish
 open Elmish.Browser.Navigation
 open Elmish.Browser.UrlParser
 open Fable.Import.Browser
@@ -16,7 +15,7 @@ let pageParser: Parser<Page->Page,Page> =
     map Termine (s "termine")
     map Musiker (s "musiker")
     map MusikerRegister (s "musiker" </> str)
-    map BMF2017 (s "bmf-2017")
+    map Unterstuetzen (s "unterstuetzen")
     map WirUeberUns (s "wir-ueber-uns")
     map Vision2020 (s "vision-2020")
     map Wertungen (s "wertungen")

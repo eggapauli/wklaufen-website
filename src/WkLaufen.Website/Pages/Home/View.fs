@@ -19,7 +19,7 @@ let private menuItem page =
   | Termine -> Some ((1, 3), render Images.termine_w150h100 "Termine")
   | Musiker -> Some ((1, 4), render Images.musiker_w150h100 "Musiker")
   | MusikerRegister _ -> None
-  | BMF2017 -> Some ((1, 5), render Images.bmf_2017_w150h100 "BMF 2017")
+  | Unterstuetzen -> Some ((1, 5), render Images.unterstuetzen_w150h100 "Unterstützen")
   | WirUeberUns -> Some ((2, 1), render Images.wir_ueber_uns_w150h100 "Wir über uns")
   | Vision2020 -> Some ((2, 2), render Images.vision_2020_w150h100 "Vision 2020")
   | Wertungen -> Some ((2, 3), render Images.wertungen_w150h100 "Wertungen")

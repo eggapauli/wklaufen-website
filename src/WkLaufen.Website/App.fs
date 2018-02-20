@@ -33,7 +33,7 @@ let view model dispatch =
     | NewsDetails newsId -> News.View.details newsId
     | Musiker -> Musiker.View.root
     | MusikerRegister groupId -> Musiker.View.detail groupId
-    | BMF2017 -> div [] [ str "Not implemented" ]
+    | Unterstuetzen -> Unterstuetzen.View.root
     | WirUeberUns -> WirUeberUns.View.root
     | Vision2020 -> Vision2020.View.root
     | Wertungen -> Wertungen.View.root

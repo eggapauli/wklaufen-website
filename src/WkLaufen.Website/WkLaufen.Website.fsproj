@@ -20,6 +20,7 @@
     <Compile Include="Pages/Termine/View.fs" />
     <Compile Include="Pages/News/View.fs" />
     <Compile Include="Pages/Musiker/View.fs" />
+    <Compile Include="Pages/Unterstuetzen/View.fs" />
     <Compile Include="Pages/WirUeberUns/View.fs" />
     <Compile Include="Pages/Vision2020/View.fs" />
     <Compile Include="Pages/Wertungen/View.fs" />

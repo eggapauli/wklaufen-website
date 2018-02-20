@@ -8,7 +8,7 @@ type Page =
   | Termine
   | Musiker
   | MusikerRegister of string
-  | BMF2017
+  | Unterstuetzen
   | WirUeberUns
   | Vision2020
   | Wertungen
@@ -24,7 +24,7 @@ let toHash = function
   | Termine -> "#termine"
   | Musiker -> "#musiker"
   | MusikerRegister registerId -> sprintf "#musiker/%s" registerId
-  | BMF2017 -> "#bmf-2017"
+  | Unterstuetzen -> "#unterstuetzen"
   | WirUeberUns -> "#wir-ueber-uns"
   | Vision2020 -> "#vision-2020"
   | Wertungen -> "#wertungen"
