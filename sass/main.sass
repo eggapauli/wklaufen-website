@@ -101,6 +101,21 @@ strong
               a.menu-item.loading .bg
                 animation: fadeoutin 2s infinite
 
+.impressum
+  position: absolute
+  display: block
+  left: 10px
+  bottom: 10px
+  box-shadow: white 0px 0px 10px 10px
+  background: white
+
+.back
+  position: absolute
+  display: block
+  left: -30px
+  top: -30px
+  cursor: pointer
+
 .slick-slider
   margin: 0
   padding-bottom: 60px
@@ -205,7 +220,7 @@ strong
 
 #news
   h1
-    margin-left: 10px
+    margin-left: 50px
 
   #news-frame
     font-size: 130%
@@ -382,7 +397,7 @@ strong
 
 #recorder-kids
   > h1
-    margin-left: 20px
+    margin-left: 50px
     color: #fff
 
   .flyer
@@ -391,3 +406,29 @@ strong
     right: 0
     width: 600px
     height: 100%
+
+#impressum
+  > h1
+    margin-left: 50px
+
+  .top-content
+    margin-left: 200px
+
+    > p
+      margin-bottom: 0
+
+  .bottom-content
+    position: absolute
+    bottom: 0
+
+    > div
+      padding: 0 20px
+
+$pages: home, contacts, news, news-details, activities, member-groups, members, about-us, vision-2020, contests, youths, recorder-kids, impressum
+@each $page in $pages
+  @keyframes page-load-#{$page}
+    from { opacity: 0 }
+    to { opacity: 1 }
+  .content-background-#{$page}
+    animation-name: page-load-#{$page}
+    animation-duration: 1s

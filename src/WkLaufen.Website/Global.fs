@@ -14,6 +14,7 @@ type Page =
   | Wertungen
   | Jugend
   | Floetenkids
+  | Impressum
 
 let toHash = function
   | Home -> "#home"
@@ -29,3 +30,4 @@ let toHash = function
   | Wertungen -> "#wertungen"
   | Jugend -> "#jugend"
   | Floetenkids -> "#floetenkids"
+  | Impressum -> "#impressum"

@@ -38,7 +38,7 @@ let detail groupId =
               [
                 Draggable false
                 Infinite false
-                AdaptiveHeight true
+                // AdaptiveHeight true
               ]
               (
                 members

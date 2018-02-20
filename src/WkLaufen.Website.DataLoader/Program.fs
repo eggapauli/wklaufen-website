@@ -253,5 +253,5 @@ let main argv =
         resizeImages dataDir imageDir deployDir "images"
         0
     | _ ->
-        eprintfn "Usage: dotnet run -- --root-dir <path> --data-dir <path> --image-dir <path> --deploy-dir <path> --ooebv-username <username> --ooebv-password <password> --facebook-access-token <access-token>"
+        eprintfn "Usage: dotnet run -- --ooebv-username <username> --ooebv-password <password> --facebook-access-token <access-token>"
         1

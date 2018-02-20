@@ -103,7 +103,7 @@ let root =
             [
               Draggable false
               Infinite false
-              AdaptiveHeight true
+              // AdaptiveHeight true
             ]
             (
               characteristicPages

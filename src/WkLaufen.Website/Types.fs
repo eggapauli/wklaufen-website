@@ -2,8 +2,9 @@ module App.Types
 
 open Global
 
-type Msg = class end
+type Msg =
+  | GoBack
 
 type Model = {
-    currentPage: Page
-  }
+  CurrentPage: Page
+}

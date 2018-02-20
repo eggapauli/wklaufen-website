@@ -22,18 +22,20 @@ let pageParser: Parser<Page->Page,Page> =
     map Wertungen (s "wertungen")
     map Jugend (s "jugend")
     map Floetenkids (s "floetenkids")
+    map Impressum (s "impressum")
   ]
 
 let urlUpdate (result: Option<Page>) model =
   match result with
   | None ->
     console.error("Error parsing url")
-    model,Navigation.modifyUrl (toHash model.currentPage)
+    model,Navigation.modifyUrl (toHash model.CurrentPage)
   | Some page ->
-      { model with currentPage = page }, []
+      { model with CurrentPage = page }, []
 
 let init result =
-  urlUpdate result { currentPage = Home }
+  urlUpdate result { CurrentPage = Home }
 
 let update msg model =
-  model, []
+  match msg with
+  | GoBack -> model, Navigation.jump -1

@@ -17,8 +17,16 @@ open Fable.Helpers.React
 open Fable.Helpers.React.Props
 
 let view model dispatch =
+  let backArrow = function
+    | Home -> []
+    | _ ->
+      [
+        a [ ClassName "back"; OnClick (fun _ev -> dispatch GoBack) ] [
+          span [ ClassName "far fa-arrow-alt-circle-left fa-5x"; Style [ Color "rgba(169,132,20,0.7)" ] ] []
+        ]
+      ]
   let pageHtml = function
-    | Page.Home -> Home.View.root
+    | Home -> Home.View.root
     | Kontakte -> Kontakte.View.root
     | Termine -> Termine.View.root
     | News -> News.View.root
@@ -31,8 +39,13 @@ let view model dispatch =
     | Wertungen -> Wertungen.View.root
     | Jugend -> Jugend.View.root
     | Floetenkids -> Floetenkids.View.root
+    | Impressum -> Impressum.View.root
 
-  pageHtml model.currentPage
+  div [] [
+    yield pageHtml model.CurrentPage
+    yield a [ ClassName "impressum"; toHash Impressum |> Href ] [ str "Impressum" ]
+    yield! backArrow model.CurrentPage
+  ]
 
 open Elmish.React
 open Elmish.Debug
