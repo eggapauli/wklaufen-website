@@ -25,27 +25,49 @@ let pageParser: Parser<Page->Page,Page> =
     map Impressum (s "impressum")
   ]
 
+let updateWindowTitle page dispatch =
+  let title =
+    match page with
+    | Home -> "Willkommen"
+    | Kontakte -> "Kontakte"
+    | Termine -> "Termine"
+    | News
+    | NewsDetails _ -> "News"
+    | Musiker
+    | MusikerRegister _ -> "Musiker"
+    | Unterstuetzen -> "Unterstützen"
+    | WirUeberUns -> "Wir über uns"
+    | Vision2020 -> "Vision 2020"
+    | Wertungen -> "Wertungen"
+    | Jugend -> "Jugend"
+    | Floetenkids -> "Flötenkids"
+    | Impressum -> "Impressum"
+    |> sprintf "%s - WK Laufen"
+  Fable.Import.Browser.document.title <- title
+
 let urlUpdate (result: Option<Page>) model =
   match result with
   | None ->
     console.error("Error parsing url")
     model, Navigation.modifyUrl (toHash model.CurrentPage)
   | Some page ->
-    { model with CurrentPage = page }, []
+    { model with CurrentPage = page }, [ updateWindowTitle page ]
 
 let init result =
   let model = { CurrentPage = Home }
-  match result with
-  | None ->
-    model, Navigation.modifyUrl (toHash model.CurrentPage)
-  | Some Home ->
-    model, []
-  | Some page ->
-    { model with CurrentPage = page },
-    Cmd.batch [
-      Navigation.modifyUrl (toHash Home)
-      Navigation.newUrl (toHash page)
-    ]
+  let (model', cmd) =
+    match result with
+    | None ->
+      model, Navigation.modifyUrl (toHash model.CurrentPage)
+    | Some Home ->
+      model, []
+    | Some page ->
+      { model with CurrentPage = page },
+      Cmd.batch [
+        Navigation.modifyUrl (toHash Home)
+        Navigation.newUrl (toHash page)
+      ]
+  model', Cmd.batch [ [ updateWindowTitle model'.CurrentPage ]; cmd ]
 
 let update msg model =
   match msg with
