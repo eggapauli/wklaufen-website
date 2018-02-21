@@ -5,6 +5,7 @@ open Elmish.Browser.UrlParser
 open Fable.Import.Browser
 open Global
 open Types
+open Elmish
 
 let pageParser: Parser<Page->Page,Page> =
   oneOf [
@@ -28,12 +29,23 @@ let urlUpdate (result: Option<Page>) model =
   match result with
   | None ->
     console.error("Error parsing url")
-    model,Navigation.modifyUrl (toHash model.CurrentPage)
+    model, Navigation.modifyUrl (toHash model.CurrentPage)
   | Some page ->
-      { model with CurrentPage = page }, []
+    { model with CurrentPage = page }, []
 
 let init result =
-  urlUpdate result { CurrentPage = Home }
+  let model = { CurrentPage = Home }
+  match result with
+  | None ->
+    model, Navigation.modifyUrl (toHash model.CurrentPage)
+  | Some Home ->
+    model, []
+  | Some page ->
+    { model with CurrentPage = page },
+    Cmd.batch [
+      Navigation.modifyUrl (toHash Home)
+      Navigation.newUrl (toHash page)
+    ]
 
 let update msg model =
   match msg with
