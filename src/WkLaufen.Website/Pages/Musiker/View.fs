@@ -27,58 +27,60 @@ let root =
 let detail groupId =
   App.Data.Members.getGroups()
   |> List.tryFind (fst >> fun g -> g.Id = groupId)
-  |> Option.map (fun (group, members) ->
-    Layout.page
-      "members"
-      Images.die_musikerinnen_musiker_der_wk_laufen_w1000h600
-      [
-        h1 [] [ str group.Name ]
-        div [Class "rich-text"] [
-          Fable.Import.Slick.slider
-              [
-                Draggable false
-                Infinite false
-                // AdaptiveHeight true
-              ]
-              (
-                members
-                |> List.map (fun m ->
-                    div [Class "member"] [
-                        yield h2 [] [ sprintf "%s %s" m.FirstName m.LastName |> str ]
+  |> function
+    | Some (group, members) ->
+      Layout.page
+        "members"
+        Images.die_musikerinnen_musiker_der_wk_laufen_w1000h600
+        [
+          h1 [] [ str group.Name ]
+          div [Class "rich-text"] [
+            Fable.Import.Slick.slider
+                [
+                  Draggable false
+                  Infinite false
+                  // AdaptiveHeight true
+                ]
+                (
+                  members
+                  |> List.map (fun m ->
+                      div [Class "member"] [
+                          yield h2 [] [ sprintf "%s %s" m.FirstName m.LastName |> str ]
 
-                        yield!
-                          Images.members_w200h270
-                          |> Map.tryFind (string m.OoebvId)
-                          |> function
-                          | Some photo -> [ div [Class "image"] [ App.Html.image photo (Some 200, Some 270)] ]
-                          | None -> []
-                        
-                        yield ul [] [
-                            yield!
-                              m.Instruments
-                              |> List.tryHead
-                              |> Option.map (fun instrument ->
-                                li [] [
-                                  sprintf "Instrument: %s" instrument |> str
-                                ]
-                              )
-                              |> Option.toList
-                            yield!
-                              match m.Roles with
-                              | [] -> []
-                              | [ head ] -> [ li [] [ sprintf "Funktion: %s" head |> str ] ]
-                              | x -> [ li [] [ x |> String.concat ", " |> sprintf "Funktion: %s" |> str ] ]
-                            yield!
-                              m.MemberSince
-                              |> Option.map (fun x -> li [] [ sprintf "Aktiv seit: %d" x.Year |> str ])
-                              |> Option.toList
-                            yield li [] [ sprintf "Wohnort: %s" m.City |> str ]
-                        ]
-                        yield div [Class "clear"] []
-                    ]
+                          yield!
+                            Images.members_w200h270
+                            |> Map.tryFind (string m.OoebvId)
+                            |> function
+                            | Some photo -> [ div [Class "image"] [ App.Html.image photo (Some 200, Some 270)] ]
+                            | None -> []
+                          
+                          yield ul [] [
+                              yield!
+                                m.Instruments
+                                |> List.tryHead
+                                |> Option.map (fun instrument ->
+                                  li [] [
+                                    sprintf "Instrument: %s" instrument |> str
+                                  ]
+                                )
+                                |> Option.toList
+                              yield!
+                                match m.Roles with
+                                | [] -> []
+                                | [ head ] -> [ li [] [ sprintf "Funktion: %s" head |> str ] ]
+                                | x -> [ li [] [ x |> String.concat ", " |> sprintf "Funktion: %s" |> str ] ]
+                              yield!
+                                m.MemberSince
+                                |> Option.map (fun x -> li [] [ sprintf "Aktiv seit: %d" x.Year |> str ])
+                                |> Option.toList
+                              yield li [] [ sprintf "Wohnort: %s" m.City |> str ]
+                          ]
+                          yield div [Class "clear"] []
+                      ]
+                  )
                 )
-              )
+          ]
         ]
-      ]
-  )
-  |> Option.defaultValue root
+    | None ->
+      Fable.Import.Browser.console.error ("Can't find member group with id " + groupId)
+      root

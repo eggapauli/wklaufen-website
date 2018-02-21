@@ -3,10 +3,7 @@ module App.View
 open Elmish
 open Elmish.Browser.Navigation
 open Elmish.Browser.UrlParser
-open Fable.Core
 open Fable.Core.JsInterop
-open Fable.Import
-open Fable.Import.Browser
 open Types
 open App.State
 open Global
@@ -25,7 +22,7 @@ let view model dispatch =
           span [ ClassName "far fa-arrow-alt-circle-left fa-5x"; Style [ Color "rgba(169,132,20,0.7)" ] ] []
         ]
       ]
-      
+
   let pageHtml = function
     | Home -> Home.View.root
     | Kontakte -> Kontakte.View.root

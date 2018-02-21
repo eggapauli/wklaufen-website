@@ -79,7 +79,7 @@ let details newsId =
               [
                 Draggable false
                 Infinite false
-                AdaptiveHeight true
+                // AdaptiveHeight true
               ]
               (
                 Images.news
@@ -93,7 +93,7 @@ let details newsId =
               )
           ]
       ]
+      |> Layout.page "news-details" Images.news_w1000h600
     | None ->
       Fable.Import.Browser.console.error ("Can't find news with id " + newsId)
-      []
-  |> Layout.page "news-details" Images.news_w1000h600
+      root
