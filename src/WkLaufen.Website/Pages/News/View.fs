@@ -44,9 +44,10 @@ let root =
                     )
                     @
                     [
-                      a [ Href (n.SourceUri.ToString()) ] [
-                        img [ Src "images/fb-logo-bw.png" ]
-                      ]
+                      a
+                        [ Href (n.SourceUri.ToString())
+                          Target "_blank" ]
+                        [ img [ Src "images/fb-logo-bw.png" ] ]
                     ]
                   )
                 ]
@@ -54,12 +55,16 @@ let root =
             )
         ]
       ]
-      a [ Id "facebook-news-hint"; Href "https://www.facebook.com/Werkskapelle-Laufen-Gmunden-Engelhof-890998107646493" ] [
-        str "Aktuelle Infos"
-        br []
-        str "auch auf "
-        img [ Src "images/fb-logo.png" ]
-      ]
+      a
+        [ Id "facebook-news-hint"
+          Href "https://www.facebook.com/Werkskapelle-Laufen-Gmunden-Engelhof-890998107646493"
+          Target "_blank"
+        ]
+        [ str "Aktuelle Infos"
+          br []
+          str "auch auf "
+          img [ Src "images/fb-logo.png" ]
+        ]
     ]
 
 let details newsId =
