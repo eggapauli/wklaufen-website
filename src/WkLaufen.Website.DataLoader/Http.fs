@@ -13,6 +13,7 @@ open System.Net.Http
 open System.Net.Http.Headers
 open System.Text
 open System.Web
+open System.Security.Authentication
 
 let getContentStringFromISO88591 (response: HttpResponseMessage) = async {
     let srcEncoding = Encoding.GetEncoding "ISO-8859-1"
@@ -92,7 +93,8 @@ let postEmpty (uri: Uri) = async {
 
 let postForm (uri: Uri) formParams = async {
     let urlEncode (x: string) =
-        HttpUtility.UrlEncode x
+        // HttpUtility.UrlEncode x
+        Uri.EscapeDataString x
 
     let content =
         formParams

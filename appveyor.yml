@@ -1,0 +1,63 @@
+environment:
+  ooebv-username: EGGER5
+  ooebv-password:
+    secure: fohNC7EhImjczRjtEvJx4Q==
+  facebook-access-token:
+    secure: QiExXEoPdqLV6cdkky+zbHv7ccQ5uvX7PUzfsmRCFN9xymfzs+3UEPIwKQ1P4bq2ohFx1f0K7Lci/qJmTpMpltXi9m2HF3PmRd1b5hC18ezF6E8P+VFLJdoO8CWB9O1GqiJD7DRQc4sou4EWr5KXdl1WjC9KtwWucVocYHYQWy1oc7Fe3J4e10c2L64G9EP1u3Xdl5ZpVHfshckv6JXwwYUMHrpmRnE/F0A1u6Lcqy8=
+  upload-url: ftp://s1.meinehp.at/web/a/
+  temp-url: ftp://s1.meinehp.at/tmp/upload/
+  upload-username: wk-laufenatftp
+  upload-password:
+    secure: w4rIlEoHl+x1gtgnZvCHzw==
+  mail-host: s1.meinehp.at
+  mail-port: 587
+  mail-username: web@wk-laufen.at
+  mail-password:
+    secure: Hx38EcvsQtvuXz09Mu4i5A==
+
+init:
+  - cmd: dotnet --version
+  - cmd: yarn -v
+
+install:
+  - cmd: dotnet restore
+  - cmd: yarn
+  - ps: .\load-data.ps1
+
+build_script:
+  - ps: .\build.ps1
+
+test: off
+
+after_build:
+  - cmd: 7z a app.zip %APPVEYOR_BUILD_FOLDER%\public\.
+  - ps: Push-AppveyorArtifact app.zip -DeploymentName app
+  - ps: Push-AppveyorArtifact src\publish.php -FileName publish.php -DeploymentName publish-script
+
+deploy:
+  - provider: FTP
+    protocol: ftp
+    host: s1.meinehp.at
+    username: wk-laufenatftp
+    password:
+        secure: w4rIlEoHl+x1gtgnZvCHzw==
+    folder: /tmp/deploy
+    artifact: app
+
+  - provider: FTP
+    protocol: ftp
+    host: s1.meinehp.at
+    username: wk-laufenatftp
+    password:
+        secure: w4rIlEoHl+x1gtgnZvCHzw==
+    folder: /web
+    artifact: publish-script
+
+after_deploy:
+  - ps: Invoke-WebRequest -Uri "http://wk-laufen.at/publish.php?package-name=app.zip" | Out-Null
+
+notifications:
+  - provider: Email
+    to:
+    - j.egger@posteo.at
+    on_build_success: false

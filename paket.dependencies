@@ -11,6 +11,6 @@ nuget Fable.Elmish.React
 nuget FSharp.Data
 nuget HtmlAgilityPack
 nuget SixLabors.ImageSharp
-nuget FSharp.Compiler.Tools storage: packages
+nuget FSharp.Compiler.Tools storage:packages
 
 clitool dotnet-fable
