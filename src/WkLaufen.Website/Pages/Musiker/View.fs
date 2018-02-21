@@ -68,7 +68,7 @@ let detail groupId =
                                 match m.Roles with
                                 | [] -> []
                                 | [ head ] -> [ li [] [ sprintf "Funktion: %s" head |> str ] ]
-                                | x -> [ li [] [ x |> String.concat ", " |> sprintf "Funktion: %s" |> str ] ]
+                                | x -> [ li [] [ x |> String.concat ", " |> sprintf "Funktionen: %s" |> str ] ]
                               yield!
                                 m.MemberSince
                                 |> Option.map (fun x -> li [] [ sprintf "Aktiv seit: %d" x.Year |> str ])
