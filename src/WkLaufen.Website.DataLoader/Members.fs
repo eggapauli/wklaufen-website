@@ -30,18 +30,13 @@ let serializeMember (m: DataModels.Member) =
                 yield sprintf "LastName = %s" (Serialize.string m.LastName)
                 yield sprintf "DateOfBirth = %s" (Serialize.dateOption m.DateOfBirth)
                 yield "Roles ="
-                yield "  ["
-                yield! m.Roles |> Seq.map (Serialize.string >> sprintf "    %s")
-                yield "  ]"
+                yield! Serialize.stringSeq m.Roles |> List.map (sprintf "  %s")
                 yield "Phones ="
-                yield "  ["
-                yield! m.Phones |> Seq.map (Serialize.string >> sprintf "    %s")
-                yield "  ]"
-                yield sprintf "Email = %s" (Serialize.stringOption m.Email)
+                yield! Serialize.stringSeq m.Phones |> List.map (sprintf "  %s")
+                yield "EmailAddresses ="
+                yield! Serialize.stringSeq m.EmailAddresses |> List.map (sprintf "  %s")
                 yield "Instruments ="
-                yield "  ["
-                yield! m.Instruments |> Seq.map (Serialize.string >> sprintf "    %s")
-                yield "  ]"
+                yield! Serialize.stringSeq m.Instruments |> List.map (sprintf "  %s")
                 yield sprintf "MemberSince = %s" (Serialize.dateOption m.MemberSince)
                 yield sprintf "City = %s" (Serialize.string m.City)
             ]

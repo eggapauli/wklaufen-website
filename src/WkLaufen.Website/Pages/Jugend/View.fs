@@ -26,11 +26,18 @@ let root =
                         App.Data.Members.getIndexed()
                         |> Map.find memberId
                     div [Class "contact"] [
-                        strong [] [ sprintf "%s %s" m.FirstName m.LastName |> str ]
-                        m.Roles |> String.concat ", " |> sprintf " (%s): " |> str
-                        span [] (m.Phones |> List.map App.Html.obfuscatePhone |> List.intersperse [ (str ", ") ] |> List.collect id)
-                        str " "
-                        span [] (App.Html.obfuscateEmail m.Email)
+                        yield strong [] [ sprintf "%s %s" m.FirstName m.LastName |> str ]
+                        yield m.Roles |> String.concat ", " |> sprintf " (%s): " |> str
+                        yield span [] (m.Phones |> List.map App.Html.obfuscate |> List.intersperse [ str ", " ] |> List.concat)
+                        yield str " "
+                        yield!
+                            match m.EmailAddresses |> List.tryHead with
+                            | Some email ->
+                                [
+                                    br []
+                                    span [] (App.Html.obfuscate email)
+                                ]
+                            | None -> []
                     ]
                 )
             )

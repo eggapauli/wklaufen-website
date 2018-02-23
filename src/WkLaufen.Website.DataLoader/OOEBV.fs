@@ -223,10 +223,20 @@ module Members =
                         x :: otherInstruments
                     | None -> []
 
-                let noneWhenNullOrWhitespace s =
-                    if String.IsNullOrWhiteSpace s
-                    then None
-                    else Some s
+                let listWithSeparators (separators: string seq) (text: string) =
+                    text.Split(Seq.toArray separators, StringSplitOptions.None)
+                    |> Seq.map (fun s -> s.Trim())
+                    |> Seq.filter (String.IsNullOrWhiteSpace >> not)
+                    |> Seq.toList
+
+                let getDomain (email: string) =
+                    match email.IndexOf("@") with
+                    | -1 -> email
+                    | x -> email.Substring(x + 1)
+
+                let sortEmailAddresses list =
+                    list
+                    |> List.sortBy (getDomain >> (fun d -> if d = "wk-laufen.at" then 0 else 1))
 
                 {
                     Member =
@@ -237,7 +247,10 @@ module Members =
                             DateOfBirth = getTextBoxValue "mit_geburtsdatum" |> Parse.date
                             City = getTextBoxValue "mit_ort" |> Parse.normalizeName
                             Phones = [ getTextBoxValue "mit_mobil"; getTextBoxValue "mit_telefon1"; getTextBoxValue "mit_telefon2" ] |> List.collect Parse.phones
-                            Email = getTextBoxValue "mit_email" |> noneWhenNullOrWhitespace
+                            EmailAddresses =
+                                getTextBoxValue "mit_email"
+                                |> listWithSeparators [";"; ","]
+                                |> sortEmailAddresses
                             MemberSince = memberSince
                             Roles = roles
                             Instruments = instruments

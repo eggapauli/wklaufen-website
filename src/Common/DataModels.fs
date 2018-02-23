@@ -9,7 +9,7 @@ type Member = {
     DateOfBirth: DateTime option
     City: string
     Phones: string list
-    Email: string option
+    EmailAddresses: string list
     MemberSince: DateTime option
     Roles: string list
     Instruments: string list

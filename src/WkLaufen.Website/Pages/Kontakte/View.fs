@@ -26,19 +26,25 @@ let root =
             App.Data.Members.getIndexed()
             |> Map.find memberId
           div [ ClassName "contact" ] [
-            div [ ClassName "image" ] (
+            yield div [ ClassName "image" ] (
               Images.contacts
               |> Map.tryFind (string m.OoebvId)
               |> Option.map (fun p ->  App.Html.image p (Some 110, Some 160))
               |> Option.toList
             )
-            span [] [ str (sprintf "%s %s" m.FirstName m.LastName) ]
-            br []
-            span [] [ str (m.Roles |> String.concat ", ") ]
-            br []
-            span [] (m.Phones |> String.concat ", " |> App.Html.obfuscatePhone)
-            br []
-            span [] (App.Html.obfuscateEmail m.Email)
+            yield span [] [ str (sprintf "%s %s" m.FirstName m.LastName) ]
+            yield br []
+            yield span [] [ str (m.Roles |> String.concat ", ") ]
+            yield br []
+            yield span [] (m.Phones |> List.map App.Html.obfuscate |> List.intersperse [ str ", " ] |> List.concat)
+            yield!
+              match m.EmailAddresses |> List.tryHead with
+              | Some email ->
+                [
+                  br []
+                  span [] (App.Html.obfuscate email)
+                ]
+              | None -> []
           ]
         )
       )

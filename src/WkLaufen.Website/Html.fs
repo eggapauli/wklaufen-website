@@ -33,7 +33,7 @@ let menuItem bgImagePath text href =
     ]
 
 let private random = Random()
-let private obfuscate (text: string) =
+let obfuscate (text: string) =
   text
   |> Seq.map (fun ch ->
     let chars = "abcdefghijklmnopqrstuvwxyz0123456789"
@@ -43,15 +43,6 @@ let private obfuscate (text: string) =
       span [] [ str (string ch) ]
     ]
   )
-  |> List.concat
-
-let obfuscatePhone phoneNumber =
-  phoneNumber |> string |> obfuscate
-
-let obfuscateEmail emailAddress =
-  emailAddress
-  |> Option.map obfuscate
-  |> Option.toList
   |> List.concat
 
 let (|Uri|_|) str =
