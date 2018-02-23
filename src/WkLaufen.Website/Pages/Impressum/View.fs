@@ -26,7 +26,14 @@ let root =
           yield str "ZVR: 651398436"
           yield br []
           yield sprintf "Obmann: %s %s, " obmann.FirstName obmann.LastName |> str
-          yield! App.Html.obfuscateEmail obmann.Email
+          yield!
+              match obmann.EmailAddresses |> List.tryHead with
+              | Some email ->
+                [
+                  br []
+                  span [] (App.Html.obfuscate email)
+                ]
+              | None -> []
         ]
       ]
       div [Class "bottom-content rich-text"] [
