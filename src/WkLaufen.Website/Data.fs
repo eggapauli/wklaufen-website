@@ -20,12 +20,12 @@ module Members =
     match groupId with
     | "vorstandsteam" -> m.Roles |> List.isEmpty |> not
     | "saxophon" -> hasAnyInstrument [ "Saxophon" ]
-    | "klarinette-und-fagott" -> hasAnyInstrument [ "B-Klarinette"; "Fagott" ]
+    | "klarinette-und-fagott" -> hasAnyInstrument [ "B-Klarinette"; "Bass-Klarinette"; "Fagott" ]
     | "marketenderinnen" -> m.Instruments |> List.isEmpty || hasAnyInstrument [ "Sonstige" ]
     | "tiefes-blech" -> hasAnyInstrument [ "Tenorhorn"; "Tuba"; "Posaune"; "Horn" ]
     | "hohes-blech" -> hasAnyInstrument [ "Fl\u00fcgelhorn"; "Trompete" ]
     | "schlagzeug" -> hasAnyInstrument [ "Schlagzeug" ]
-    | "querfloete" -> hasAnyInstrument [ "Querfl\u00F6te" ]
+    | "querfloete-und-oboe" -> hasAnyInstrument [ "Querfl\u00F6te"; "Oboe" ]
     | _ -> false
 
   let getIndexed() =
@@ -36,8 +36,8 @@ module Members =
   let getGroups() =
     let groups = [
       {
-        Id = "querfloete"
-        Name = "Querflöte"
+        Id = "querfloete-und-oboe"
+        Name = "Querflöte & Oboe"
       }
       {
         Id = "klarinette-und-fagott"

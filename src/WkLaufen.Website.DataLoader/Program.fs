@@ -4,6 +4,7 @@ open System
 open System.IO
 open SixLabors.ImageSharp
 open DataModels
+open Async
 
 let (@@) a b = System.IO.Path.Combine(a, b)
 
@@ -13,22 +14,24 @@ let equalsIgnoreCase (s1: string) s2 =
 let downloadMembers credentials dataDir imageBaseDir =
     Directory.CreateDirectory dataDir |> ignore
 
-    Members.download credentials
-    |> Async.bind (
-        Choice.bindAsync (
-            List.map (fun m ->
-                Members.tryDownloadImage imageBaseDir m
-                |> AsyncChoice.map (fun () -> m.Member)
+    let result =
+        Members.download credentials
+        |> Async.bind (
+            Choice.bindAsync (
+                List.map (fun m ->
+                    Members.tryDownloadImage imageBaseDir m
+                    |> AsyncChoice.map (fun () -> m.Member)
+                )
+                >> Async.ofList
+                >> Async.map Choice.ofList
             )
-            >> Async.ofList
-            >> Async.map Choice.ofList
         )
-    )
-    |> Async.RunSynchronously
-    |> Choice.map Members.serialize
-    |> Choice.map (fun s -> File.WriteAllText(dataDir @@ "Members.fs", s))
-    |> function
-    | Choice1Of2 () -> printfn "Successfully downloaded members."
+        |> Async.RunSynchronously
+
+    match result with
+    | Choice1Of2 members ->
+        File.WriteAllText(dataDir @@ "Members.fs", Members.serialize members)
+        printfn "Successfully downloaded members."
     | Choice2Of2 x -> failwithf "Error while downloading members. %s" x
 
 let downloadContests credentials dataDir =
