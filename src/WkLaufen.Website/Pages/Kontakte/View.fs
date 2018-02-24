@@ -35,16 +35,14 @@ let root =
             yield span [] [ str (sprintf "%s %s" m.FirstName m.LastName) ]
             yield br []
             yield span [] [ str (m.Roles |> String.concat ", ") ]
-            yield br []
-            yield span [] (m.Phones |> List.map App.Html.obfuscate |> List.intersperse [ str ", " ] |> List.concat)
             yield!
-              match m.EmailAddresses |> List.tryHead with
-              | Some email ->
-                [
-                  br []
-                  span [] (App.Html.obfuscate email)
-                ]
-              | None -> []
+              match App.Html.phone m with
+              | Some x -> [ br []; x ]
+              | None -> [ ]
+            yield!
+              App.Html.emailAddress m
+              |> Option.toList
+              |> List.append [ br [] ]
           ]
         )
       )

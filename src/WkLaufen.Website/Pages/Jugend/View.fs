@@ -27,17 +27,23 @@ let root =
                         |> Map.find memberId
                     div [Class "contact"] [
                         yield strong [] [ sprintf "%s %s" m.FirstName m.LastName |> str ]
-                        yield m.Roles |> String.concat ", " |> sprintf " (%s): " |> str
-                        yield span [] (m.Phones |> List.map App.Html.obfuscate |> List.intersperse [ str ", " ] |> List.concat)
-                        yield str " "
+                        yield m.Roles |> String.concat ", " |> sprintf " (%s)" |> str
                         yield!
-                            match m.EmailAddresses |> List.tryHead with
-                            | Some email ->
+                            match App.Html.phone m, App.Html.emailAddress m with
+                            | Some phone, Some email ->
                                 [
-                                    br []
-                                    span [] (App.Html.obfuscate email)
+                                    str ": "
+                                    phone
+                                    str ", "
+                                    email
                                 ]
-                            | None -> []
+                            | None, Some x
+                            | Some x, None ->
+                                [
+                                    str ": "
+                                    x
+                                ]
+                            | None, None -> []
                     ]
                 )
             )

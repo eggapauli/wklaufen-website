@@ -45,6 +45,16 @@ let obfuscate (text: string) =
   )
   |> List.concat
 
+let phone (m: DataModels.Member) =
+  match m.Phones |> List.tryHead with
+  | Some phone -> span [] (obfuscate phone) |> Some
+  | None -> None
+
+let emailAddress (m: DataModels.Member) =
+  match m.EmailAddresses |> List.tryHead with
+  | Some email -> span [] (obfuscate email) |> Some
+  | None -> None
+
 let (|Uri|_|) str =
   if Regex.IsMatch(str, "^https?://")
   then Some str
