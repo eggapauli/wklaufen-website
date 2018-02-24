@@ -27,8 +27,8 @@ let view model dispatch =
     | Home -> Home.View.root
     | Kontakte -> Kontakte.View.root
     | Termine -> Termine.View.root
-    | News -> News.View.root
-    | NewsDetails newsId -> News.View.details newsId
+    | News -> News.View.root model.NewsModel (NewsMsg >> dispatch)
+    | NewsDetails newsId -> News.View.details model.NewsModel (NewsMsg >> dispatch) newsId
     | Musiker -> Musiker.View.root
     | MusikerRegister groupId -> Musiker.View.detail groupId
     | Unterstuetzen -> Unterstuetzen.View.root
@@ -54,6 +54,7 @@ Program.mkProgram init update view
 |> Program.toNavigable (parseHash pageParser) urlUpdate
 |> Program.withReact "elmish-app"
 #if DEBUG
+|> Program.withConsoleTrace
 |> Program.withDebugger
 |> Program.withHMR
 #endif

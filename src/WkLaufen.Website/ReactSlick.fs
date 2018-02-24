@@ -10,6 +10,8 @@ type SliderProps =
     | Draggable of bool
     | Infinite of bool
     | AdaptiveHeight of bool
+    | InitialSlide of int
+    | AfterChange of (int -> unit)
     interface IHTMLProp
 
 let slickStyles = importAll<obj> "slick-carousel/slick/slick.scss"

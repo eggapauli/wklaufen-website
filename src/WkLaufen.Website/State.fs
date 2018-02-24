@@ -54,7 +54,11 @@ let urlUpdate (result: Option<Page>) model =
     { model with CurrentPage = page }, [ updateWindowTitle page ]
 
 let init result =
-  let model = { CurrentPage = Home }
+  let model = {
+    NewsModel = News.Types.init
+    CurrentPage = Home
+  }
+
   let (model', cmd) =
     match result with
     | None ->
@@ -71,4 +75,7 @@ let init result =
 
 let update msg model =
   match msg with
+  | GoBack when model.CurrentPage = News ->
+    { model with NewsModel = News.Types.init }, Navigation.jump -1
   | GoBack -> model, Navigation.jump -1
+  | NewsMsg msg -> { model with NewsModel = News.Types.update msg model.NewsModel }, []

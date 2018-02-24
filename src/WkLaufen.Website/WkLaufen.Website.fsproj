@@ -18,6 +18,7 @@
     <Compile Include="Pages/Home/View.fs" />
     <Compile Include="Pages/Kontakte/View.fs" />
     <Compile Include="Pages/Termine/View.fs" />
+    <Compile Include="Pages/News/Types.fs" />
     <Compile Include="Pages/News/View.fs" />
     <Compile Include="Pages/Musiker/View.fs" />
     <Compile Include="Pages/Unterstuetzen/View.fs" />

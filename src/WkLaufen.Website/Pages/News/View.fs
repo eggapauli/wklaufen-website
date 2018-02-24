@@ -5,8 +5,9 @@ open Fable.Helpers.React.Props
 open Fable.Import.Slick
 open Generated
 open Global
+open News.Types
 
-let root =
+let root model dispatch =
   Layout.page
     "news"
     Images.news_w1000h600
@@ -19,6 +20,8 @@ let root =
               Draggable false
               Infinite false
               AdaptiveHeight true
+              InitialSlide model.SlideNumber
+              AfterChange (SlideTo >> dispatch)
             ]
             (
               App.Data.News.items
@@ -67,7 +70,7 @@ let root =
         ]
     ]
 
-let details newsId =
+let details model dispatch newsId =
   App.Data.News.items
   |> List.tryFind (fun n -> n.Id = newsId)
   |> function
@@ -96,4 +99,4 @@ let details newsId =
       |> Layout.page "news-details" Images.news_w1000h600
     | None ->
       Fable.Import.Browser.console.error ("Can't find news with id " + newsId)
-      root
+      root model dispatch
