@@ -17,6 +17,7 @@ let root =
         div [Class "contacts-container"] [
             div [Class "rich-text contacts"] (
                 [
+                    39627
                     600
                     31145
                     49155
