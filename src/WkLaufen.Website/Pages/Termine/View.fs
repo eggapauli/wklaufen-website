@@ -13,93 +13,66 @@ type Activity = {
   BeginTime: DateTime
   EndTime: DateTime option
   Location: string
+  CssClass: string option
 }
 
 let data =
   [
     {
-        Title = "Konzertwertung"
-        BeginTime = DateTime(2017, 11, 04, 00, 00, 00)
-        EndTime = None
-        Location = "Kitzmantelfabrik Vorchdorf"
-    }
-    {
-        Title = "Weihnachtsfeier"
-        BeginTime = DateTime(2017, 12, 9, 19, 30, 00)
-        EndTime = None
-        Location = "Engelhof"
-    }
-    {
-        Title = "Adventkonzert"
-        BeginTime = DateTime(2017, 12, 17, 18, 00, 00)
-        EndTime = None
-        Location = "Kapuzinerkirche"
-    }
-    {
-        Title = "Neujahrsblasen"
-        BeginTime = DateTime(2017, 12, 29, 00, 00, 00)
-        EndTime = DateTime(2017, 12, 30, 00, 00, 00) |> Some
-        Location = "Gmunden"
-    }
-    {
-        Title = "Silvester"
-        BeginTime = DateTime(2017, 12, 31, 00, 00, 00)
-        EndTime = None
-        Location = "Rathausplatz"
-    }
-    // {
-    //     Title = "BTV Spielerei"
-    //     BeginTime = DateTime(2018, 1, 29, 00, 00, 00)
-    //     EndTime = None
-    //     Location = "SEP"
-    // }
-    {
         Title = "Jahreskonzert"
         BeginTime = DateTime(2018, 3, 3, 00, 00, 00)
         EndTime = None
         Location = "Toscana Gmunden"
+        CssClass = Some "highlight"
     }
     {
         Title = "Liebstattsonntag"
         BeginTime = DateTime(2018, 3, 11, 00, 00, 00)
         EndTime = None
         Location = "Gmunden"
+        CssClass = None
     }
     {
         Title = "Palmsonntag"
         BeginTime = DateTime(2018, 3, 25, 00, 00, 00)
         EndTime = None
         Location = "Gmunden"
+        CssClass = None
     }
     {
         Title = "Maibaum aufstellen"
         BeginTime = DateTime(2018, 4, 30, 00, 00, 00)
         EndTime = None
         Location = "Rathausplatz"
+        CssClass = None
     }
     {
         Title = "Weckruf"
         BeginTime = DateTime(2018, 5, 1, 00, 00, 00)
         EndTime = None
         Location = "Gmunden"
+        CssClass = None
     }
     {
         Title = "Fronleichnam"
         BeginTime = DateTime(2018, 5, 31, 00, 00, 00)
         EndTime = None
         Location = "Stadtpfarrkirche"
+        CssClass = None
     }
     {
         Title = "BMF MV Roitham am Traunfall"
         BeginTime = DateTime(2018, 6, 9, 00, 00, 00)
         EndTime = None
         Location = "Roitham"
+        CssClass = None
     }
     {
         Title = "BMF MV Hofkirchen an der Trattnach"
         BeginTime = DateTime(2018, 6, 30, 00, 00, 00)
         EndTime = None
         Location = "Hofkirchen"
+        CssClass = None
     }
   ]
 
@@ -134,7 +107,11 @@ let root =
                 let entryNodes =
                   entries
                   |> List.map (fun entry ->
-                    tr [] [
+                    let rowAttributes =
+                      match entry.CssClass with
+                      | Some v -> [ Class v :> IHTMLProp ]
+                      | None -> []
+                    tr rowAttributes [
                       td [] [ str (formatTime entry.BeginTime entry.EndTime) ]
                       td [] [ str entry.Title ]
                       td [] [ str entry.Location ]
