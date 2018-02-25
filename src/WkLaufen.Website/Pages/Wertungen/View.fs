@@ -21,6 +21,7 @@ let root =
           Contests.items
           |> List.sortByDescending (fun m -> m.Year)
           |> List.groupBy (fun m -> m.Type)
+          |> List.sortBy fst
           |> List.map (fun (key, list) ->
               div [Class "contest"] [
                   h2 [] [ ContestType.toPluralString key |> str ]

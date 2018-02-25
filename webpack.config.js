@@ -10,9 +10,7 @@ var babelOptions = fableUtils.resolveBabelOptions({
     presets: [["es2015", { "modules": false }]],
     plugins: [["transform-runtime", {
         "helpers": true,
-        // We don't need the polyfills as we're already calling
-        // cdn.polyfill.io/v2/polyfill.js in index.html
-        "polyfill": false,
+        "polyfill": true,
         "regenerator": false
     }]]
 });
