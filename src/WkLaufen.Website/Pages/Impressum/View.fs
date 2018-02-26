@@ -25,12 +25,12 @@ let root =
           yield br []
           yield str "ZVR: 651398436"
           yield br []
-          yield sprintf "Obmann: %s %s, " obmann.FirstName obmann.LastName |> str
+          yield sprintf "Obmann: %s %s" obmann.FirstName obmann.LastName |> str
           yield!
               match obmann.EmailAddresses |> List.tryHead with
               | Some email ->
                 [
-                  br []
+                  str ", "
                   span [] (App.Html.obfuscate email)
                 ]
               | None -> []
