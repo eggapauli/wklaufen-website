@@ -70,3 +70,10 @@ let htmlify (text: string) =
     | text -> str text
   )
   |> Seq.toList
+
+let pdfNotSupportedWarning =
+  div [ Class "rich-text not-supported-warning" ]
+    [
+        h2 [] [ str "PDF kann nicht angezeigt werden" ]
+        div [] [ str "Versuchen Sie es mit einem anderen Browser od. Endgerät." ]
+    ]

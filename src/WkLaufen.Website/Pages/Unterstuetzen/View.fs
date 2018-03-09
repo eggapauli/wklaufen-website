@@ -11,5 +11,8 @@ let root =
     Images.unterstuetzen_w1000h600
     [
         h1 [] [ str "Unterstützendes Mitglied werden" ]
-        object [Class "flyer"; !!("data", "binary/FormularUnterstuetzendesMitglied.pdf"); Type "application/pdf"] []
+        object [Class "flyer"; !!("data", "binary/FormularUnterstuetzendesMitglied.pdf"); Type "application/pdf"]
+            [
+                App.Html.pdfNotSupportedWarning
+            ]
     ]
