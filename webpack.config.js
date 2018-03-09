@@ -32,6 +32,7 @@ module.exports = {
     },
     devServer: {
         contentBase: resolve('./public'),
+        host: "0.0.0.0",
         port: 8080,
         hot: true,
         inline: true
