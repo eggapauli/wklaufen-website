@@ -20,21 +20,21 @@ let data =
   [
     {
         Title = "Jahreskonzert"
-        BeginTime = DateTime(2018, 3, 3, 00, 00, 00)
+        BeginTime = DateTime(2018, 3, 3, 19, 43, 00)
         EndTime = None
         Location = "Toscana Gmunden"
         CssClass = Some "highlight"
     }
     {
         Title = "Liebstattsonntag"
-        BeginTime = DateTime(2018, 3, 11, 00, 00, 00)
+        BeginTime = DateTime(2018, 3, 11, 10, 00, 00)
         EndTime = None
         Location = "Gmunden"
         CssClass = None
     }
     {
         Title = "Palmsonntag"
-        BeginTime = DateTime(2018, 3, 25, 00, 00, 00)
+        BeginTime = DateTime(2018, 3, 25, 09, 00, 00)
         EndTime = None
         Location = "Gmunden"
         CssClass = None
@@ -55,7 +55,7 @@ let data =
     }
     {
         Title = "Fronleichnam"
-        BeginTime = DateTime(2018, 5, 31, 00, 00, 00)
+        BeginTime = DateTime(2018, 5, 31, 08, 00, 00)
         EndTime = None
         Location = "Stadtpfarrkirche"
         CssClass = None
@@ -66,6 +66,13 @@ let data =
         EndTime = None
         Location = "Roitham"
         CssClass = None
+    }
+    {
+        Title = "Schlosskonzert"
+        BeginTime = DateTime(2018, 6, 29, 00, 00, 00)
+        EndTime = None
+        Location = "Schloss Ort"
+        CssClass = Some "highlight"
     }
     {
         Title = "BMF MV Hofkirchen an der Trattnach"
