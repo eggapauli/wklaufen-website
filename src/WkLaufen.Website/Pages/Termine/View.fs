@@ -27,7 +27,7 @@ let data =
     }
     {
         Title = "Liebstattsonntag"
-        BeginTime = DateTime(2018, 3, 11, 10, 00, 00)
+        BeginTime = DateTime(2018, 3, 11, 10, 30, 00)
         EndTime = None
         Location = "Gmunden"
         CssClass = None
