@@ -11,8 +11,5 @@ let root =
     Images.blockfloetenkids_w1000h600
     [
         h1 [] [ str "Blockflötenkids" ]
-        object [Class "flyer"; !!("data", "binary/Blockfloetenflyer.pdf"); Type "application/pdf"]
-            [
-                App.Html.pdfNotSupportedWarning
-            ]
+        div [ Class "flyer" ] [ App.Html.pdfDoc "binary/Blockfloetenflyer.pdf" ]
     ]

@@ -1,5 +1,6 @@
 module App.Html
 
+open Fable.Core.JsInterop
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open System
@@ -71,9 +72,16 @@ let htmlify (text: string) =
   )
   |> Seq.toList
 
-let pdfNotSupportedWarning =
-  div [ Class "rich-text not-supported-warning" ]
+let pdfDoc url =
+  object [ Class "flyer"; !!("data", url); Fable.Helpers.React.Props.Type "application/pdf" ]
     [
-        h2 [] [ str "PDF kann nicht angezeigt werden" ]
-        div [] [ str "Versuchen Sie es mit einem anderen Browser od. Endgerät." ]
+      div [ Class "rich-text not-supported-warning" ]
+        [
+            h2 [] [ str "PDF kann nicht angezeigt werden" ]
+            div [] [
+              str "Klicken Sie "
+              a [ Href url ] [ str "hier" ]
+              str " um die Datei direkt herunterzuladen oder versuchen Sie es mit einem anderen Browser od. Endgerät."  
+            ]
+        ]
     ]
