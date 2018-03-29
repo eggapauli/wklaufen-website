@@ -19,20 +19,6 @@ type Activity = {
 let data =
   [
     {
-        Title = "Jahreskonzert"
-        BeginTime = DateTime(2018, 3, 3, 19, 43, 00)
-        EndTime = None
-        Location = "Toscana Gmunden"
-        CssClass = Some "highlight"
-    }
-    {
-        Title = "Liebstattsonntag"
-        BeginTime = DateTime(2018, 3, 11, 10, 30, 00)
-        EndTime = None
-        Location = "Gmunden"
-        CssClass = None
-    }
-    {
         Title = "Palmsonntag"
         BeginTime = DateTime(2018, 3, 25, 09, 00, 00)
         EndTime = None
@@ -40,10 +26,17 @@ let data =
         CssClass = None
     }
     {
-        Title = "Maibaum aufstellen"
-        BeginTime = DateTime(2018, 4, 30, 00, 00, 00)
+        Title = "Festzug 110 Jahre Gamundia"
+        BeginTime = DateTime(2018, 4, 21, 18, 00, 00)
         EndTime = None
-        Location = "Rathausplatz"
+        Location = "Stadtpfarrkirche"
+        CssClass = None
+    }
+    {
+        Title = "Maibaum aufstellen"
+        BeginTime = DateTime(2018, 4, 30, 16, 30, 00)
+        EndTime = None
+        Location = "Schloss Cumberland / Rathausplatz"
         CssClass = None
     }
     {
@@ -51,6 +44,13 @@ let data =
         BeginTime = DateTime(2018, 5, 1, 00, 00, 00)
         EndTime = None
         Location = "Gmunden"
+        CssClass = None
+    }
+    {
+        Title = "Erstkommunion"
+        BeginTime = DateTime(2018, 5, 27, 09, 00, 00)
+        EndTime = None
+        Location = "Stadtpfarrkirche"
         CssClass = None
     }
     {
@@ -62,24 +62,52 @@ let data =
     }
     {
         Title = "BMF MV Roitham am Traunfall"
-        BeginTime = DateTime(2018, 6, 9, 00, 00, 00)
+        BeginTime = DateTime(2018, 6, 9, 16, 00, 00)
         EndTime = None
         Location = "Roitham"
         CssClass = None
     }
     {
         Title = "Schlosskonzert"
-        BeginTime = DateTime(2018, 6, 29, 00, 00, 00)
+        BeginTime = DateTime(2018, 6, 20, 19, 30, 00)
         EndTime = None
         Location = "Schloss Ort"
         CssClass = Some "highlight"
     }
     {
         Title = "BMF MV Hofkirchen an der Trattnach"
-        BeginTime = DateTime(2018, 6, 30, 00, 00, 00)
+        BeginTime = DateTime(2018, 6, 30, 14, 00, 00)
         EndTime = None
         Location = "Hofkirchen"
         CssClass = None
+    }
+    {
+        Title = "Festzug zum Rathausplatz"
+        BeginTime = DateTime(2018, 8, 15, 17, 30, 00)
+        EndTime = None
+        Location = "Yachtclub Gmunden"
+        CssClass = None
+    }
+    {
+        Title = "Töpfermarkt"
+        BeginTime = DateTime(2018, 8, 24, 17, 00, 00)
+        EndTime = None
+        Location = "Stadtplatz"
+        CssClass = None
+    }
+    {
+        Title = "Konzertwertung"
+        BeginTime = DateTime(2018, 11, 03, 00, 00, 00)
+        EndTime = None
+        Location = ""
+        CssClass = Some "highlight"
+    }
+    {
+        Title = "Adventkonzert"
+        BeginTime = DateTime(2018, 12, 16, 18, 00, 00)
+        EndTime = None
+        Location = "Kapuzinerkloster"
+        CssClass = Some "highlight"
     }
   ]
 
