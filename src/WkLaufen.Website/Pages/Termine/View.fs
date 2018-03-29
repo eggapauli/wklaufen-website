@@ -96,6 +96,13 @@ let data =
         CssClass = None
     }
     {
+        Title = "Tag der Tracht"
+        BeginTime = DateTime(2018, 9, 09, 10, 00, 00)
+        EndTime = None
+        Location = ""
+        CssClass = None
+    }
+    {
         Title = "Konzertwertung"
         BeginTime = DateTime(2018, 11, 03, 00, 00, 00)
         EndTime = None
