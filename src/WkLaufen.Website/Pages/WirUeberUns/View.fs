@@ -4,7 +4,7 @@ open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fable.Import.React
 open Fable.Import.Slick
-open Generated
+open global.Data
 
 type CharacteristicPage = {
   Title: string

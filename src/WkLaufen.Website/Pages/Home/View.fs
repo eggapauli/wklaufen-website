@@ -4,13 +4,13 @@ open Microsoft.FSharp.Reflection
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Global
-open Generated
+open global.Data
 
 let private menuItem page =
   let href = toHash page
   let render bgImagePath text =
     App.Html.menuItem bgImagePath text href
-    
+
   match page with
   | Home -> None
   | Kontakte -> Some ((1, 1), render Images.kontakte_w150h100 "Kontakte")
@@ -40,7 +40,7 @@ let root =
     |> fun (a, b) ->
       a |> List.sortBy (fst >> snd) |> List.map snd
       , b |> List.sortBy (fst >> snd) |> List.map snd
-  
+
   Layout.page
     "home"
     Images.home_w1000h600

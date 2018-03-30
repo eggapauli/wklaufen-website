@@ -31,7 +31,7 @@ let serialize contests =
         >> String.concat Environment.NewLine
     )
     |> String.concat Environment.NewLine
-    |> (sprintf """module Generated.Contests
+    |> (sprintf """module Data.Contests
 
 open DataModels
 

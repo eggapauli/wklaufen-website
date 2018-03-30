@@ -52,7 +52,7 @@ let serialize members =
         >> String.concat Environment.NewLine
     )
     |> String.concat Environment.NewLine
-    |> (sprintf """module Generated.Members
+    |> (sprintf """module Data.Members
 
 open DataModels
 

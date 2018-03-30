@@ -1,7 +1,6 @@
 module App.Data
 
-open FSharp.Data
-open Generated
+open global.Data
 
 module Members =
   type MemberGroup = {
@@ -29,7 +28,7 @@ module Members =
     | _ -> false
 
   let getIndexed() =
-    Generated.Members.items
+    Data.Members.items
     |> List.map (fun m -> m.OoebvId, m)
     |> Map.ofList
 
@@ -71,7 +70,7 @@ module Members =
     groups
     |> List.map (fun g ->
       let groupMembers =
-        Generated.Members.items
+        Data.Members.items
         |> List.filter (isMember g.Id)
       g, groupMembers
     )
@@ -83,4 +82,4 @@ module News =
     Timestamp: DateTime
   }
 
-  let items = Generated.News.items
+  let items = Data.News.items

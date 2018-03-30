@@ -2,7 +2,7 @@ module Vision2020.View
 
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
-open Generated
+open global.Data
 
 let root =
   Layout.page

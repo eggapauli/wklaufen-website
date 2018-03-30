@@ -30,7 +30,7 @@ let downloadMembers credentials dataDir imageBaseDir =
 
     match result with
     | Choice1Of2 members ->
-        File.WriteAllText(dataDir @@ "Members.fs", Members.serialize members)
+        File.WriteAllText(dataDir @@ "Members.generated.fs", Members.serialize members)
         printfn "Successfully downloaded members."
     | Choice2Of2 x -> failwithf "Error while downloading members. %s" x
 
@@ -38,7 +38,7 @@ let downloadContests credentials dataDir =
     Contests.download credentials
     |> Async.RunSynchronously
     |> Choice.map Contests.serialize
-    |> Choice.map (fun s -> File.WriteAllText(dataDir @@ "Contests.fs", s))
+    |> Choice.map (fun s -> File.WriteAllText(dataDir @@ "Contests.generated.fs", s))
     |> function
     | Choice1Of2 () -> printfn "Successfully downloaded contests."
     | Choice2Of2 x -> failwithf "Error while downloading contests. %s" x
@@ -48,7 +48,7 @@ let downloadNews accessToken dataDir imageBaseDir =
     |> Async.bind (Choice.bindAsync ((List.map (News.downloadImages imageBaseDir)) >> Async.ofList >> Async.map Choice.ofList))
     |> Async.RunSynchronously
     |> Choice.map News.serialize
-    |> Choice.map (fun s -> File.WriteAllText(dataDir @@ "News.fs", s))
+    |> Choice.map (fun s -> File.WriteAllText(dataDir @@ "News.generated.fs", s))
     |> function
     | Choice1Of2 () -> printfn "Successfully downloaded news."
     | Choice2Of2 x -> failwithf "Error while downloading news. %s" x
@@ -131,7 +131,7 @@ let resizeImages dataDir sourceDir deployBaseDir deployDir =
     let fileHasExtension extensions file =
         let fileExt = Path.GetExtension file
         extensions
-        |> Seq.exists (fun ext -> equalsIgnoreCase ext fileExt) 
+        |> Seq.exists (fun ext -> equalsIgnoreCase ext fileExt)
 
     let getImages dir =
         Directory.EnumerateFiles(sourceDir @@ dir)
@@ -229,8 +229,8 @@ let resizeImages dataDir sourceDir deployBaseDir deployDir =
                 yield "  |> Map.ofList"
             ]
     )
-    |> List.append ["module Generated.Images"; ""]
-    |> fun l -> File.WriteAllLines(dataDir @@ "Images.fs", l)
+    |> List.append ["module Data.Images"; ""]
+    |> fun l -> File.WriteAllLines(dataDir @@ "Images.generated.fs", l)
 
 let tryGetArg args name =
     args
@@ -246,7 +246,7 @@ let main argv =
         tryGetArg argv "facebook-access-token" with
     | Some ooebvUsername, Some ooebvPassword, Some facebookAccessToken ->
         let rootDir = Path.GetFullPath @"..\.."
-        let dataDir = rootDir @@ "src" @@ "WkLaufen.Website" @@ "generated"
+        let dataDir = rootDir @@ "src" @@ "WkLaufen.Website" @@ "data"
         let imageDir = rootDir @@ "assets" @@ "images"
         let deployDir = rootDir @@ "public"
 

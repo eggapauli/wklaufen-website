@@ -3,7 +3,7 @@ module Musiker.View
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fable.Import.Slick
-open Generated
+open global.Data
 open Global
 
 let root =
@@ -53,7 +53,7 @@ let detail groupId =
                             |> function
                             | Some photo -> [ div [Class "image"] [ App.Html.image photo (Some 200, Some 270)] ]
                             | None -> []
-                          
+
                           yield ul [] [
                               yield!
                                 m.Instruments

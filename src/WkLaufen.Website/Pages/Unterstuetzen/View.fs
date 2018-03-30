@@ -1,9 +1,8 @@
 module Unterstuetzen.View
 
-open Fable.Core.JsInterop
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
-open Generated
+open global.Data
 
 let root =
   Layout.page

@@ -3,7 +3,7 @@ module News.View
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fable.Import.Slick
-open Generated
+open global.Data
 open Global
 open News.Types
 

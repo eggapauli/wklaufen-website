@@ -7,10 +7,11 @@
     <Compile Include="ReactSlick.fs" />
     <!-- Global to the app -->
     <Compile Include="Global.fs" />
-    <Compile Include="generated/Members.fs" />
-    <Compile Include="generated/Contests.fs" />
-    <Compile Include="generated/News.fs" />
-    <Compile Include="generated/Images.fs" />
+    <Compile Include="data/Activities.fs" />
+    <Compile Include="data/Members.generated.fs" />
+    <Compile Include="data/Contests.generated.fs" />
+    <Compile Include="data/News.generated.fs" />
+    <Compile Include="data/Images.generated.fs" />
     <Compile Include="Data.fs" />
     <Compile Include="Html.fs" />
     <!-- Pages -->

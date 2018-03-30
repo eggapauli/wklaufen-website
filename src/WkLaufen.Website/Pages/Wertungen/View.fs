@@ -5,7 +5,7 @@ open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fable.Core.JsInterop
 open DataModels
-open Generated
+open global.Data
 
 [<Emit("$0.toLocaleString($1, $2)")>]
 let toLocaleString (_number: float) (_culture: string) (options: obj) = jsNative

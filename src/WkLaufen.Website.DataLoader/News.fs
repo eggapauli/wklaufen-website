@@ -53,7 +53,7 @@ let serialize news =
         >> String.concat Environment.NewLine
     )
     |> String.concat Environment.NewLine
-    |> (sprintf """module Generated.News
+    |> (sprintf """module Data.News
 
 open DataModels
 
