@@ -1,4 +1,4 @@
-module Data
+namespace Data
 
 open System
 

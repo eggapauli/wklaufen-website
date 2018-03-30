@@ -24,7 +24,7 @@ let root model dispatch =
               AfterChange (SlideTo >> dispatch)
             ]
             (
-              App.Data.News.items
+              News.items
               |> List.map (fun n ->
                 div [ ClassName "news" ] [
                   div [ ClassName "date" ] [
@@ -71,7 +71,7 @@ let root model dispatch =
     ]
 
 let details model dispatch newsId =
-  App.Data.News.items
+  News.items
   |> List.tryFind (fun n -> n.Id = newsId)
   |> function
     | Some news ->

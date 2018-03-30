@@ -23,7 +23,7 @@ let root =
         [ 31180; 600 ]
         |> List.map (fun memberId ->
           let m =
-            App.Data.Members.getIndexed()
+           MemberGroups.getIndexed()
             |> Map.find memberId
           div [ ClassName "contact" ] [
             yield div [ ClassName "image" ] (

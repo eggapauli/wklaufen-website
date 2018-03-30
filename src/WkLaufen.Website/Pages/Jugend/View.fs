@@ -24,7 +24,7 @@ let root =
                 ]
                 |> List.map (fun memberId ->
                     let m =
-                        App.Data.Members.getIndexed()
+                        MemberGroups.getIndexed()
                         |> Map.find memberId
                     div [Class "contact"] [
                         yield strong [] [ sprintf "%s %s" m.FirstName m.LastName |> str ]

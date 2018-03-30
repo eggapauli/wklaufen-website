@@ -13,7 +13,7 @@ let root =
     [
       h1 [] [ str "Die Musikerinnen & Musiker der WK Laufen" ]
       ul [Class "menu"] (
-        App.Data.Members.getGroups()
+        MemberGroups.getGroups()
         |> List.map (fst >> fun group ->
           let image =
             Images.memberGroups_w200h130
@@ -25,7 +25,7 @@ let root =
     ]
 
 let detail groupId =
-  App.Data.Members.getGroups()
+  MemberGroups.getGroups()
   |> List.tryFind (fst >> fun g -> g.Id = groupId)
   |> function
     | Some (group, members) ->
