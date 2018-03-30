@@ -1,122 +1,9 @@
 module Termine.View
 
-open Fable.Core
-open Fable.Core.JsInterop
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open System
-open Global
-open Generated
-
-type Activity = {
-  Title: string
-  BeginTime: DateTime
-  EndTime: DateTime option
-  Location: string
-  CssClass: string option
-}
-
-let data =
-  [
-    {
-        Title = "Palmsonntag"
-        BeginTime = DateTime(2018, 3, 25, 09, 00, 00)
-        EndTime = None
-        Location = "Gmunden"
-        CssClass = None
-    }
-    {
-        Title = "Festzug 110 Jahre Gamundia"
-        BeginTime = DateTime(2018, 4, 21, 18, 00, 00)
-        EndTime = None
-        Location = "Stadtpfarrkirche"
-        CssClass = None
-    }
-    {
-        Title = "Maibaum aufstellen"
-        BeginTime = DateTime(2018, 4, 30, 16, 30, 00)
-        EndTime = None
-        Location = "Schloss Cumberland / Rathausplatz"
-        CssClass = None
-    }
-    {
-        Title = "Weckruf"
-        BeginTime = DateTime(2018, 5, 1, 00, 00, 00)
-        EndTime = None
-        Location = "Gmunden"
-        CssClass = None
-    }
-    {
-        Title = "Erstkommunion"
-        BeginTime = DateTime(2018, 5, 27, 09, 00, 00)
-        EndTime = None
-        Location = "Stadtpfarrkirche"
-        CssClass = None
-    }
-    {
-        Title = "Fronleichnam"
-        BeginTime = DateTime(2018, 5, 31, 08, 00, 00)
-        EndTime = None
-        Location = "Stadtpfarrkirche"
-        CssClass = None
-    }
-    {
-        Title = "BMF MV Roitham am Traunfall"
-        BeginTime = DateTime(2018, 6, 9, 16, 00, 00)
-        EndTime = None
-        Location = "Roitham"
-        CssClass = None
-    }
-    {
-        Title = "Schlosskonzert"
-        BeginTime = DateTime(2018, 6, 20, 19, 30, 00)
-        EndTime = None
-        Location = "Schloss Ort"
-        CssClass = Some "highlight"
-    }
-    {
-        Title = "BMF MV Hofkirchen an der Trattnach"
-        BeginTime = DateTime(2018, 6, 30, 14, 00, 00)
-        EndTime = None
-        Location = "Hofkirchen"
-        CssClass = None
-    }
-    {
-        Title = "Festzug zum Rathausplatz"
-        BeginTime = DateTime(2018, 8, 15, 17, 30, 00)
-        EndTime = None
-        Location = "Yachtclub Gmunden"
-        CssClass = None
-    }
-    {
-        Title = "Töpfermarkt"
-        BeginTime = DateTime(2018, 8, 24, 17, 00, 00)
-        EndTime = None
-        Location = "Stadtplatz"
-        CssClass = None
-    }
-    {
-        Title = "Tag der Tracht"
-        BeginTime = DateTime(2018, 9, 09, 10, 00, 00)
-        EndTime = None
-        Location = ""
-        CssClass = None
-    }
-    {
-        Title = "Konzertwertung"
-        BeginTime = DateTime(2018, 11, 03, 00, 00, 00)
-        EndTime = None
-        Location = ""
-        CssClass = Some "highlight"
-    }
-    {
-        Title = "Adventkonzert"
-        BeginTime = DateTime(2018, 12, 16, 18, 00, 00)
-        EndTime = None
-        Location = "Kapuzinerkloster"
-        CssClass = Some "highlight"
-    }
-  ]
+open global.Data
 
 let formatTime (beginTime: DateTime) endTime =
   let endTime = endTime |> function | Some x -> x | None -> beginTime
@@ -142,7 +29,8 @@ let root =
         div [ ClassName "list" ] [
           table [] [
             tbody [] (
-              data
+              Activities.items
+              |> List.choose (function | Public d -> Some d | Internal _ -> None)
               |> List.filter (fun act -> act.BeginTime > DateTime.Today.AddDays -7.)
               |> List.groupBy (fun act -> act.BeginTime.Year)
               |> List.collect (fun (year, entries) ->
@@ -150,11 +38,12 @@ let root =
                   entries
                   |> List.map (fun entry ->
                     let rowAttributes =
-                      match entry.CssClass with
+                      match entry.More |> List.tryPick (function | CssClass x -> Some x | _ -> None) with
                       | Some v -> [ Class v :> IHTMLProp ]
                       | None -> []
+                    let endTime = entry.More |> List.tryPick (function | EndTime x -> Some x | _ -> None)
                     tr rowAttributes [
-                      td [] [ str (formatTime entry.BeginTime entry.EndTime) ]
+                      td [] [ str (formatTime entry.BeginTime endTime) ]
                       td [] [ str entry.Title ]
                       td [] [ str entry.Location ]
                     ]
