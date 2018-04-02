@@ -30,22 +30,21 @@ let root =
           table [] [
             tbody [] (
               Activities.items
-              |> List.choose (function | Public d -> Some d | Internal _ -> None)
-              |> List.filter (fun act -> act.BeginTime > DateTime.Today.AddDays -7.)
-              |> List.groupBy (fun act -> act.BeginTime.Year)
+              |> List.choose (function | NotRecurring (Public p) -> Some p | _ -> None)
+              |> List.filter (fun act -> act.Data.BeginTime > DateTime.Today.AddDays -7.)
+              |> List.groupBy (fun act -> act.Data.BeginTime.Year)
               |> List.collect (fun (year, entries) ->
                 let entryNodes =
                   entries
                   |> List.map (fun entry ->
                     let rowAttributes =
-                      match entry.More |> List.tryPick (function | CssClass x -> Some x | _ -> None) with
-                      | Some v -> [ Class v :> IHTMLProp ]
-                      | None -> []
-                    let endTime = entry.More |> List.tryPick (function | EndTime x -> Some x | _ -> None)
+                      match entry.Importance with
+                      | Normal -> []
+                      | Important -> [ Class "highlight" :> IHTMLProp ]
                     tr rowAttributes [
-                      td [] [ str (formatTime entry.BeginTime endTime) ]
-                      td [] [ str entry.Title ]
-                      td [] [ str entry.Location ]
+                      td [] [ str (formatTime entry.Data.BeginTime entry.Data.EndTime) ]
+                      td [] [ str entry.Data.Title ]
+                      td [] [ str entry.Data.Location ]
                     ]
                   )
                 tr [] [ th [ ColSpan 3. ] [ str (string year) ] ] :: entryNodes

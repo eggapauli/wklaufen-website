@@ -3,14 +3,27 @@ source https://nuget.org/api/v2
 storage:none
 
 nuget FSharp.Core
-nuget Fable.Core
-nuget Fable.Elmish.Browser
-nuget Fable.Elmish.Debugger
-nuget Fable.Elmish.HMR
-nuget Fable.Elmish.React
-nuget FSharp.Data
-nuget HtmlAgilityPack
-nuget SixLabors.ImageSharp
-nuget FSharp.Compiler.Tools storage:packages
 
-clitool dotnet-fable
+group Website
+    source https://nuget.org/api/v2
+
+    nuget Fable.Core
+    nuget Fable.Elmish.Browser
+    nuget Fable.Elmish.Debugger
+    nuget Fable.Elmish.HMR
+    nuget Fable.Elmish.React
+    clitool dotnet-fable
+
+group DataLoader
+    source https://nuget.org/api/v2
+
+    nuget FSharp.Data
+    nuget HtmlAgilityPack
+    nuget SixLabors.ImageSharp
+    nuget FSharp.Compiler.Tools storage:packages
+
+group Calendar
+    source https://nuget.org/api/v2
+
+    nuget Ical.Net
+

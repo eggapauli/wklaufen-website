@@ -1,4 +1,6 @@
 FSharp.Core
-FSharp.Data
-HtmlAgilityPack
-SixLabors.ImageSharp
+
+group DataLoader
+    FSharp.Data
+    HtmlAgilityPack
+    SixLabors.ImageSharp

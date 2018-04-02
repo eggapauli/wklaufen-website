@@ -5,8 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="DataModels.fs" />
     <Compile Include="List.fs" />
+    <Compile Include="DataModels.fs" />
+    <Compile Include="data/Activities.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
