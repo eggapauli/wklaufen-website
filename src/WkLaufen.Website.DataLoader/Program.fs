@@ -3,8 +3,8 @@
 open System
 open System.IO
 open SixLabors.ImageSharp
-open DataModels
-open Async
+open SixLabors.ImageSharp.Processing
+open SixLabors.ImageSharp.Processing.Transforms
 
 let (@@) a b = System.IO.Path.Combine(a, b)
 
