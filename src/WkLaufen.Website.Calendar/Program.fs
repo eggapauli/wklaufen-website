@@ -89,10 +89,13 @@ module Event =
             fromActivity timezone calendarType activity
             |> Option.map (fun event ->
                 event.Uid <- toUid group
-                event.RecurrenceId <-
-                    match date with
-                    | Some d -> CalDateTime(d, timezone.TzId) :> IDateTime
-                    | None -> event.Start
+
+                match date with
+                | Some d ->
+                    event.RecurrenceId <- CalDateTime(d, timezone.TzId)
+                    event.Sequence <- 1
+                | None ->
+                    event.RecurrenceId <- event.Start
 
                 recurringActivities
                 |> Map.find group
