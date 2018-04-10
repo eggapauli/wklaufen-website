@@ -23,7 +23,7 @@ try
     {
         throw "Creating calendar failed."
     }
-    Move-Item "$calendarDir\internal.ics" "$calendarDir\internal-SDqCwLXpoHjNtUulnXwWXRbiqCp2zpC+Js2+z+bHMCs=.ics"
+    Move-Item "$calendarDir\internal.ics" "$calendarDir\internal.ics"
 }
 finally
 {
