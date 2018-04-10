@@ -96,7 +96,7 @@ module Activities =
             |> makePublic Normal []
             |> withoutRecurrence
 
-            createActivity "Maibaum aufstellen" (DateTime(2018, 04, 30, 16, 30, 00)) "Schloss Cumberland / Rathausplatz"
+            createActivity "Maibaum aufstellen" (DateTime(2018, 04, 30, 17, 30, 00)) "Rathausplatz"
             |> makePublic Normal []
             |> withoutRecurrence
 
