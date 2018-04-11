@@ -92,11 +92,15 @@ module Activities =
             |> makeInternal
             |> withoutRecurrence
 
+            createActivity "Geburtstagsfeier Schatzi" (DateTime(2018, 04, 14, 19, 30, 00)) "Musizimmer"
+            |> makeInternal
+            |> withoutRecurrence
+
             createActivity "Festzug 110 Jahre Gamundia" (DateTime(2018, 04, 21, 18, 00, 00)) "Stadtpfarrkirche"
             |> makePublic Normal []
             |> withoutRecurrence
 
-            createActivity "Maibaum aufstellen" (DateTime(2018, 04, 30, 17, 30, 00)) "Rathausplatz"
+            createActivity "Maibaum aufstellen" (DateTime(2018, 04, 30, 17, 45, 00)) "Rathausplatz"
             |> makePublic Normal []
             |> withoutRecurrence
 
@@ -160,6 +164,11 @@ module Activities =
             |> withoutRecurrence
 
             deleteRecurringActivityOnce Probe (DateTime(2018, 07, 04, 19, 30, 00))
+
+            createActivity "Sommergrillerei - Saisonabschluss" (DateTime(2018, 07, 07, 19, 00, 00)) "Musizimmer"
+            |> makeInternal
+            |> withoutRecurrence
+
             deleteRecurringActivityOnce Probe (DateTime(2018, 07, 11, 19, 30, 00))
             deleteRecurringActivityOnce Probe (DateTime(2018, 07, 18, 19, 30, 00))
             deleteRecurringActivityOnce Probe (DateTime(2018, 07, 25, 19, 30, 00))
