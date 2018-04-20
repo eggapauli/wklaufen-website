@@ -65,3 +65,22 @@ type Contest = {
     Result: string
     Location: string
 }
+
+type ActivityImportance = Important | Normal
+
+type ActivityTimestamp =
+    | Date of DateTime
+    | DateTime of DateTime
+
+module ActivityTimestamp =
+    let unwrap = function
+        | Date d -> d
+        | DateTime d -> d
+
+type Activity = {
+    Title: string
+    BeginTime: ActivityTimestamp
+    EndTime: ActivityTimestamp option
+    Location: string option
+    Importance: ActivityImportance
+}

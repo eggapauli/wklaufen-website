@@ -4,3 +4,4 @@ group DataLoader
     FSharp.Data
     HtmlAgilityPack
     SixLabors.ImageSharp
+    Ical.Net

@@ -13,6 +13,7 @@
     <Compile Include="data/Members.generated.fs" />
     <Compile Include="data/MemberGroups.fs" />
     <Compile Include="data/News.generated.fs" />
+    <Compile Include="data/Activities.generated.fs" />
     <Compile Include="Html.fs" />
     <!-- Pages -->
     <Compile Include="Pages/Layout.fs" />

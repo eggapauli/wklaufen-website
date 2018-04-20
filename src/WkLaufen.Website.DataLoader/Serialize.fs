@@ -1,6 +1,7 @@
 module Serialize
 
 open System
+open DataModels
 
 let date (d: DateTime) =
     sprintf
@@ -31,3 +32,11 @@ let stringSeq lines =
         yield! lines |> List.map (string >> sprintf "  %s")
         yield "]"
     ]
+
+let activityTimestamp = function
+    | DateTime d -> date d |> sprintf "%s |> DateTime"
+    | Date d -> date d |> sprintf "%s |> Date"
+
+let activityTimestampOption = function
+    | Some v -> activityTimestamp v |> sprintf "%s |> Some"
+    | None -> "None"

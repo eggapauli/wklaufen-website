@@ -1,10 +1,4 @@
-﻿#if INTERACTIVE
-#r "System.Net.Http"
-#endif
-
-#if COMPILED
-module Http
-#endif
+﻿module Http
 
 open System
 open System.IO
@@ -37,9 +31,9 @@ let private contentToString = function
 
 let private requestToString (request: HttpRequestMessage) =
     [
-        yield "## Request" 
+        yield "## Request"
         yield sprintf "%O %O" request.Method request.RequestUri
-        yield "### Headers" 
+        yield "### Headers"
         yield! request.Headers
             |> Seq.cast<System.Collections.Generic.KeyValuePair<string, string seq>>
             |> Seq.map (fun t -> sprintf "* %s: %s" t.Key (t.Value |> String.concat "|"))
