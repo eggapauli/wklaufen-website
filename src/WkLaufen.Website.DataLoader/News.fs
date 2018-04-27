@@ -66,7 +66,7 @@ let downloadImages baseDir (m: DataModels.FacebookNews) =
     m.Images
     |> List.mapi (fun idx imageUri ->
         let fileName = sprintf "%s_%d%s" m.Id (idx + 1) (getExtension imageUri)
-        let filePath = Path.Combine(baseDir, "news", fileName)
+        let filePath = Path.Combine(baseDir, fileName)
         tryDownload imageUri filePath
         |> Async.map (Choice.map (fun () -> fileName))
     )

@@ -37,8 +37,11 @@ let downloadContests credentials dataDir =
     | Choice2Of2 x -> failwithf "Error while downloading contests. %s" x
 
 let downloadNews accessToken dataDir imageBaseDir =
+    let newsBaseDir = imageBaseDir @@ "news"
+    Directory.CreateDirectory newsBaseDir |> ignore
+
     News.download accessToken
-    |> Async.bind (Choice.bindAsync ((List.map (News.downloadImages imageBaseDir)) >> Async.ofList >> Async.map Choice.ofList))
+    |> Async.bind (Choice.bindAsync ((List.map (News.downloadImages newsBaseDir)) >> Async.ofList >> Async.map Choice.ofList))
     |> Async.RunSynchronously
     |> Choice.map News.serialize
     |> Choice.map (fun s -> File.WriteAllText(dataDir @@ "News.generated.fs", s))
