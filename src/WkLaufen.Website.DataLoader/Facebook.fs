@@ -5,7 +5,7 @@ open System.Net.Http
 open FSharp.Data
 open DataModels
 
-let private baseUrl = Uri "https://graph.facebook.com/v2.5/"
+let private baseUrl = Uri "https://graph.facebook.com/v2.12/"
 
 [<Literal>]
 let private JsonBaseDir = __SOURCE_DIRECTORY__ + @"\facebook\"
