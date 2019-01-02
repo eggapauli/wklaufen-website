@@ -20,7 +20,7 @@ let root =
         ]
       ]
       div [ ClassName "contacts" ] (
-        [ 31180; 600 ]
+        [ 31180; 87181 ]
         |> List.map (fun memberId ->
           let m =
            MemberGroups.getIndexed()
