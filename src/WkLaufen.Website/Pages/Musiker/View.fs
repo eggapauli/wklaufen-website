@@ -43,6 +43,12 @@ let detail groupId =
                 ]
                 (
                   members
+                  |> List.sortBy (fun m ->
+                    // Cheating as instructed by Ramona: Put Andi first, Christa last
+                    if group.Id = "vorstandsteam" && m.OoebvId = 600 then "ZZZZZ"
+                    elif group.Id = "vorstandsteam" && m.OoebvId = 87181 then "AAAAA"
+                    else sprintf "%s %s" m.LastName m.FirstName
+                  )
                   |> List.map (fun m ->
                       div [Class "member"] [
                           yield h2 [] [ sprintf "%s %s" m.FirstName m.LastName |> str ]
