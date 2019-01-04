@@ -45,13 +45,16 @@ let updateWindowTitle page dispatch =
     |> sprintf "%s - WK Laufen"
   Fable.Import.Browser.document.title <- title
 
+let trackPage page dispatch =
+  GTag.setPage GTag.trackingId (toUrl page)
+
 let urlUpdate (result: Option<Page>) model =
   match result with
   | None ->
     console.error("Error parsing url")
-    model, Navigation.modifyUrl (toHash model.CurrentPage)
+    model, Cmd.batch [ Navigation.modifyUrl (toHash model.CurrentPage) ]
   | Some page ->
-    { model with CurrentPage = page }, [ updateWindowTitle page ]
+    { model with CurrentPage = page }, [ updateWindowTitle page; trackPage page ]
 
 let init result =
   let model = {

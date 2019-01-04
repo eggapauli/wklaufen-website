@@ -31,3 +31,5 @@ let toHash = function
   | Jugend -> "#jugend"
   | Floetenkids -> "#floetenkids"
   | Impressum -> "#impressum"
+
+let toUrl = toHash >> fun s -> s.Replace("#", "/")

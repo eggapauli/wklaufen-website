@@ -5,6 +5,7 @@
   <ItemGroup>
     <!-- 3rd party -->
     <Compile Include="ReactSlick.fs" />
+    <Compile Include="GTag.fs" />
     <!-- Global to the app -->
     <Compile Include="Global.fs" />
     <Compile Include="data/Activities.generated.fs" />
