@@ -6,4 +6,3 @@ group Website
     Fable.Elmish.Browser
     Fable.Elmish.Debugger
     Fable.Elmish.HMR
-    dotnet-fable

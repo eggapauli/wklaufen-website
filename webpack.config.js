@@ -1,60 +1,101 @@
 var path = require("path");
 var webpack = require("webpack");
-var fableUtils = require("fable-utils");
+var MinifyPlugin = require("terser-webpack-plugin");
 
 function resolve(filePath) {
     return path.join(__dirname, filePath)
 }
 
-var babelOptions = fableUtils.resolveBabelOptions({
-    presets: [["es2015", { "modules": false }]],
-    plugins: [["transform-runtime", {
-        "helpers": true,
-        "polyfill": true,
-        "regenerator": false
-    }]]
-});
+var CONFIG = {
+    fsharpEntry: {
+        "app": [
+            // "whatwg-fetch",
+            // "@babel/polyfill",
+            resolve("./src/WkLaufen.Website/WkLaufen.Website.fsproj")
+        ]
+    },
+    devServerProxy: {
+        '/api/*': {
+            target: 'https://localhost:5001',
+            secure: false,
+            changeOrigin: true
+        }
+    },
+    historyApiFallback: {
+        index: resolve("./index.html")
+    },
+    contentBase: resolve("./public"),
+    // Use babel-preset-env to generate JS compatible with most-used browsers.
+    // More info at https://github.com/babel/babel/blob/master/packages/babel-preset-env/README.md
+    babel: {
+        presets: [
+            ["@babel/preset-env", {
+                "targets": {
+                    "browsers": ["last 2 versions"]
+                },
+                "modules": false,
+                "useBuiltIns": "usage",
+            }]
+        ],
+        plugins: ["@babel/plugin-transform-runtime"]
+    }
+};
 
 var isProduction = process.argv.indexOf("-p") >= 0;
 console.log("Bundling for " + (isProduction ? "production" : "development") + "...");
 
 module.exports = {
-    devtool: isProduction ? undefined : "source-map",
-    entry: resolve('./src/WkLaufen.Website/WkLaufen.Website.fsproj'),
+    entry: CONFIG.fsharpEntry,
     output: {
-        filename: 'bundle.js',
-        path: resolve('./public'),
+        path: resolve("./public/js"),
+        publicPath: "/js",
+        filename: "[name].js",
     },
+    mode: isProduction ? "production" : "development",
+    devtool: isProduction ? undefined : "source-map",
     resolve: {
-        modules: [
-            "node_modules", resolve("./node_modules/")
-        ]
+        symlinks: false
     },
+    optimization: {
+        // Split the code coming from npm packages into a different file.
+        // 3rd party dependencies change less often, let the browser cache them.
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /node_modules/,
+                    name: "vendors",
+                    chunks: "all"
+                }
+            }
+        },
+        minimizer: isProduction ? [new MinifyPlugin()] : []
+    },
+    // DEVELOPMENT
+    //      - HotModuleReplacementPlugin: Enables hot reloading when code changes without refreshing
+    plugins: [
+        ...(isProduction ? [] : [ new webpack.HotModuleReplacementPlugin() ]),
+        ...(isProduction ? [] : [ new webpack.NamedModulesPlugin() ]),
+    ],
+    // Configuration for webpack-dev-server
     devServer: {
-        contentBase: resolve('./public'),
-        host: "0.0.0.0",
-        port: 8080,
+        proxy: CONFIG.devServerProxy,
         hot: true,
-        inline: true
+        inline: true,
+        historyApiFallback: CONFIG.historyApiFallback,
+        contentBase: CONFIG.contentBase
     },
     module: {
         rules: [
             {
                 test: /\.fs(x|proj)?$/,
-                use: {
-                    loader: "fable-loader",
-                    options: {
-                        babel: babelOptions,
-                        define: isProduction ? [] : ["DEBUG"]
-                    }
-                }
+                use: "fable-loader"
             },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
-                    options: babelOptions
+                    options: CONFIG.babel
                 },
             },
             {
@@ -66,13 +107,30 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(eot|svg|ttf|woff|woff2|gif)$/,
-                loader: "file-loader"
+                test: /\.css$/,
+                use: [
+                    "style-loader",
+                    "css-loader"
+                ]
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)(\?|$)/,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        name: '[path][name].[ext]'
+                    }
+                }
+            },
+            {
+                test: /\.gif$/,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        name: '[path][name].[ext]'
+                    }
+                }
             }
         ]
-    },
-    plugins: isProduction ? [] : [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin()
-    ]
+    }
 };

@@ -29,7 +29,7 @@ install:
   - ps: .\load-data.ps1
 
 build_script:
-  - ps: .\build.ps1
+  - cmd: yarn build
 
 test: off
 

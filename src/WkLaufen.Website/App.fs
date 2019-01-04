@@ -3,6 +3,7 @@ module App.View
 open Elmish
 open Elmish.Browser.Navigation
 open Elmish.Browser.UrlParser
+open Elmish.HMR
 open Fable.Core.JsInterop
 open Types
 open App.State
@@ -56,6 +57,5 @@ Program.mkProgram init update view
 #if DEBUG
 |> Program.withConsoleTrace
 |> Program.withDebugger
-|> Program.withHMR
 #endif
 |> Program.run

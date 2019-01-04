@@ -29,6 +29,7 @@ let private menuItem page =
 
 let private pages =
   Microsoft.FSharp.Reflection.FSharpType.GetUnionCases typeof<Page>
+  |> Seq.filter (fun info -> info.GetFields().Length = 0)
   |> Seq.map (fun caseInfo -> FSharpValue.MakeUnion(caseInfo, [||]) :?> Page)
   |> Seq.toList
 

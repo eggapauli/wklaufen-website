@@ -42,6 +42,7 @@ let root =
             tbody [] (
               Activities.items
               |> List.groupBy (fun act -> ActivityTimestamp.unwrap(act.BeginTime).Year)
+              |> List.sortBy fst
               |> List.collect (fun (year, entries) ->
                 let entryNodes =
                   entries
@@ -56,7 +57,7 @@ let root =
                       td [] [ entry.Location |> Option.defaultValue "" |> str ]
                     ]
                   )
-                tr [] [ th [ ColSpan 3. ] [ str (string year) ] ] :: entryNodes
+                tr [] [ th [ ColSpan 3 ] [ str (string year) ] ] :: entryNodes
               )
             )
           ]

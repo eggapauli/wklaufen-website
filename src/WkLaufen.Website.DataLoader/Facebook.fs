@@ -39,6 +39,10 @@ let private httpGet accessToken (relUrl: string) = async {
         |> Async.bind (Choice.mapAsync Http.getContentString)
 }
 
+let private toWesternEuropeanTime (dt: DateTimeOffset) =
+    let timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById "W. Europe Standard Time"
+    TimeZoneInfo.ConvertTime(dt, timeZoneInfo).DateTime
+
 let getNews accessToken =
     httpGet accessToken "werkskapellelaufen/posts"
     |> Async.map (Choice.map PostList.Parse)
@@ -99,7 +103,7 @@ let getNews accessToken =
                             Id = post.Id
                             News =
                                 {
-                                    Timestamp = post.CreatedTime
+                                    Timestamp = toWesternEuropeanTime post.CreatedTime
                                     Content = postMessage
                                 }
                             Images = images

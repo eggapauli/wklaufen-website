@@ -3,6 +3,7 @@ module ImageResize
 open System
 open System.IO
 open SixLabors.ImageSharp
+open SixLabors.ImageSharp.Processing
 
 type ResizeOptions = {
     Width: int option
