@@ -10,7 +10,7 @@ type Page =
   | MusikerRegister of string
   | Unterstuetzen
   | WirUeberUns
-  | Vision2020
+  | MitgliedWerden
   | Wertungen
   | Jugend
   | Floetenkids
@@ -26,7 +26,7 @@ let toHash = function
   | MusikerRegister registerId -> sprintf "#musiker/%s" registerId
   | Unterstuetzen -> "#unterstuetzen"
   | WirUeberUns -> "#wir-ueber-uns"
-  | Vision2020 -> "#vision-2020"
+  | MitgliedWerden -> "#mitglied-werden"
   | Wertungen -> "#wertungen"
   | Jugend -> "#jugend"
   | Floetenkids -> "#floetenkids"

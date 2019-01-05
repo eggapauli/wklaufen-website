@@ -22,28 +22,9 @@ let root =
       div [ ClassName "contacts" ] (
         [ 31180; 87181 ]
         |> List.map (fun memberId ->
-          let m =
-           MemberGroups.getIndexed()
-            |> Map.find memberId
-          div [ ClassName "contact" ] [
-            yield div [ ClassName "image" ] (
-              Images.contacts
-              |> Map.tryFind (string m.OoebvId)
-              |> Option.map (fun p ->  App.Html.image p (Some 110, Some 160))
-              |> Option.toList
-            )
-            yield span [] [ str (sprintf "%s %s" m.FirstName m.LastName) ]
-            yield br []
-            yield span [] [ str (m.Roles |> String.concat ", ") ]
-            yield!
-              match App.Html.phone m with
-              | Some x -> [ br []; x ]
-              | None -> [ ]
-            yield!
-              App.Html.emailAddress m
-              |> Option.toList
-              |> List.append [ br [] ]
-          ]
+          MemberGroups.getIndexed()
+          |> Map.find memberId
+          |> App.Html.contact
         )
       )
     ]

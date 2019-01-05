@@ -34,7 +34,7 @@ let view model dispatch =
     | MusikerRegister groupId -> Musiker.View.detail groupId
     | Unterstuetzen -> Unterstuetzen.View.root
     | WirUeberUns -> WirUeberUns.View.root
-    | Vision2020 -> Vision2020.View.root
+    | MitgliedWerden -> MitgliedWerden.View.root
     | Wertungen -> Wertungen.View.root
     | Jugend -> Jugend.View.root
     | Floetenkids -> Floetenkids.View.root

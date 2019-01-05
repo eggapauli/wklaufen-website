@@ -25,6 +25,38 @@ let characteristicPages = [
       ]
   }
   {
+    Title = "Unsere gemeinsame Vision 2020"
+    Content =
+      [
+        b [] [ str "Engagierte" ]
+        str " und leistungsorientierte "
+        b [] [ str "Jugendarbeit" ]
+        str " ist das Fundament für "
+        b [] [ str "florierendes Vereinsleben" ]
+        str "."
+        br []
+        b [] [ str "Kameradschaftliches" ]
+        str " Zusammenspiel zwischen "
+        b [] [ str "Jung und Alt" ]
+        str " motiviert zu höchsten Leistungen in guter "
+        b [] [ str "Qualität" ]
+        str "."
+        br []
+        b [] [ str "Zielorientierte" ]
+        str " Vereinsführung ermöglicht die Umsetzung von "
+        b [] [ str "Konzertreisen" ]
+        str ", "
+        b [] [ str "Musikfesten" ]
+        str " und anderen Großprojekten."
+        br []
+        str "Unser neues "
+        b [] [ str "Probenheim" ]
+        str " bietet beste Rahmenbedingungen für "
+        b [] [ str "Spaß und Spiel" ]
+        str "."
+      ]
+  }
+  {
     Title = "Eine lange & aufregende Geschichte"
     Content =
       [
@@ -45,9 +77,6 @@ let characteristicPages = [
     Title = "Junger Schwung & wertvolle Erfahrungen im Vorstandsteam"
     Content =
       [
-        str "Ziele braucht der Vorstand und hat deshalb eine Vision 2020 ausgearbeitet. Diese Planung beinhaltet Meilensteine wie ein neues Probenlokal, das Bezirksmusikfest 2017, Ausflüge, musikalische Höhenflüge und Jugendprojekte."
-        br []
-        br []
         str "Aktuell besteht unser Vorstandsteam aus 14 Personen. Was uns hier ausmacht ist die Balance zwischen langjährigen & erfahrenen Vorstandsmitgliedern (wie unserem ehemaligen Kapellmeister Konsulent Franz Schindlauer und unserem ehemaligen Obmann Franz Prentner) und jungen, motivierten und kreativen Kräften. Derzeit sind 9 von 14 Vorstandsmitgliedern 30 Jahre oder jünger."
       ]
   }

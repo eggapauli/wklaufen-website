@@ -18,7 +18,7 @@ let pageParser: Parser<Page->Page,Page> =
     map MusikerRegister (s "musiker" </> str)
     map Unterstuetzen (s "unterstuetzen")
     map WirUeberUns (s "wir-ueber-uns")
-    map Vision2020 (s "vision-2020")
+    map MitgliedWerden (s "mitglied-werden")
     map Wertungen (s "wertungen")
     map Jugend (s "jugend")
     map Floetenkids (s "floetenkids")
@@ -37,7 +37,7 @@ let updateWindowTitle page dispatch =
     | MusikerRegister _ -> "Musiker"
     | Unterstuetzen -> "Unterstützen"
     | WirUeberUns -> "Wir über uns"
-    | Vision2020 -> "Vision 2020"
+    | MitgliedWerden -> "Mitglied werden"
     | Wertungen -> "Wertungen"
     | Jugend -> "Jugend"
     | Floetenkids -> "Flötenkids"

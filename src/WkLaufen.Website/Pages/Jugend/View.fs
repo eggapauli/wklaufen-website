@@ -5,48 +5,19 @@ open Fable.Helpers.React.Props
 open global.Data
 
 let root =
+  let contact =
+    MemberGroups.getIndexed()
+    |> Map.find 31145
   Layout.page
     "youths"
     Images.jugendreferat_w1000h600
     [
         div [Class "rich-text text"] [
-            h1 [] [ str "Jugendreferat" ]
-            p [] [ str "Wie man uns ansieht, wird Jugendarbeit bei uns groß geschrieben! Bereits im Kindergartenalter können Kinder bei uns spielerisch Blockflöte erlernen. Hat man sich dann für ein Instrument entschieden, beginnt das gemeinsame Musizieren im Jugendorchester. Durch frühes, gemeinsames Proben und Auftritte (Adventkonzert, Jahreskonzert, Sommerfest…) ist nicht nur die musikalische Weiterentwicklung gewährleistet, sondern es entwickeln sich auch Freundschaften für's Leben. Kein Wunder, denn in der Vereinsjugend unternehmen wir viel gemeinsam (Malwettbewerb, Spielenachmittage, Ausflüge etc.). Interessierte können sich jederzeit beim Jugendreferat der Werkskapelle Laufen informieren."]
-        ]
-
-        div [Class "contacts-container"] [
-            div [Class "rich-text contacts"] (
-                [
-                    39627
-                    600
-                    31145
-                    49155
-                ]
-                |> List.map (fun memberId ->
-                    let m =
-                        MemberGroups.getIndexed()
-                        |> Map.find memberId
-                    div [Class "contact"] [
-                        yield strong [] [ sprintf "%s %s" m.FirstName m.LastName |> str ]
-                        yield m.Roles |> String.concat ", " |> sprintf " (%s)" |> str
-                        yield!
-                            match App.Html.phone m, App.Html.emailAddress m with
-                            | Some phone, Some email ->
-                                [
-                                    str ": "
-                                    phone
-                                    str ", "
-                                    email
-                                ]
-                            | None, Some x
-                            | Some x, None ->
-                                [
-                                    str ": "
-                                    x
-                                ]
-                            | None, None -> []
-                    ]
-                )
-            )
+            h1 [] [ str "Lieber zukünftiger Musikprofi!"; br []; str "Liebe Eltern!" ]
+            p [] [ str "Weil uns als Musikverein die Jugendarbeit besonders wichtig ist, bieten wir Kindern, die ein Instrument erlernen möchten eine Rundumbetreuung. Neben der Suche nach einem Musikschulplatz, stellen wir auch das Instrument gegen eine geringe Leihgebühr zur Verfügung. Außerdem helfen wir gerne bei der Suche nach dem richtigen Musikinstrument, denn nicht selten entwickelt sich dies zum lebenslangen Begleiter." ]
+            p [] [ str "Es besteht außerdem die Möglichkeit zum Gruppenspiel durch die Bildung einer Bläserklasse speziell für Instrumentenanfänger. Die sofortige Integration in den Verein fördert nicht nur die persönliche Weiterentwicklung, es entstehen auch tolle Freundschaften bei den wöchentlichen Proben im Musikheim in der Engelhofstraße in Gmunden oder bei lustigen Ausflügen." ]
+            p [] [ str "Du kannst dich noch nicht entscheiden, welches Instrument du lernen willst? Kein Problem! Melde dich einfach bei uns und komm vorbei zum Ausprobieren. Wir freuen uns auf dich!" ]
+            p [] [ str "Für Anmeldungen und/oder Fragen steht jederzeit bereit:" ]
+            App.Html.contact contact
         ]
     ]

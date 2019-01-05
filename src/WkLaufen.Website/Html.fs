@@ -5,6 +5,7 @@ open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open System
 open System.Text.RegularExpressions
+open global.Data
 
 let splitFileName (fileName: string) =
   match fileName.LastIndexOf '.' with
@@ -48,12 +49,12 @@ let obfuscate (text: string) =
 
 let phone (m: DataModels.Member) =
   match m.Phones |> List.tryHead with
-  | Some phone -> span [] (obfuscate phone) |> Some
+  | Some phone -> span [ ClassName "phone" ] (obfuscate phone) |> Some
   | None -> None
 
 let emailAddress (m: DataModels.Member) =
   match m.EmailAddresses |> List.tryHead with
-  | Some email -> span [] (obfuscate email) |> Some
+  | Some email -> span [ ClassName "email" ] (obfuscate email) |> Some
   | None -> None
 
 let (|Uri|_|) str =
@@ -85,3 +86,25 @@ let pdfDoc url =
             ]
         ]
     ]
+
+let contact (m: DataModels.Member) =
+  div [ ClassName "contact" ] [
+    yield div [ ClassName "image" ] (
+      Images.contacts
+      |> Map.tryFind (string m.OoebvId)
+      |> Option.map (fun p ->  image p (Some 110, Some 160))
+      |> Option.toList
+    )
+    yield span [ ClassName "name" ] [ str (sprintf "%s %s" m.FirstName m.LastName) ]
+    yield br []
+    yield span [ ClassName "roles" ] [ str (m.Roles |> String.concat ", ") ]
+    yield!
+      match phone m with
+      | Some x -> [ br []; x ]
+      | None -> [ ]
+    yield!
+      emailAddress m
+      |> Option.toList
+      |> List.append [ br [] ]
+    yield div [ ClassName "clear" ] []
+  ]

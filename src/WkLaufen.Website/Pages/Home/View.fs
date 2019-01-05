@@ -21,7 +21,7 @@ let private menuItem page =
   | MusikerRegister _ -> None
   | Unterstuetzen -> Some ((1, 5), render Images.unterstuetzen_w150h100 "Unterstützen")
   | WirUeberUns -> Some ((2, 1), render Images.wir_ueber_uns_w150h100 "Wir über uns")
-  | Vision2020 -> Some ((2, 2), render Images.vision_2020_w150h100 "Vision 2020")
+  | MitgliedWerden -> Some ((2, 2), render Images.mitglied_werden_w150h100 "Mitglied werden")
   | Wertungen -> Some ((2, 3), render Images.wertungen_w150h100 "Wertungen")
   | Jugend -> Some ((2, 4), render Images.jugend_w150h100 "Jugend")
   | Floetenkids -> Some ((2, 5), render Images.floetenkids_w150h100 "Flötenkids")

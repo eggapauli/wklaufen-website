@@ -25,7 +25,7 @@
     <Compile Include="Pages/Musiker/View.fs" />
     <Compile Include="Pages/Unterstuetzen/View.fs" />
     <Compile Include="Pages/WirUeberUns/View.fs" />
-    <Compile Include="Pages/Vision2020/View.fs" />
+    <Compile Include="Pages/MitgliedWerden/View.fs" />
     <Compile Include="Pages/Wertungen/View.fs" />
     <Compile Include="Pages/Jugend/View.fs" />
     <Compile Include="Pages/Floetenkids/View.fs" />
