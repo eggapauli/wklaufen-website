@@ -90,7 +90,7 @@ let details model dispatch newsId =
                 |> Map.tryFind news.Id
                 |> Option.defaultValue []
                 |> List.map (fun imageUrl ->
-                  div [ ClassName "image"; Style [ Height 480 ] ] [
+                  div [ ClassName "news-image"; Style [ Height 480 ] ] [
                     App.Html.image imageUrl (Some 940, Some 480)
                   ]
                 )
