@@ -48,23 +48,6 @@ let root =
     [
       ul [ Id "top-menu"; ClassName "menu" ] topMenuItems
       h1 [] [ str "Willkommen bei der"; br []; str "Werkskapelle Laufen Gmunden-Engelhof" ]
-      a
-        [ Href (toHash Kontakte)
-          Style
-            [ Display "inline-block"
-              Position "absolute"
-              Right "50px"
-              Transform "rotate(-10deg)"
-              FontSize "25px"
-              Padding "30px"
-              Background "rgba(255,255,255,0.8)"
-              BorderRadius "20px"
-              Border "5px double darkgoldenrod"
-              TextShadow "0px 0px 1px black"
-              Color "darkgoldenrod"
-              TextDecoration "none"
-              FontFamily "'Special Elite', cursive" ] ]
-        [ str "Jetzt mit neuem Kapellmeister" ]
       div [ Id "bottom-menu-container" ] [
         ul [ Id "bottom-menu"; ClassName "menu" ] bottomMenuItems
       ]
