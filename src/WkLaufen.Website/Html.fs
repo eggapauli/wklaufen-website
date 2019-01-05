@@ -5,6 +5,7 @@ open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open System
 open System.Text.RegularExpressions
+open Fulma
 open global.Data
 
 let splitFileName (fileName: string) =
@@ -30,7 +31,7 @@ let menuItem bgImagePath text href =
         [ ClassName "menu-item"; Href href ]
         [
           span [ ClassName "bg"; Style [ BackgroundImage (sprintf "url(%s)" bgImagePath) ] ] []      
-          span [ ClassName "title-bar" ] [ span [ ClassName "title" ] [ str text ] ]
+          span [ ClassName "title-bar" ] [ span [ ClassName "text" ] [ str text ] ]
         ]
     ]
 

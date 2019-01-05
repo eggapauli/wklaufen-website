@@ -4,6 +4,7 @@ open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fable.Import.React
 open Fable.Import.Slick
+open Fulma
 open global.Data
 
 type CharacteristicPage = {
@@ -125,9 +126,9 @@ let root =
     "about-us"
     Images.wir_ueber_uns_w1000h600
     [
-      h1 [] [ str "Wir über uns" ]
+      Heading.h1 [ Heading.Is3 ] [ str "Wir über uns" ]
       div [Class "characteristics rich-text"] [
-          h2 [] [ str "Was uns auszeichnet" ]
+          Heading.h2 [ Heading.Is4 ] [ str "Was uns auszeichnet" ]
           slider
             [
               Draggable false
@@ -138,14 +139,14 @@ let root =
               characteristicPages
               |> List.map (fun item ->
                   div [Class "about-us-section"] [
-                      h3 [] [ str item.Title ]
+                      Heading.h3 [ Heading.Is5 ] [ str item.Title ]
                       div [] item.Content
                   ]
               )
             )
       ]
       div [Class "samples rich-text"] [
-        yield h2 [] [ str "Videos & Hörproben" ]
+        yield Heading.h2 [ Heading.Is4 ] [ str "Videos & Hörproben" ]
         yield!
           samples
           |> List.map (fun sample ->

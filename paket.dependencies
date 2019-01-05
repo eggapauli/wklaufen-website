@@ -12,6 +12,7 @@ group Website
     nuget Fable.Elmish.Debugger
     nuget Fable.Elmish.HMR
     nuget Fable.Elmish.React
+    nuget Fulma
 
 group DataLoader
     source https://nuget.org/api/v2

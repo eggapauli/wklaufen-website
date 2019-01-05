@@ -4,6 +4,7 @@ open Fable.Core
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fable.Core.JsInterop
+open Fulma
 open DataModels
 open global.Data
 
@@ -16,7 +17,7 @@ let root =
     Images.wertungsergebnisse_w1000h600
     [
       div [Class "rich-text contest-container"] [
-        h1 [] [ str "Wertungsergebnisse" ]
+        Heading.h1 [ Heading.Is3 ] [ str "Wertungsergebnisse" ]
         div [Class "rich-text-content"] (
           Contests.items
           |> List.sortByDescending (fun m -> m.Year)
@@ -24,8 +25,8 @@ let root =
           |> List.sortBy fst
           |> List.map (fun (key, list) ->
               div [Class "contest"] [
-                  h2 [] [ ContestType.toPluralString key |> str ]
-                  table [] [
+                  Heading.h2 [ Heading.Is4 ] [ ContestType.toPluralString key |> str ]
+                  table [ ] [
                       thead [] [
                           tr [] [
                               th [] [ str "Jahr" ]

@@ -2,6 +2,7 @@ module Kontakte.View
 
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
+open Fulma
 open global.Data
 
 let root =
@@ -10,7 +11,7 @@ let root =
     Images.kontakte_w1000h600
     [
       div [ ClassName "info" ] [
-        h1 [] [ str "Kontakte" ]
+        Heading.h1 [ Heading.Is3 ] [ str "Kontakte" ]
         div [] [
           str "WK Laufen Gmunden-Engelhof"
           br []

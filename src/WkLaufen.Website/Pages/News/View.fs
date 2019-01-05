@@ -3,6 +3,7 @@ module News.View
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fable.Import.Slick
+open Fulma
 open global.Data
 open Global
 open News.Types
@@ -13,7 +14,7 @@ let root model dispatch =
     Images.news_w1000h600
     [
       div [ ClassName "info" ] [
-        h1 [] [ str "News" ]
+        Heading.h1 [ Heading.Is3 ] [ str "News" ]
         div [ Id "news-frame"; ClassName "rich-text" ] [
           Fable.Import.Slick.slider
             [
@@ -30,7 +31,7 @@ let root model dispatch =
                   div [ ClassName "date" ] [
                       b [] [ str (n.News.Timestamp.ToString "dd.MM.yyyy") ]
                   ]
-                  div [ ClassName "content" ] (
+                  div [ ClassName "text" ] (
                     App.Html.htmlify n.News.Content
                     @
                     [ br [] ]

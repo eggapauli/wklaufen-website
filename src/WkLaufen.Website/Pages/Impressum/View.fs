@@ -2,6 +2,7 @@ module Impressum.View
 
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
+open Fulma
 open global.Data
 
 let obmann =
@@ -13,7 +14,7 @@ let root =
     "impressum"
     Images.impressum_w1000h600
     [
-      h1 [] [ str "Impressum" ]
+      Heading.h1 [ Heading.Is3 ] [ str "Impressum" ]
       div [Class "top-content"] [
         p [] [
           yield b [] [ str "Für den Inhalt verantwortlich" ]
@@ -37,7 +38,7 @@ let root =
         ]
       ]
       div [Class "bottom-content rich-text"] [
-        div [] [
+        Content.content [] [
           p [] [
             b [] [ str "Offenlegung gem. § 25 MedG" ]
             str ": Diese Webseite dient dem öffentlichen Auftritt der Werkskapelle Laufen Gmunden-Engelhof (Medieninhaber). Der Zweck dieser Website ist es demnach den Verein und seine Tätigkeiten vorzustellen."

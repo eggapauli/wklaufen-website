@@ -3,6 +3,7 @@ module Musiker.View
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fable.Import.Slick
+open Fulma
 open global.Data
 open Global
 
@@ -11,7 +12,7 @@ let root =
     "member-groups"
     Images.die_musikerinnen_musiker_der_wk_laufen_w1000h600
     [
-      h1 [] [ str "Die Musikerinnen & Musiker der WK Laufen" ]
+      Heading.h1 [ Heading.Is3 ] [ str "Die Musikerinnen & Musiker der WK Laufen" ]
       ul [Class "menu"] (
         MemberGroups.getGroups()
         |> List.map (fst >> fun group ->
@@ -33,7 +34,7 @@ let detail groupId =
         "members"
         Images.die_musikerinnen_musiker_der_wk_laufen_w1000h600
         [
-          h1 [] [ str group.Name ]
+          Heading.h1 [ Heading.Is3 ] [ str group.Name ]
           div [Class "rich-text"] [
             Fable.Import.Slick.slider
                 [
@@ -45,7 +46,7 @@ let detail groupId =
                   members
                   |> List.map (fun m ->
                       div [Class "member"] [
-                          yield h2 [] [ sprintf "%s %s" m.FirstName m.LastName |> str ]
+                          yield Heading.h2 [ Heading.Is4 ] [ sprintf "%s %s" m.FirstName m.LastName |> str ]
 
                           yield!
                             Images.members_w200h270

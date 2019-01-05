@@ -2,7 +2,7 @@ module Termine.View
 
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
-open System
+open Fulma
 open global.Data
 open DataModels
 
@@ -36,8 +36,8 @@ let root =
     Images.terminkalender_w1000h600
     [
       div [ ClassName "activities rich-text" ] [
-        h1 [] [ str "Terminkalender" ]
-        div [ ClassName "list" ] [
+        Heading.h1 [ Heading.Is3 ] [ str "Terminkalender" ]
+        div [ ClassName "activity-list" ] [
           table [] [
             tbody [] (
               Activities.items

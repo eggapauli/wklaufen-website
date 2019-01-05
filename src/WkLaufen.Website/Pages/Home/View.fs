@@ -3,6 +3,7 @@ module Home.View
 open Microsoft.FSharp.Reflection
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
+open Fulma
 open Global
 open global.Data
 
@@ -47,7 +48,7 @@ let root =
     Images.home_w1000h600
     [
       ul [ Id "top-menu"; ClassName "menu" ] topMenuItems
-      h1 [] [ str "Willkommen bei der"; br []; str "Werkskapelle Laufen Gmunden-Engelhof" ]
+      Heading.h1 [ Heading.Is3 ] [ str "Willkommen bei der"; br []; str "Werkskapelle Laufen Gmunden-Engelhof" ]
       div [ Id "bottom-menu-container" ] [
         ul [ Id "bottom-menu"; ClassName "menu" ] bottomMenuItems
       ]
