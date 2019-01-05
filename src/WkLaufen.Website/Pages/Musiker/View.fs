@@ -43,17 +43,6 @@ let detail groupId =
                 ]
                 (
                   members
-                  |> List.sortWith (fun m1 m2 ->
-                    // Cheating as instructed by Ramona: Put Andi first, Christa last
-                    if group.Id = "vorstandsteam"
-                    then
-                      if m1.OoebvId = 600 then 1
-                      elif m2.OoebvId = 600 then -1
-                      elif m1.OoebvId = 87181 then -1
-                      elif m2.OoebvId = 87181 then 1
-                      else (sprintf "%s %s" m1.LastName m1.FirstName).CompareTo(sprintf "%s %s" m2.LastName m2.FirstName)
-                    else (sprintf "%s %s" m1.LastName m1.FirstName).CompareTo(sprintf "%s %s" m2.LastName m2.FirstName)
-                  )
                   |> List.map (fun m ->
                       div [Class "member"] [
                           yield h2 [] [ sprintf "%s %s" m.FirstName m.LastName |> str ]
