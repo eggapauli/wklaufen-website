@@ -75,36 +75,28 @@ let downloadActivities publicCalendarUrl internalCalendarUrl dataDir targetDir =
     with e ->
         failwithf "Error while generated data for activities. %O" e
 
-let tryGetArg args name =
-    args
-    |> Seq.skipWhile (fun v -> String.equalsIgnoreCase v ("--" + name) |> not)
-    |> Seq.truncate 2
-    |> Seq.tryLast
+let getEnvVarOrFail name =
+    let value = Environment.GetEnvironmentVariable name
+    if isNull value
+    then failwithf "Environment variable \"%s\" not set" name
+    else value
 
 [<EntryPoint>]
 let main argv =
-    match
-        tryGetArg argv "ooebv-username",
-        tryGetArg argv "ooebv-password",
-        tryGetArg argv "facebook-access-token",
-        tryGetArg argv "public-calendar-url",
-        tryGetArg argv "internal-calendar-url" with
-    | Some ooebvUsername,
-      Some ooebvPassword,
-      Some facebookAccessToken,
-      Some publicCalendarUrl,
-      Some internalCalendarUrl ->
-        let rootDir = Path.GetFullPath @"..\.."
-        let dataDir = rootDir @@ "src" @@ "WkLaufen.Website" @@ "data"
-        let imageDir = rootDir @@ "assets" @@ "images"
-        let deployDir = rootDir @@ "public"
+    let ooebvUsername = getEnvVarOrFail "ooebv-username"
+    let ooebvPassword = getEnvVarOrFail "ooebv-password"
+    let facebookAccessToken = getEnvVarOrFail "facebook-access-token"
+    let publicCalendarUrl = getEnvVarOrFail "public-calendar-url"
+    let internalCalendarUrl = getEnvVarOrFail "internal-calendar-url"
 
-        downloadMembers (ooebvUsername, ooebvPassword) dataDir imageDir
-        downloadContests (ooebvUsername, ooebvPassword) dataDir
-        downloadNews facebookAccessToken dataDir imageDir
-        downloadActivities (Uri publicCalendarUrl) (Uri internalCalendarUrl) dataDir (deployDir @@ "calendar")
-        ImageResize.resizeImages dataDir imageDir deployDir "images"
-        0
-    | _ ->
-        eprintfn "Usage: dotnet run -- --ooebv-username <username> --ooebv-password <password> --facebook-access-token <access-token> --public-calendar-url <url> --internal-calendar-url <url>"
-        1
+    let rootDir = Path.GetFullPath "."
+    let dataDir = rootDir @@ "src" @@ "WkLaufen.Website" @@ "data"
+    let imageDir = rootDir @@ "assets" @@ "images"
+    let deployDir = rootDir @@ "public"
+
+    downloadMembers (ooebvUsername, ooebvPassword) dataDir imageDir
+    downloadContests (ooebvUsername, ooebvPassword) dataDir
+    downloadNews facebookAccessToken dataDir imageDir
+    downloadActivities (Uri publicCalendarUrl) (Uri internalCalendarUrl) dataDir (deployDir @@ "calendar")
+    ImageResize.resizeImages dataDir imageDir deployDir "images"
+    0
