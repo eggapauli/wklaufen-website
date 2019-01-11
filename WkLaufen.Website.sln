@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C8A5996B-566D-46F7-9AD1-360F09FCFB34}"
@@ -8,6 +8,8 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Common", "src\Common\Common.fsproj", "{1DFAF87E-218C-435C-9C2B-AC4FBA2949E4}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WkLaufen.Website.DataLoader", "src\WkLaufen.Website.DataLoader\WkLaufen.Website.DataLoader.fsproj", "{86E9FCF0-1FAA-42EA-B3DF-CD5C037B8B59}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WkLaufen.Website.ServerGenerator", "src\WkLaufen.Website.ServerGenerator\WkLaufen.Website.ServerGenerator.fsproj", "{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +57,23 @@ Global
 		{86E9FCF0-1FAA-42EA-B3DF-CD5C037B8B59}.Release|x64.Build.0 = Release|x64
 		{86E9FCF0-1FAA-42EA-B3DF-CD5C037B8B59}.Release|x86.ActiveCfg = Release|x86
 		{86E9FCF0-1FAA-42EA-B3DF-CD5C037B8B59}.Release|x86.Build.0 = Release|x86
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}.Debug|x64.Build.0 = Debug|Any CPU
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}.Debug|x86.Build.0 = Debug|Any CPU
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}.Release|x64.ActiveCfg = Release|Any CPU
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}.Release|x64.Build.0 = Release|Any CPU
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}.Release|x86.ActiveCfg = Release|Any CPU
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F3D1E258-0764-460E-8DBF-1C1D6D6CDBDE} = {C8A5996B-566D-46F7-9AD1-360F09FCFB34}
 		{1DFAF87E-218C-435C-9C2B-AC4FBA2949E4} = {C8A5996B-566D-46F7-9AD1-360F09FCFB34}
 		{86E9FCF0-1FAA-42EA-B3DF-CD5C037B8B59} = {C8A5996B-566D-46F7-9AD1-360F09FCFB34}
+		{7D4B55A3-24AC-406E-8A8C-F198B06EF7B6} = {C8A5996B-566D-46F7-9AD1-360F09FCFB34}
 	EndGlobalSection
 EndGlobal

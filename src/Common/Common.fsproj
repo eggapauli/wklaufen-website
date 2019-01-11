@@ -9,6 +9,7 @@
     <Compile Include="String.fs" />
     <Compile Include="Operators.fs" />
     <Compile Include="DataModels.fs" />
+    <Compile Include="Forms.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

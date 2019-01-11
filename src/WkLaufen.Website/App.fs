@@ -32,7 +32,7 @@ let view model dispatch =
     | NewsDetails newsId -> News.View.details model.NewsModel (NewsMsg >> dispatch) newsId
     | Musiker -> Musiker.View.root
     | MusikerRegister groupId -> Musiker.View.detail groupId
-    | Unterstuetzen -> Unterstuetzen.View.root
+    | Unterstuetzen -> Unterstuetzen.View.root model.UnterstuetzenModel (UnterstuetzenMsg >> dispatch)
     | WirUeberUns -> WirUeberUns.View.root
     | MitgliedWerden -> MitgliedWerden.View.root
     | Wertungen -> Wertungen.View.root

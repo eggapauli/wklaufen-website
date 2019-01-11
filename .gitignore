@@ -198,3 +198,4 @@ project.lock.json
 assets/images/members
 assets/images/news
 public/
+src/WkLaufen.Website.Server/vendor

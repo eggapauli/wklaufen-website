@@ -1,42 +1,63 @@
+image: Visual Studio 2017
+
 environment:
-  ooebv-username: EGGER5
-  ooebv-password:
+  OOEBV_USERNAME: EGGER5
+  OOEBV_PASSWORD:
     secure: fohNC7EhImjczRjtEvJx4Q==
-  facebook-access-token:
+  FACEBOOK_ACCESS_TOKEN:
     secure: FmNzQ0V5gcyOeLEiuH+ngR28twSxjIYwA2OXEJg5vVQDBO3T8tLS+l2m2Uzzs4a1QY139q8wJfzaJiIkgq+CFdpskJUEAj09Uyb4GlG425MOzpNamam5QBC50/vl6R9eQNtMSbNArVqLT5jjE91Ma6hBzKPod8p/xRCR/Ec2XokBusbFhZu4VjkIucp1W8LzrsQZLA7krEY4molAGZlzsIPj8CrtWrER2eyR3dJB1jk=
-  public-calendar-url:
+  PUBLIC_CALENDAR_URL:
     secure: pzv+VBoHIjy4e3yFDxI3sXeV2gOYJwqQigDPKScRiDcX3A0s7ItaulrNPh/LlPzng64oZCI0OOIk/N2WcBQCUCURZRcZ/4LLIp3fTVo01aEp9gzmXaZEvbCLKAsC8pztHZ4WunfOr1kjEuQBiQ+FYaWW9O4qIRkwCw1/LFa4qSrXfiln5K/Ld3QYbileBoSYQ3QK8rQgrrOoyePvkjvJzQ==
-  internal-calendar-url:
+  INTERNAL_CALENDAR_URL:
     secure: pzv+VBoHIjy4e3yFDxI3sXeV2gOYJwqQigDPKScRiDexfJlT+o29OMmwtN7sqh0a68lD/FEhnfSsgkibDZ/cehqa98m7d8j+vU29TDgHz55PP2neKXv1epnDSjDjcGoHcV9nbDh6yyJWdeY3LYPLHIZTpI7bCml/BJAyRy4E855oCs9Oumuz2YwA5hgWDOyWwrhL3Mb6ObKdTJ//VKw0HA==
-  upload-url: ftp://s1.meinehp.at/web/a/
-  temp-url: ftp://s1.meinehp.at/tmp/upload/
-  upload-username: wk-laufenatftp
-  upload-password:
+  UPLOAD_URL: ftp://s1.meinehp.at/web/a/
+  TEMP_URL: ftp://s1.meinehp.at/tmp/upload/
+  UPLOAD_USERNAME: wk_laufenatftp
+  UPLOAD_PASSWORD:
     secure: w4rIlEoHl+x1gtgnZvCHzw==
-  mail-host: s1.meinehp.at
-  mail-port: 587
-  mail-username: web@wk-laufen.at
-  mail-password:
-    secure: Hx38EcvsQtvuXz09Mu4i5A==
+  MAIL_HOST: s1.meinehp.at
+  MAIL_PORT: 587
+  MAIL_USERNAME: web@wk-laufen.at
+  MAIL_PASSWORD:
+    secure: RH7XLijEHNMxST8949s1aw==
 
 init:
-  - cmd: dotnet --version
-  - cmd: yarn -v
+  - dotnet --version
+  - yarn -v
 
 install:
-  - cmd: dotnet restore
-  - cmd: yarn
-  - ps: .\load-data.ps1
+  - cinst php -y
+  - cmd: refreshenv
+  - ps: |
+      $phpPath = Split-Path -Parent (Get-Command php.exe).Path
+      cp "$phpPath/php.ini-development" "$phpPath/php.ini"
+      Add-Content -Path "$phpPath/php.ini" -Value "extension_dir = ext"
+      Add-Content -Path "$phpPath/php.ini" -Value "extension=php_openssl.dll"
+  - ps: |
+      php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+      php -r "if (hash_file('sha384', 'composer-setup.php') === '93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+      mkdir bin
+      php composer-setup.php --install-dir=bin --filename=composer
+      php -r "unlink('composer-setup.php');"
+      Push-Location src/WkLaufen.Website.Server
+      php ../../bin/composer install
+      Pop-Location
+  - dotnet restore
+  - yarn
+  - ps: ./load-data.ps1
 
 build_script:
-  - cmd: yarn build
+  - yarn build
+  - dotnet run --project ./src/WkLaufen.Website.ServerGenerator
 
 test: off
 
 after_build:
-  - cmd: 7z a app.zip %APPVEYOR_BUILD_FOLDER%\public\.
+  - ps: cp ./src/WkLaufen.Website.Server/*.php ./public
+  - ps: cp -Recurse ./src/WkLaufen.Website.Server/vendor ./public
+  - 7z a app.zip ./public/.
   - ps: Push-AppveyorArtifact app.zip -DeploymentName app
-  - ps: Push-AppveyorArtifact src\publish.php -FileName publish.php -DeploymentName publish-script
+  - ps: Push-AppveyorArtifact src/publish.php -FileName publish.php -DeploymentName publish-script
 
 deploy:
   - provider: FTP

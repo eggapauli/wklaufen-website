@@ -1,0 +1,1 @@
+docker run --rm -v ${PSScriptRoot}\src\WkLaufen.Website.Server:/app composer install

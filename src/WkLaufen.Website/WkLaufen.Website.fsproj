@@ -23,6 +23,7 @@
     <Compile Include="Pages/News/Types.fs" />
     <Compile Include="Pages/News/View.fs" />
     <Compile Include="Pages/Musiker/View.fs" />
+    <Compile Include="Pages/Unterstuetzen/Types.fs" />
     <Compile Include="Pages/Unterstuetzen/View.fs" />
     <Compile Include="Pages/WirUeberUns/View.fs" />
     <Compile Include="Pages/MitgliedWerden/View.fs" />

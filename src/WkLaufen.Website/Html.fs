@@ -109,3 +109,9 @@ let contact (m: DataModels.Member) =
       |> List.append [ br [] ]
     yield div [ ClassName "clear" ] []
   ]
+
+let modernHeader prefix postfix main =
+  Heading.h1 [ Heading.CustomClass "modern-header" ]
+    [ Heading.p [ Heading.Is3; Heading.CustomClass "prefix" ] [ str prefix ]
+      Heading.p [ Heading.CustomClass "main" ] [ main ]
+      Heading.p [ Heading.Is3; Heading.CustomClass "postfix" ] [ str postfix ] ]

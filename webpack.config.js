@@ -15,9 +15,8 @@ var CONFIG = {
         ]
     },
     devServerProxy: {
-        '/api/*': {
-            target: 'https://localhost:5001',
-            secure: false,
+        '/*.php': {
+            target: 'http://localhost:8081',
             changeOrigin: true
         }
     },

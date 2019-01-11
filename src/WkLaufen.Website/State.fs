@@ -58,8 +58,9 @@ let urlUpdate (result: Option<Page>) model =
 
 let init result =
   let model = {
-    NewsModel = News.Types.init
     CurrentPage = Home
+    NewsModel = News.Types.init
+    UnterstuetzenModel = Unterstuetzen.Types.init
   }
 
   let (model', cmd) =
@@ -82,3 +83,6 @@ let update msg model =
     { model with NewsModel = News.Types.init }, Navigation.jump -1
   | GoBack -> model, Navigation.jump -1
   | NewsMsg msg -> { model with NewsModel = News.Types.update msg model.NewsModel }, []
+  | UnterstuetzenMsg msg ->
+    let model', cmd' = Unterstuetzen.Types.update msg model.UnterstuetzenModel
+    { model with UnterstuetzenModel = model' }, Cmd.map UnterstuetzenMsg cmd'

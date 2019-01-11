@@ -12,7 +12,11 @@ group Website
     nuget Fable.Elmish.Debugger
     nuget Fable.Elmish.HMR
     nuget Fable.Elmish.React
+    nuget Fable.Fetch
+    nuget Fable.FontAwesome
+    nuget Fable.FontAwesome.Free
     nuget Fulma
+    nuget Thoth.Json
 
 group DataLoader
     source https://nuget.org/api/v2

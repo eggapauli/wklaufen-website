@@ -6,4 +6,8 @@ group Website
     Fable.Elmish.Browser
     Fable.Elmish.Debugger
     Fable.Elmish.HMR
+    Fable.Fetch
+    Fable.FontAwesome
+    Fable.FontAwesome.Free
     Fulma
+    Thoth.Json
