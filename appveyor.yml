@@ -19,7 +19,7 @@ environment:
   MAIL_PORT: 587
   MAIL_USERNAME: web@wk-laufen.at
   MAIL_PASSWORD:
-    secure: RH7XLijEHNMxST8949s1aw==
+    secure: YS38z6vOtsjb+3BO0bDgDw==
 
 init:
   - dotnet --version
