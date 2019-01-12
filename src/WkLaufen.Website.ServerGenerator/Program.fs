@@ -46,7 +46,7 @@ let main argv =
         yield "use PHPMailer\\PHPMailer\\PHPMailer;"
         yield "use PHPMailer\\PHPMailer\\Exception;"
         yield ""
-        yield "require __DIR__ . '/../vendor/autoload.php';"
+        yield "require __DIR__ . '/vendor/autoload.php';"
         yield ""
         yield "function validate($formData)"
         yield "{"
