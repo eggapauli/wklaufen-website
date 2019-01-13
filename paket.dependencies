@@ -16,6 +16,7 @@ group Website
     nuget Fable.FontAwesome
     nuget Fable.FontAwesome.Free
     nuget Fulma
+    nuget Fulma.Extensions.Wikiki.Divider
     nuget Thoth.Json
 
 group DataLoader

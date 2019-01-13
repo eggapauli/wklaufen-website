@@ -10,4 +10,5 @@ group Website
     Fable.FontAwesome
     Fable.FontAwesome.Free
     Fulma
+    Fulma.Extensions.Wikiki.Divider
     Thoth.Json

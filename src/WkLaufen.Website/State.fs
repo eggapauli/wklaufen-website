@@ -61,6 +61,7 @@ let init result =
     CurrentPage = Home
     NewsModel = News.Types.init
     UnterstuetzenModel = Unterstuetzen.Types.init
+    WirUeberUnsModel = WirUeberUns.Types.init
   }
 
   let (model', cmd) =
@@ -82,7 +83,8 @@ let update msg model =
   | GoBack when model.CurrentPage = News ->
     { model with NewsModel = News.Types.init }, Navigation.jump -1
   | GoBack -> model, Navigation.jump -1
-  | NewsMsg msg -> { model with NewsModel = News.Types.update msg model.NewsModel }, []
+  | NewsMsg msg -> { model with NewsModel = News.Types.update msg model.NewsModel }, Cmd.none
   | UnterstuetzenMsg msg ->
     let model', cmd' = Unterstuetzen.Types.update msg model.UnterstuetzenModel
     { model with UnterstuetzenModel = model' }, Cmd.map UnterstuetzenMsg cmd'
+  | WirUeberUnsMsg msg -> { model with WirUeberUnsModel = WirUeberUns.Types.update msg model.WirUeberUnsModel }, Cmd.none

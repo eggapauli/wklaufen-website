@@ -33,7 +33,7 @@ let view model dispatch =
     | Musiker -> Musiker.View.root
     | MusikerRegister groupId -> Musiker.View.detail groupId
     | Unterstuetzen -> Unterstuetzen.View.root model.UnterstuetzenModel (UnterstuetzenMsg >> dispatch)
-    | WirUeberUns -> WirUeberUns.View.root
+    | WirUeberUns -> WirUeberUns.View.root model.WirUeberUnsModel (WirUeberUnsMsg >> dispatch)
     | MitgliedWerden -> MitgliedWerden.View.root
     | Wertungen -> Wertungen.View.root
     | Jugend -> Jugend.View.root
