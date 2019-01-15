@@ -19,17 +19,17 @@ let private getImportance (calendarEvent: CalendarEvent) =
     if isImportant then Important
     else Normal
 
+let private timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById "Central European Standard Time"
+
 let private toActivityTimestamp (date: IDateTime) =
-    if not date.HasTime
-    then
-        // I think there's a bug in Ical.Net.
-        // To reproduce, create an "All day"-event on the day where Daylight Saving Time switches from winter to summer time.
-        // `date.Value` of the end time was 1 hour behind
-        if date.Value.TimeOfDay > TimeSpan(12, 0, 0)
-        then System.DateTime(date.Value.Year, date.Value.Month, date.Value.Day, 0, 0, 0).AddDays(1.)
-        else System.DateTime(date.Value.Year, date.Value.Month, date.Value.Day, 0, 0, 0)
-        |> Date
-    else DateTime date.Value
+    let dateTime =
+        if date.Value.Kind = DateTimeKind.Utc
+        then TimeZoneInfo.ConvertTimeFromUtc(date.Value, timeZoneInfo)
+        else date.Value
+        |> fun dt -> DateTimeOffset(dt, timeZoneInfo.GetUtcOffset dt)
+    if date.HasTime
+    then DateTime dateTime
+    else Date dateTime
 
 let fromFile path =
     let calendar =
@@ -41,6 +41,14 @@ let fromFile path =
     calendar.GetOccurrences(from, ``to``)
     |> Seq.map (fun v ->
         let calendarEvent = v.Source :?> CalendarEvent
+        
+        // Ical.Net calculates a wrong period on a day where Daylight Saving Time changes
+        if v.Period.Duration <> TimeSpan.Zero && not v.Period.StartTime.HasTime && not v.Period.EndTime.HasTime
+        then
+            let fix = timeZoneInfo.GetUtcOffset v.Period.EndTime.Value -
+                      timeZoneInfo.GetUtcOffset v.Period.StartTime.Value
+            v.Period.EndTime <- v.Period.StartTime.Add(v.Period.Duration + fix)
+
         let endTime =
             v.Period.EndTime
             |> Option.ofObj

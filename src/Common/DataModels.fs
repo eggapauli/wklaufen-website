@@ -69,8 +69,8 @@ type Contest = {
 type ActivityImportance = Important | Normal
 
 type ActivityTimestamp =
-    | Date of DateTime
-    | DateTime of DateTime
+    | Date of DateTimeOffset
+    | DateTime of DateTimeOffset
 
 module ActivityTimestamp =
     let unwrap = function
