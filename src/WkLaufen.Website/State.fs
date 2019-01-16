@@ -87,4 +87,6 @@ let update msg model =
   | UnterstuetzenMsg msg ->
     let model', cmd' = Unterstuetzen.Types.update msg model.UnterstuetzenModel
     { model with UnterstuetzenModel = model' }, Cmd.map UnterstuetzenMsg cmd'
-  | WirUeberUnsMsg msg -> { model with WirUeberUnsModel = WirUeberUns.Types.update msg model.WirUeberUnsModel }, Cmd.none
+  | WirUeberUnsMsg msg ->
+    let model', cmd' = WirUeberUns.Types.update msg model.WirUeberUnsModel
+    { model with WirUeberUnsModel = model' }, Cmd.map WirUeberUnsMsg cmd'

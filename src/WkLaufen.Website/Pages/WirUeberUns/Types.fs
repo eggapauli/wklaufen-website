@@ -1,15 +1,25 @@
 module WirUeberUns.Types
 
+open Elmish
+open Fable.Core.JsInterop
+open Fable.Import
+
+let mutable sliderRef: Browser.Element option = None
+
+let gotoSlide n = 
+    match sliderRef with
+    | None -> () 
+    | Some slider -> slider?slickGoTo(n, false)
+
 type Model = {
   SlideNumber: int
 }
 
 type Msg =
   | SlideTo of int
-
 let init =
   { SlideNumber = 0 }
 
 let update msg model =
   match msg with
-  | SlideTo idx -> { model with SlideNumber = idx }
+  | SlideTo idx -> { model with SlideNumber = idx }, Cmd.attemptFunc gotoSlide idx raise

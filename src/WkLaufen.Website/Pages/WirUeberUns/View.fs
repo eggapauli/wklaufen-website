@@ -87,8 +87,6 @@ let root model dispatch =
               AdaptiveHeight false
               InitialSlide model.SlideNumber
               AfterChange (SlideTo >> dispatch)
-              // Updating the slide doesn't work so we force recreating the component
-              // see https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key
-              Key (string model.SlideNumber)
+              Ref (fun slider -> sliderRef <- Some slider) 
             ]
             descriptionsView ] ] 
