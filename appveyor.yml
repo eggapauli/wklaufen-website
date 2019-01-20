@@ -17,9 +17,9 @@ environment:
     secure: w4rIlEoHl+x1gtgnZvCHzw==
   MAIL_HOST: s1.meinehp.at
   MAIL_PORT: 587
-  MAIL_USERNAME: web@wk-laufen.at
+  MAIL_USERNAME: website@wk-laufen.at
   MAIL_PASSWORD:
-    secure: YS38z6vOtsjb+3BO0bDgDw==
+    secure: JyAJrOyuVG+IubOMk5SFLbRcjSicKyCIvvyqOCyYp4SgT/OL4T5QM/8VV/wbNC7wR0g0oMgfeVjrlKduPpDL7OviVYQLIdEFD2jlS+JQJU0=
 
 init:
   - dotnet --version
