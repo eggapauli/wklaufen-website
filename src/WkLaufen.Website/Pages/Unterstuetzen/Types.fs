@@ -158,14 +158,30 @@ let update msg model =
       )
     { model with Inputs = inputs }, Cmd.none
   | Submit ->
-    let model' = { model with FormState = Sending }
-    let cmd =
-      Cmd.ofPromise
-        (postJson Forms.Unterstuetzen.path (encodeForm model.Inputs))
-        []
-        (Ok >> SubmitResponse)
-        (Error >> SubmitResponse)
-    model', cmd
+    let validatedInputs =
+      model.Inputs
+      |> List.map (fun input -> { input with Error = validateInput input.Input })
+    let inputsValid =
+      validatedInputs
+      |> List.forall (fun input ->
+        match input.Error with
+        | Valid -> true
+        | NotValidated
+        | ValidationError _ -> false
+      )
+    let model' = { model with Inputs = validatedInputs }
+    
+    if inputsValid
+    then
+      let cmd =
+        Cmd.ofPromise
+          (postJson Forms.Unterstuetzen.path (encodeForm model.Inputs))
+          []
+          (Ok >> SubmitResponse)
+          (Error >> SubmitResponse)
+      { model' with FormState = Sending }, cmd
+    else
+      { model' with FormState = NotSent }, Cmd.none
   | SubmitResponse (Ok (Ok _)) ->
     let model' = { model with FormState = SendSuccess }
     model', Cmd.none

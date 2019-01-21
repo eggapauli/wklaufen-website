@@ -34,30 +34,13 @@ let private textInput placeholder value icon error onChange onBlur =
           [ str message ]
     ]
 
-let private hasValue = function
-  | Forms.Unterstuetzen.FirstName (value, _) -> value.IsSome
-  | Forms.Unterstuetzen.LastName (value, _) -> value.IsSome
-  | Forms.Unterstuetzen.Street (value, _) -> value.IsSome
-  | Forms.Unterstuetzen.City (value, _) -> value.IsSome
-  | Forms.Unterstuetzen.Email (value, _) -> value.IsSome
-
 let root model dispatch =
   let canSendForm =
-    let inputsValid =
-      model.Inputs
-      |> List.forall (fun input ->
-        match input.Error with
-        | Valid -> true
-        | NotValidated
-        | ValidationError _ -> false
-      )
-    let sendStateOk =
       match model.FormState with
       | NotSent
       | SendError -> true
       | Sending
       | SendSuccess -> false
-    inputsValid && sendStateOk
 
   let formInputs =
     model.Inputs
