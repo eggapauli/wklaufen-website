@@ -40,7 +40,7 @@ let private boolInput title value error onChange onBlur =
     [ yield Control.div []
         [ Checkbox.checkbox []
             [ Checkbox.input [ Props [ Checked value; OnChange (fun ev -> onChange ev.target?``checked``) ] ]
-              str title ] ]
+              span [ Style [ MarginLeft "5px" ] ] [ str title ] ] ]
       match error with
       | NotValidated
       | Valid -> ()
