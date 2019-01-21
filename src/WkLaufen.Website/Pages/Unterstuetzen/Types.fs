@@ -38,6 +38,10 @@ let isStringInputValid validation value =
   | Forms.NotEmptyOrWhitespace -> not <| String.IsNullOrWhiteSpace value
   | Forms.ContainsCharacter c -> String.exists ((=) c) value
 
+let isBoolInputValid validation value =
+  match validation with
+  | Forms.MustBeTrue -> value
+
 let private validateInput input =
   match input with
   | Forms.Unterstuetzen.FirstName (value, validation)
@@ -49,6 +53,12 @@ let private validateInput input =
     | Some value when isStringInputValid validation value -> Valid
     | Some _
     | None -> Forms.Unterstuetzen.getErrorText input |> ValidationError
+  | Forms.Unterstuetzen.DataUsageConsent (value, validation) ->
+    match value with
+    | Some value when isBoolInputValid validation value -> Valid
+    | Some _
+    | None -> Forms.Unterstuetzen.getErrorText input |> ValidationError
+
 
 let private encodeForm inputs =
   let encodeInput input =
@@ -58,6 +68,7 @@ let private encodeForm inputs =
     | Forms.Unterstuetzen.Street (value, _)
     | Forms.Unterstuetzen.City (value, _)
     | Forms.Unterstuetzen.Email (value, _) -> Encode.option Encode.string value
+    | Forms.Unterstuetzen.DataUsageConsent (value, _) -> Encode.option Encode.bool value
 
   inputs
   |> List.map (fun input -> (Forms.Unterstuetzen.getKey input.Input), encodeInput input.Input)
@@ -148,6 +159,15 @@ let update msg model =
         | _ -> input
       )
     { model with Inputs = inputs }, Cmd.none
+  | Update (Forms.Unterstuetzen.DataUsageConsent _ as newInput) ->
+    let inputs =
+      model.Inputs
+      |> List.map (fun input ->
+        match input.Input with
+        | Forms.Unterstuetzen.DataUsageConsent _ -> { input with Input = newInput }
+        | _ -> input
+      )
+    { model with Inputs = inputs }, Cmd.none
   | Validate inputToValidate ->
     let inputs =
       model.Inputs
@@ -170,7 +190,7 @@ let update msg model =
         | ValidationError _ -> false
       )
     let model' = { model with Inputs = validatedInputs }
-    
+
     if inputsValid
     then
       let cmd =

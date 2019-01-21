@@ -7,11 +7,16 @@ module String =
 let generateStringInputValidationCode key errorText = function
     | Forms.NotEmptyOrWhitespace ->
         [
-            sprintf "if (empty($formData[\"%s\"])) $errors[\"%s\"] = \"%s\";" key key errorText
+            sprintf "if (empty($formData[\"%s\"]) || trim($formData[\"%s\"]) == \"\") $errors[\"%s\"] = \"%s\";" key key key errorText
         ]
     | Forms.ContainsCharacter c ->
         [
             sprintf "if (strpos($formData[\"%s\"], \"%c\") === false) $errors[\"%s\"] = \"%s\";" key c key errorText
+        ]
+let generateBoolInputValidationCode key errorText = function
+    | Forms.MustBeTrue ->
+        [
+            sprintf "if (empty($formData[\"%s\"])) $errors[\"%s\"] = \"%s\";" key key errorText
         ]
 
 let generateInputValidationCode input =
@@ -24,13 +29,25 @@ let generateInputValidationCode input =
     | Forms.Unterstuetzen.City (_, validation)
     | Forms.Unterstuetzen.Email (_, validation) ->
         generateStringInputValidationCode key errorText validation
+    | Forms.Unterstuetzen.DataUsageConsent (_, validation) ->
+        generateBoolInputValidationCode key errorText validation
 
 let generateReportGenerationCode input =
     let title= Forms.Unterstuetzen.getTitle input
     let key = Forms.Unterstuetzen.getKey input
-    [
-        sprintf "$report .= \"* %s: $formData[%s]\\r\\n\";" title key
-    ]
+    match input with
+    | Forms.Unterstuetzen.FirstName _
+    | Forms.Unterstuetzen.LastName _
+    | Forms.Unterstuetzen.Street _
+    | Forms.Unterstuetzen.City _
+    | Forms.Unterstuetzen.Email _ ->
+        [
+            sprintf "$report .= \"* %s: $formData[%s]\\r\\n\";" title key
+        ]
+    | Forms.Unterstuetzen.DataUsageConsent _ ->
+        [
+            sprintf "$report .= ($formData[%s] ? '✓' : '✗') . \" %s\\r\\n\";" key title
+        ]
 
 let getEnvVarOrFail name =
     let value = Environment.GetEnvironmentVariable name

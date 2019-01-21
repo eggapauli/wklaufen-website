@@ -1,6 +1,7 @@
 module Unterstuetzen.View
 
 open System
+open Fable.Core.JsInterop
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fable.FontAwesome
@@ -21,7 +22,7 @@ let private textInput placeholder value icon error onChange onBlur =
               | ValidationError _ ->
                 yield Input.Color IsDanger
               yield Input.OnChange (fun ev -> onChange ev.Value)
-              yield Input.Props [ OnBlur (fun _ev -> onBlur ()) ] ]
+              yield Input.Props [ OnBlur (ignore >> onBlur) ] ]
           Icon.icon
             [ Icon.Size IsSmall
               Icon.IsLeft ]
@@ -32,6 +33,20 @@ let private textInput placeholder value icon error onChange onBlur =
       | ValidationError message ->
         yield Help.help [ Help.Color IsDanger ]
           [ str message ]
+    ]
+
+let private boolInput title value error onChange onBlur =
+  Field.div []
+    [ yield Control.div []
+        [ Checkbox.checkbox []
+            [ Checkbox.input [ Props [ Checked value; OnChange (fun ev -> onChange ev.target?``checked``) ] ]
+              str title ] ]
+      match error with
+      | NotValidated
+      | Valid -> ()
+      | ValidationError message ->
+        yield Help.help [ Help.Color IsDanger ]
+          [ str message]
     ]
 
 let root model dispatch =
@@ -86,6 +101,13 @@ let root model dispatch =
           validatedInput.Error
           (Some >> (fun v -> v, validation) >> Forms.Unterstuetzen.Email >> Update >> dispatch)
           (fun () -> dispatch (Validate input))
+      | Forms.Unterstuetzen.DataUsageConsent (value, validation) as input ->
+        boolInput
+          (Forms.Unterstuetzen.getTitle input)
+          (Option.defaultValue false value)
+          validatedInput.Error
+          (Some >> (fun v -> v, validation) >> Forms.Unterstuetzen.DataUsageConsent >> Update >> dispatch)
+          (fun () -> dispatch (Validate input))
     )
 
   Layout.page
@@ -107,7 +129,7 @@ let root model dispatch =
                   br []
                   str "Dass alte und auch jüngere Traditionen verbunden mit modernen Aspekten einen echten musikalischen Hochgenuss ergeben können, beweist die Werkskapelle Laufen Gmunden-Engelhof mit ihren vielfältigen Ensembles regelmäßig bei Konzerten, Konzertwertungen und –reisen, Marschwertungen und diversen Ausrückungen. Unser Auftrag ist es nicht nur diese Traditionen hoch zu halten und Ihnen mit erstklassiger Blasmusik eine Freude zu bereiten, sondern sie an die nächsten Generationen weiterzugeben. Als unterstützendes Mitglied unseres Vereins helfen Sie uns mit 15 € jährlich diese Aufgabe in die Tat umzusetzen. Unsere unterstützenden Mitglieder erwarten außerdem ein Newsletter mit Informationen zu allen Terminen und Vereinsaktivitäten und eine persönliche Einladung zu Veranstaltungshighlights." ] ]
 
-          p []
+          div []
             [ yield! formInputs
               yield Field.div []
                 [ Control.div []
