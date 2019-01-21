@@ -57,57 +57,32 @@ let root model dispatch =
       | Sending
       | SendSuccess -> false
 
+  let getIcon = function
+    | Forms.Unterstuetzen.FirstName -> Fa.Solid.User
+    | Forms.Unterstuetzen.LastName -> Fa.Solid.User
+    | Forms.Unterstuetzen.Street -> Fa.Solid.Building
+    | Forms.Unterstuetzen.City -> Fa.Solid.MapPin
+    | Forms.Unterstuetzen.Email -> Fa.Solid.Envelope
+
   let formInputs =
     model.Inputs
     |> List.map (fun validatedInput ->
-      match validatedInput.Input with
-      | Forms.Unterstuetzen.FirstName (value, validation) as input ->
+      match validatedInput.Input.Type with
+      | Forms.StringInput inputProps as inputType ->
         textInput
-          (Forms.Unterstuetzen.getTitle input)
-          (Option.defaultValue "" value)
-          Fa.Solid.User
+          validatedInput.Input.Props.Title
+          (Option.defaultValue "" inputProps.Value)
+          (getIcon inputProps.Field)
           validatedInput.Error
-          (Some >> (fun v -> v, validation) >> Forms.Unterstuetzen.FirstName >> Update >> dispatch)
-          (fun () -> dispatch (Validate input))
-      | Forms.Unterstuetzen.LastName (value, validation) as input ->
-        textInput
-          (Forms.Unterstuetzen.getTitle input)
-          (Option.defaultValue "" value)
-          Fa.Solid.User
-          validatedInput.Error
-          (Some >> (fun v -> v, validation) >> Forms.Unterstuetzen.LastName >> Update >> dispatch)
-          (fun () -> dispatch (Validate input))
-      | Forms.Unterstuetzen.Street (value, validation) as input ->
-        textInput
-          (Forms.Unterstuetzen.getTitle input)
-          (Option.defaultValue "" value)
-          Fa.Solid.Building
-          validatedInput.Error
-          (Some >> (fun v -> v, validation) >> Forms.Unterstuetzen.Street >> Update >> dispatch)
-          (fun () -> dispatch (Validate input))
-      | Forms.Unterstuetzen.City (value, validation) as input ->
-        textInput
-          (Forms.Unterstuetzen.getTitle input)
-          (Option.defaultValue "" value)
-          Fa.Solid.MapPin
-          validatedInput.Error
-          (Some >> (fun v -> v, validation) >> Forms.Unterstuetzen.City >> Update >> dispatch)
-          (fun () -> dispatch (Validate input))
-      | Forms.Unterstuetzen.Email (value, validation) as input ->
-        textInput
-          (Forms.Unterstuetzen.getTitle input)
-          (Option.defaultValue "" value)
-          Fa.Solid.Envelope
-          validatedInput.Error
-          (Some >> (fun v -> v, validation) >> Forms.Unterstuetzen.Email >> Update >> dispatch)
-          (fun () -> dispatch (Validate input))
-      | Forms.Unterstuetzen.DataUsageConsent (value, validation) as input ->
+          (Some >> (fun v -> { inputProps with Value = v }) >> Forms.StringInput >> Update >> dispatch)
+          (fun () -> dispatch (Validate inputType))
+      | Forms.BoolInput inputProps as inputType ->
         boolInput
-          (Forms.Unterstuetzen.getTitle input)
-          (Option.defaultValue false value)
+          validatedInput.Input.Props.Title
+          (Option.defaultValue false inputProps.Value)
           validatedInput.Error
-          (Some >> (fun v -> v, validation) >> Forms.Unterstuetzen.DataUsageConsent >> Update >> dispatch)
-          (fun () -> dispatch (Validate input))
+          (Some >> (fun v -> { inputProps with Value = v }) >> Forms.BoolInput >> Update >> dispatch)
+          (fun () -> dispatch (Validate inputType))
     )
 
   Layout.page

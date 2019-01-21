@@ -11,7 +11,7 @@ type ValidationResult =
   | Valid
   | ValidationError of string
 type ValidatedInput =
-  { Input: Forms.Unterstuetzen.Input
+  { Input: Forms.Input<Forms.Unterstuetzen.Field>
     Error: ValidationResult }
 
 type FormState = NotSent | Sending | SendSuccess | SendError
@@ -21,8 +21,8 @@ type Model =
     FormState: FormState }
 
 type Msg =
-  | Update of Forms.Unterstuetzen.Input
-  | Validate of Forms.Unterstuetzen.Input
+  | Update of Forms.InputType<Forms.Unterstuetzen.Field>
+  | Validate of Forms.InputType<Forms.Unterstuetzen.Field>
   | Submit
   | SubmitResponse of Result<Result<Response, Map<string, string>>, exn>
 
@@ -42,43 +42,35 @@ let isBoolInputValid validation value =
   match validation with
   | Forms.MustBeTrue -> value
 
-let private validateInput input =
-  match input with
-  | Forms.Unterstuetzen.FirstName (value, validation)
-  | Forms.Unterstuetzen.LastName (value, validation)
-  | Forms.Unterstuetzen.Street (value, validation)
-  | Forms.Unterstuetzen.City (value, validation)
-  | Forms.Unterstuetzen.Email (value, validation) ->
-    match value with
-    | Some value when isStringInputValid validation value -> Valid
+let private validateInput (input: Forms.Input<_>) =
+  match input.Type with
+  | Forms.StringInput inputProps ->
+    match inputProps.Value with
+    | Some value when isStringInputValid inputProps.Validation value -> Valid
     | Some _
-    | None -> Forms.Unterstuetzen.getErrorText input |> ValidationError
-  | Forms.Unterstuetzen.DataUsageConsent (value, validation) ->
-    match value with
-    | Some value when isBoolInputValid validation value -> Valid
+    | None -> ValidationError input.Props.ErrorText
+  | Forms.BoolInput inputProps ->
+    match inputProps.Value with
+    | Some value when isBoolInputValid inputProps.Validation value -> Valid
     | Some _
-    | None -> Forms.Unterstuetzen.getErrorText input |> ValidationError
+    | None -> ValidationError input.Props.ErrorText
 
 
 let private encodeForm inputs =
-  let encodeInput input =
-    match input with
-    | Forms.Unterstuetzen.FirstName (value, _)
-    | Forms.Unterstuetzen.LastName (value, _)
-    | Forms.Unterstuetzen.Street (value, _)
-    | Forms.Unterstuetzen.City (value, _)
-    | Forms.Unterstuetzen.Email (value, _) -> Encode.option Encode.string value
-    | Forms.Unterstuetzen.DataUsageConsent (value, _) -> Encode.option Encode.bool value
+  let encodeInput inputType =
+    match inputType with
+    | Forms.StringInput inputProps -> Encode.option Encode.string inputProps.Value
+    | Forms.BoolInput inputProps -> Encode.option Encode.bool inputProps.Value
 
   inputs
-  |> List.map (fun input -> (Forms.Unterstuetzen.getKey input.Input), encodeInput input.Input)
+  |> List.map (fun input -> input.Input.Props.Key, encodeInput input.Input.Type)
   |> Encode.object
 
 let formErrorsDecoder =
   Decode.object (fun get ->
     let keys =
       Forms.Unterstuetzen.inputs
-      |> List.map Forms.Unterstuetzen.getKey
+      |> List.map (fun input -> input.Props.Key)
     (Map.empty, keys) ||> List.fold (fun map key ->
       match get.Optional.Field key Decode.string with
       | Some value -> Map.add key value map
@@ -114,65 +106,28 @@ let private postJson url data properties =
 
 let update msg model =
   match msg with
-  | Update (Forms.Unterstuetzen.FirstName _ as newInput) ->
+  | Update newInputType ->
     let inputs =
       model.Inputs
       |> List.map (fun input ->
-        match input.Input with
-        | Forms.Unterstuetzen.FirstName _ -> { input with Input = newInput }
-        | _ -> input
-      )
-    { model with Inputs = inputs }, Cmd.none
-  | Update (Forms.Unterstuetzen.LastName _ as newInput) ->
-    let inputs =
-      model.Inputs
-      |> List.map (fun input ->
-        match input.Input with
-        | Forms.Unterstuetzen.LastName _ -> { input with Input = newInput }
-        | _ -> input
-      )
-    { model with Inputs = inputs }, Cmd.none
-  | Update (Forms.Unterstuetzen.Street _ as newInput) ->
-    let inputs =
-      model.Inputs
-      |> List.map (fun input ->
-        match input.Input with
-        | Forms.Unterstuetzen.Street _ -> { input with Input = newInput }
-        | _ -> input
-      )
-    { model with Inputs = inputs }, Cmd.none
-  | Update (Forms.Unterstuetzen.City _ as newInput) ->
-    let inputs =
-      model.Inputs
-      |> List.map (fun input ->
-        match input.Input with
-        | Forms.Unterstuetzen.City _ -> { input with Input = newInput }
-        | _ -> input
-      )
-    { model with Inputs = inputs }, Cmd.none
-  | Update (Forms.Unterstuetzen.Email _ as newInput) ->
-    let inputs =
-      model.Inputs
-      |> List.map (fun input ->
-        match input.Input with
-        | Forms.Unterstuetzen.Email _ -> { input with Input = newInput }
-        | _ -> input
-      )
-    { model with Inputs = inputs }, Cmd.none
-  | Update (Forms.Unterstuetzen.DataUsageConsent _ as newInput) ->
-    let inputs =
-      model.Inputs
-      |> List.map (fun input ->
-        match input.Input with
-        | Forms.Unterstuetzen.DataUsageConsent _ -> { input with Input = newInput }
-        | _ -> input
+        match input.Input.Type with
+        | Forms.StringInput inputProps ->
+          match newInputType with
+          | Forms.StringInput ({ Field = newInputField }) when inputProps.Field = newInputField ->
+            { input with Input = { input.Input with Type = newInputType } }
+          | _ -> input
+        | Forms.BoolInput inputProps ->
+          match newInputType with
+          | Forms.BoolInput ({ Field = newInputField }) when inputProps.Field = newInputField ->
+            { input with Input = { input.Input with Type = newInputType } }
+          | _ -> input
       )
     { model with Inputs = inputs }, Cmd.none
   | Validate inputToValidate ->
     let inputs =
       model.Inputs
       |> List.map (fun input ->
-        if inputToValidate = input.Input
+        if inputToValidate = input.Input.Type
         then { input with Error = validateInput input.Input }
         else input
       )

@@ -19,34 +19,22 @@ let generateBoolInputValidationCode key errorText = function
             sprintf "if (empty($formData[\"%s\"])) $errors[\"%s\"] = \"%s\";" key key errorText
         ]
 
-let generateInputValidationCode input =
-    let key = Forms.Unterstuetzen.getKey input
-    let errorText = Forms.Unterstuetzen.getErrorText input
-    match input with
-    | Forms.Unterstuetzen.FirstName (_, validation)
-    | Forms.Unterstuetzen.LastName (_, validation)
-    | Forms.Unterstuetzen.Street (_, validation)
-    | Forms.Unterstuetzen.City (_, validation)
-    | Forms.Unterstuetzen.Email (_, validation) ->
-        generateStringInputValidationCode key errorText validation
-    | Forms.Unterstuetzen.DataUsageConsent (_, validation) ->
-        generateBoolInputValidationCode key errorText validation
+let generateInputValidationCode (input: Forms.Input<_>) =
+    match input.Type with
+    | Forms.StringInput inputProps ->
+        generateStringInputValidationCode input.Props.Key input.Props.ErrorText inputProps.Validation
+    | Forms.BoolInput inputProps ->
+        generateBoolInputValidationCode input.Props.Key input.Props.ErrorText inputProps.Validation
 
-let generateReportGenerationCode input =
-    let title= Forms.Unterstuetzen.getTitle input
-    let key = Forms.Unterstuetzen.getKey input
-    match input with
-    | Forms.Unterstuetzen.FirstName _
-    | Forms.Unterstuetzen.LastName _
-    | Forms.Unterstuetzen.Street _
-    | Forms.Unterstuetzen.City _
-    | Forms.Unterstuetzen.Email _ ->
+let generateReportGenerationCode (input: Forms.Input<_>) =
+    match input.Type with
+    | Forms.StringInput _ ->
         [
-            sprintf "$report .= \"* %s: $formData[%s]\\r\\n\";" title key
+            sprintf "$report .= \"* %s: $formData[%s]\\r\\n\";" input.Props.Title input.Props.Key
         ]
-    | Forms.Unterstuetzen.DataUsageConsent _ ->
+    | Forms.BoolInput _ ->
         [
-            sprintf "$report .= ($formData[%s] ? '✓' : '✗') . \" %s\\r\\n\";" key title
+            sprintf "$report .= ($formData[%s] ? '✓' : '✗') . \" %s\\r\\n\";" input.Props.Key input.Props.Title
         ]
 
 let getEnvVarOrFail name =
