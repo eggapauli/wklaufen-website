@@ -9,6 +9,10 @@ type BoolValue = bool option
 type BoolInputValidation =
   | MustBeTrue
 
+type IntegerValue = int option
+type IntegerInputValidation =
+  | NonNegative
+
 type InputProps =
   { Key: string
     Title: string
@@ -24,9 +28,15 @@ type BoolInputProps<'a> =
     Value: BoolValue
     Validation: BoolInputValidation }
 
+type IntegerInputProps<'a> =
+  { Field: 'a
+    Value: IntegerValue
+    Validation: IntegerInputValidation }
+
 type InputType<'a> =
   | StringInput of StringInputProps<'a>
   | BoolInput of BoolInputProps<'a>
+  | IntegerInput of IntegerInputProps<'a>
 
 type Input<'a> =
   { Props: InputProps
@@ -73,7 +83,7 @@ module Unterstuetzen =
             { Field = Street
               Value = None
               Validation = NotEmptyOrWhitespace } }
-              
+
       { Props =
           { Key = "city"
             Title = "PLZ + Ort"
@@ -97,6 +107,90 @@ module Unterstuetzen =
       { Props =
           { Key = "dataUsageConsent"
             Title = "Ich bin damit einverstanden, dass diese Daten für die Zusendung des Newsletters, Einladungen und weitere Informationszwecke verwendet werden. Die Daten werden nicht an Dritte weitergegeben."
+            ErrorText = "Bitte akzeptieren sie die Einwilligungserklärung gemäß Datenschutz zur Verarbeitung Ihrer Daten." }
+        Type =
+          BoolInput
+            { Field = DataUsageConsent
+              Value = None
+              Validation = MustBeTrue } }
+    ]
+
+module Kartenreservierung =
+  type Field =
+    | FirstName
+    | LastName
+    | PhoneNumber
+    | Email
+    | StandardPriceTickets
+    | ReducedPriceTickets
+    | DataUsageConsent
+
+  let path = "kartenreservierung.php"
+  let inputs =
+    [
+      { Props =
+          { Key = "firstName"
+            Title = "Vorname"
+            ErrorText = "Bitte geben Sie den Namen an, für den die Karten hinterlegt werden sollen." }
+        Type =
+          StringInput
+            { Field = FirstName
+              Value = None
+              Validation = NotEmptyOrWhitespace } }
+
+      { Props =
+          { Key = "lastName"
+            Title = "Nachname"
+            ErrorText = "Bitte geben Sie den Namen an, für den die Karten hinterlegt werden sollen." }
+        Type =
+          StringInput
+            { Field = LastName
+              Value = None
+              Validation = NotEmptyOrWhitespace } }
+
+      { Props =
+          { Key = "phoneNumber"
+            Title = "Telefonnummer"
+            ErrorText = "Bitte geben Sie eine Telefonnummer an, mit der wir Sie ggf. kontaktieren können." }
+        Type =
+          StringInput
+            { Field = PhoneNumber
+              Value = None
+              Validation = NotEmptyOrWhitespace } }
+
+      { Props =
+          { Key = "email"
+            Title = "E-Mail"
+            ErrorText = "Bitte geben Sie eine E-Mail-Adresse an, an die wir z.B. unseren Newsletter senden können." }
+        Type =
+          StringInput
+            { Field = Email
+              Value = None
+              Validation = ContainsCharacter '@' } }
+
+      { Props =
+          { Key = "standardPriceTickets"
+            Title = "Anzahl Erwachsene à 12 €"
+            ErrorText = "Bitte geben Sie die Anzahl der Karten für Erwachsene an." }
+        Type =
+          IntegerInput
+            { Field = StandardPriceTickets
+              Value = None
+              Validation = NonNegative } }
+
+      { Props =
+          { Key = "reducedPriceTickets"
+            Title = "Anzahl Kinder à 10 €"
+            ErrorText = "Bitte geben Sie die Anzahl der Karten für Kinder an." }
+        Type =
+          IntegerInput
+            { Field = ReducedPriceTickets
+              Value = None
+              Validation = NonNegative } }
+
+      { Props =
+          { Key = "dataUsageConsent"
+            Title = "Ich bin damit einverstanden, dass diese Daten für Informationszwecke verwendet werden. Die Daten werden nicht an Dritte weitergegeben."
             ErrorText = "Bitte akzeptieren sie die Einwilligungserklärung gemäß Datenschutz zur Verarbeitung Ihrer Daten." }
         Type =
           BoolInput

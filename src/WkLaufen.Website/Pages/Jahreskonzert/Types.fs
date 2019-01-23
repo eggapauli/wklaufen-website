@@ -1,22 +1,22 @@
-module Unterstuetzen.Types
+module Jahreskonzert.Types
 
 open Elmish
 open Fetch
 open App.Forms
 
 type Model =
-  { Inputs: ValidatedInput<Forms.Unterstuetzen.Field> list
+  { Inputs: ValidatedInput<Forms.Kartenreservierung.Field> list
     FormState: FormState }
 
 type Msg =
-  | Update of Forms.InputType<Forms.Unterstuetzen.Field>
-  | Validate of Forms.InputType<Forms.Unterstuetzen.Field>
+  | Update of Forms.InputType<Forms.Kartenreservierung.Field>
+  | Validate of Forms.InputType<Forms.Kartenreservierung.Field>
   | Submit
   | SubmitResponse of Result<Result<Response, Map<string, string>>, exn>
 
 let init =
   { Inputs =
-      Forms.Unterstuetzen.inputs
+      Forms.Kartenreservierung.inputs
       |> List.map (fun input -> { Input = input; Error = NotValidated })
     FormState = NotSent
   }
@@ -37,7 +37,7 @@ let update msg model =
     then
       let cmd =
         Cmd.ofPromise
-          (postJson Forms.Unterstuetzen.path (encodeForm model.Inputs))
+          (postJson Forms.Kartenreservierung.path (encodeForm model.Inputs))
           []
           (Ok >> SubmitResponse)
           (Error >> SubmitResponse)

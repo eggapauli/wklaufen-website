@@ -23,6 +23,7 @@ let pageParser: Parser<Page->Page,Page> =
     map Jugend (s "jugend")
     map Floetenkids (s "floetenkids")
     map Impressum (s "impressum")
+    map Jahreskonzert (s "jahreskonzert")
   ]
 
 let updateWindowTitle page dispatch =
@@ -42,6 +43,7 @@ let updateWindowTitle page dispatch =
     | Jugend -> "Jugend"
     | Floetenkids -> "Flötenkids"
     | Impressum -> "Impressum"
+    | Jahreskonzert -> "Jahreskonzert"
     |> sprintf "%s - WK Laufen"
   Fable.Import.Browser.document.title <- title
 
@@ -62,6 +64,7 @@ let init result =
     NewsModel = News.Types.init
     UnterstuetzenModel = Unterstuetzen.Types.init
     WirUeberUnsModel = WirUeberUns.Types.init
+    JahreskonzertModel = Jahreskonzert.Types.init
   }
 
   let (model', cmd) =
@@ -90,3 +93,7 @@ let update msg model =
   | WirUeberUnsMsg msg ->
     let model', cmd' = WirUeberUns.Types.update msg model.WirUeberUnsModel
     { model with WirUeberUnsModel = model' }, Cmd.map WirUeberUnsMsg cmd'
+  | JahreskonzertMsg msg ->
+    let model', cmd' = Jahreskonzert.Types.update msg model.JahreskonzertModel
+    { model with JahreskonzertModel = model' }, Cmd.map JahreskonzertMsg cmd'
+

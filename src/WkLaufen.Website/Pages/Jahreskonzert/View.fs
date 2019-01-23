@@ -1,13 +1,13 @@
-module Unterstuetzen.View
+module Jahreskonzert.View
 
+open System
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fable.FontAwesome
 open Fulma
 open global.Data
-open Unterstuetzen.Types
+open Jahreskonzert.Types
 open App.Forms
-
 
 let root model dispatch =
   let canSendForm =
@@ -18,12 +18,13 @@ let root model dispatch =
       | SendSuccess -> false
 
   let getIcon = function
-    | Forms.Unterstuetzen.FirstName -> Fa.Solid.User
-    | Forms.Unterstuetzen.LastName -> Fa.Solid.User
-    | Forms.Unterstuetzen.Street -> Fa.Solid.Building
-    | Forms.Unterstuetzen.City -> Fa.Solid.MapPin
-    | Forms.Unterstuetzen.Email -> Fa.Solid.Envelope
-    | Forms.Unterstuetzen.DataUsageConsent -> Fa.Solid.Gavel
+    | Forms.Kartenreservierung.FirstName -> Fa.Solid.User
+    | Forms.Kartenreservierung.LastName -> Fa.Solid.User
+    | Forms.Kartenreservierung.PhoneNumber -> Fa.Solid.Phone
+    | Forms.Kartenreservierung.Email -> Fa.Solid.Envelope
+    | Forms.Kartenreservierung.StandardPriceTickets -> Fa.Solid.Male
+    | Forms.Kartenreservierung.ReducedPriceTickets -> Fa.Solid.Child
+    | Forms.Kartenreservierung.DataUsageConsent -> Fa.Solid.Gavel
 
   let formInputs =
     model.Inputs
@@ -53,25 +54,16 @@ let root model dispatch =
           ((fun v -> { inputProps with Value = v }) >> Forms.IntegerInput >> Update >> dispatch)
           (fun () -> dispatch (Validate inputType))
     )
-
   Layout.page
-    "support"
-    Images.unterstuetzen_w1000h600
+    "concert"
+    Images.jahreskonzert_w1000h600
     [
       div [Class "rich-text text"]
         [ span []
-            [ str "Unterstützendes Mitglied"
+            [ str "Jahreskonzert am 23. Februar 2019 um 19.43 Uhr"
               br []
               str "der Werkskapelle Laufen Gmunden-Engelhof" ]
-          |> App.Html.modernHeader "Ja, ich will" "werden."
-
-          Content.content []
-            [ p []
-                [ str "Ein altes Sprichwort sagt "
-                  em [] [ str "\"Tradition ist nicht die Anbetung der Asche, sondern die Weitergabe des Feuers!\"" ]
-                  str "."
-                  br []
-                  str "Dass alte und auch jüngere Traditionen verbunden mit modernen Aspekten einen echten musikalischen Hochgenuss ergeben können, beweist die Werkskapelle Laufen Gmunden-Engelhof mit ihren vielfältigen Ensembles regelmäßig bei Konzerten, Konzertwertungen und –reisen, Marschwertungen und diversen Ausrückungen. Unser Auftrag ist es nicht nur diese Traditionen hoch zu halten und Ihnen mit erstklassiger Blasmusik eine Freude zu bereiten, sondern sie an die nächsten Generationen weiterzugeben. Als unterstützendes Mitglied unseres Vereins helfen Sie uns mit 15 € jährlich diese Aufgabe in die Tat umzusetzen. Unsere unterstützenden Mitglieder erwarten außerdem ein Newsletter mit Informationen zu allen Terminen und Vereinsaktivitäten und eine persönliche Einladung zu Veranstaltungshighlights." ] ]
+          |> App.Html.modernHeader "Ja, ich werde zum" "kommen."
 
           div []
             [ yield! formInputs
@@ -98,7 +90,7 @@ let root model dispatch =
                                   FontSize "24px"
                                   Color "darkgoldenrod"
                                   TextShadow "0 0 1px black" ] ]
-                            [ str "Danke für Ihre Unterstützung!" ]
+                            [ str "Danke für Ihre Reservierung! Die Karten sind an der Abendkassa hinterlegt." ]
                       | SendError ->
                         yield
                           span
@@ -109,6 +101,6 @@ let root model dispatch =
                                   FontSize "24px"
                                   Color "orangered"
                                   TextShadow "0 0 1px black" ] ]
-                            [ str "Leider ist ein interner Fehler aufgetreten. Bitte versuchen Sie es später noch einmal oder schreiben Sie uns direkt eine E-Mail an marketing@wk-laufen.at. Vielen Dank." ]
+                            [ str "Leider ist ein interner Fehler aufgetreten. Bitte versuchen Sie es später noch einmal oder schreiben Sie uns direkt eine E-Mail an obmann@wk-laufen.at. Vielen Dank." ]
                     ] ] ] ]
     ]

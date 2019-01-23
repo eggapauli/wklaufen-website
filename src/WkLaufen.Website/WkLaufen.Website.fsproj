@@ -15,6 +15,7 @@
     <Compile Include="data/MemberGroups.fs" />
     <Compile Include="data/News.generated.fs" />
     <Compile Include="Html.fs" />
+    <Compile Include="Forms.fs" />
     <!-- Pages -->
     <Compile Include="Pages/Layout.fs" />
     <Compile Include="Pages/Home/View.fs" />
@@ -32,6 +33,8 @@
     <Compile Include="Pages/Jugend/View.fs" />
     <Compile Include="Pages/Floetenkids/View.fs" />
     <Compile Include="Pages/Impressum/View.fs" />
+    <Compile Include="Pages/Jahreskonzert/Types.fs" />
+    <Compile Include="Pages/Jahreskonzert/View.fs" />
     <!-- App -->
     <Compile Include="Types.fs" />
     <Compile Include="State.fs" />
