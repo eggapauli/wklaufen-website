@@ -170,7 +170,7 @@ module Kartenreservierung =
 
       { Props =
           { Key = "standardPriceTickets"
-            Title = "Anzahl Erwachsene à 12 €"
+            Title = "Anzahl Erwachsene à 10 €"
             ErrorText = "Bitte geben Sie die Anzahl der Karten für Erwachsene an." }
         Type =
           IntegerInput
@@ -180,7 +180,7 @@ module Kartenreservierung =
 
       { Props =
           { Key = "reducedPriceTickets"
-            Title = "Anzahl Kinder à 10 €"
+            Title = "Anzahl Kinder à 5 €"
             ErrorText = "Bitte geben Sie die Anzahl der Karten für Kinder an." }
         Type =
           IntegerInput
