@@ -475,7 +475,15 @@ strong
     .content
       padding: 20px
 
-$pages: home, contacts, news, news-details, activities, member-groups, members, about-us, become-member, contests, youths, recorder-kids, impressum
+#concert
+  .rich-text
+    padding: 20px
+    margin: 0 50px
+    max-height: 100%
+    box-sizing: border-box
+    overflow-y: auto
+
+$pages: home, contacts, news, news-details, activities, member-groups, members, support, about-us, become-member, contests, youths, recorder-kids, impressum, concert
 @each $page in $pages
   @keyframes page-load-#{$page}
     from { opacity: 0 }
