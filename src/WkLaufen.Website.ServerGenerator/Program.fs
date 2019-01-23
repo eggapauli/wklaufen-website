@@ -168,10 +168,10 @@ let main argv =
           FilePath = Forms.Unterstuetzen.path
           EmailReportHeadline = "Juhuuu, ein neues unterstützendes Mitglied hat sich über das Online-Formular auf wk-laufen.at angemeldet."
           EmailRecipients =
-            // [ Main "marketing@wk-laufen.at"
-            //   CC "obmann@wk-laufen.at"
-            //   BCC "j.egger@posteo.at" ]
-            [ Main "j.egger@posteo.at" ]
+            [ Main "marketing@wk-laufen.at"
+              CC "obmann@wk-laufen.at"
+              BCC "j.egger@posteo.at" ]
+            // [ Main "j.egger@posteo.at" ]
           EmailSubject = "Neues unterstützendes Mitglied" }
     generateServerForm supportFormReport
 
@@ -180,10 +180,10 @@ let main argv =
           FilePath = Forms.Kartenreservierung.path
           EmailReportHeadline = "Juhuuu, über das Online-Formular auf wk-laufen.at sind Karten für das Jahreskonzert reserviert worden."
           EmailRecipients =
-            // [ Main "obmann@wk-laufen.at"
-            //   CC "marketing@wk-laufen.at"
-            //   BCC "j.egger@posteo.at" ]
-            [ Main "j.egger@posteo.at" ]
+            [ Main "obmann@wk-laufen.at"
+              CC "marketing@wk-laufen.at"
+              BCC "j.egger@posteo.at" ]
+            // [ Main "j.egger@posteo.at" ]
           EmailSubject = "Kartenreservierung Jahreskonzert 2019" }
     generateServerForm ticketFormReport
     0
