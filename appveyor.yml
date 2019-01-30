@@ -34,8 +34,11 @@ install:
       Add-Content -Path "$phpPath/php.ini" -Value "extension_dir = ext"
       Add-Content -Path "$phpPath/php.ini" -Value "extension=php_openssl.dll"
   - ps: |
-      php -r "copy('https://getcomposer.org/download/1.8.3/composer.phar', 'composer-setup.php');"
-      php -r "if (hash_file('sha256', 'composer-setup.php') === '5733ae9516e9185b7c3328d16dac75f3475f8ef137572dfb497f0f298157df33') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+      $signatureResponse = Invoke-WebRequest https://composer.github.io/installer.sig
+      $signature = [System.Text.Encoding]::UTF8.GetString($signatureResponse.Content)
+      php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+      php -r "if (hash_file('sha384', 'composer-setup.php') === '5733ae9516e9185b7c3328d16dac75f3475f8ef137572dfb497f0f298157df33') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
       mkdir bin
       php composer-setup.php --install-dir=bin --filename=composer
       php -r "unlink('composer-setup.php');"
