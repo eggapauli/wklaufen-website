@@ -25,9 +25,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.fsproj" />
   </ItemGroup>
-  <PropertyGroup>
-    <FscToolPath>..\..\packages\dataloader\FSharp.Compiler.Tools\tools</FscToolPath>
-    <FscToolExe>fsc.exe</FscToolExe>
-  </PropertyGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
