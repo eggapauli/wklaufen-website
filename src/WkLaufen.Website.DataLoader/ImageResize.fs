@@ -97,7 +97,7 @@ let resizeImages dataDir sourceDir deployBaseDir deployDir =
             yield getImages "members", { defaultResizeOptions with Width = Some 200; Height = Some 270 }, Indexed "members_w200h270"
             yield
                 [ "87181.jpg"; "31180.jpg"; "31145.jpg"; "39627.jpg" ]
-                |> List.map (fun f -> sourceDir @@ "members" @@ f),
+                |> List.map (fun f -> "members" @@ f),
                 { defaultResizeOptions with Width = Some 110; Height = Some 160 }, Indexed "contacts"
             yield getImages "pages", { defaultResizeOptions with Width = Some 1000; Height = Some 600 }, IncludeSizeInName
             yield getImages "news", { defaultResizeOptions with Width = Some 940; Height = Some 480; Crop = false }, IndexedList "news"
