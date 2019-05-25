@@ -9,10 +9,4 @@ let page pageId bgImageUrl content =
       sprintf "content-background content-background-%s" pageId |> ClassName
       Style [ BackgroundImage (sprintf "url(%s)" bgImageUrl) ]
     ]
-    [
-      div [ ClassName "horizontal-outer-border" ] [
-        div [ ClassName "vertical-outer-border" ] [
-          div [ Id pageId; ClassName "inner-main"] content
-        ]
-      ]
-    ]
+    [ div [ Id pageId; ClassName "inner-main"] content ]
