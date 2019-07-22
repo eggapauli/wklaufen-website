@@ -49,6 +49,17 @@ let root =
     [
       ul [ Id "top-menu"; ClassName "menu" ] topMenuItems
       Heading.h1 [ Heading.Is3 ] [ str "Willkommen bei der"; br []; str "Werkskapelle Laufen Gmunden-Engelhof" ]
+      a
+        [ Href (toHash Termine)
+          Style
+            [ Display "inline-block"
+              Position "absolute"
+              Right "50px"
+              Transform "rotate(-3deg)"
+              BoxShadow "0px 0px 15px 15px white"
+              LineHeight "0" ]
+        ]
+        [ img [ Src Images.schlosskonzert_w400 ] ]
       div [ Id "bottom-menu-container" ] [
         ul [ Id "bottom-menu"; ClassName "menu" ] bottomMenuItems
       ]
