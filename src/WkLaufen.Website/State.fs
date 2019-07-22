@@ -23,7 +23,6 @@ let pageParser: Parser<Page->Page,Page> =
     map Jugend (s "jugend")
     map Floetenkids (s "floetenkids")
     map Impressum (s "impressum")
-    map Familiennachmittag (s "familiennachmittag")
   ]
 
 let updateWindowTitle page dispatch =
@@ -43,7 +42,6 @@ let updateWindowTitle page dispatch =
     | Jugend -> "Jugend"
     | Floetenkids -> "Flötenkids"
     | Impressum -> "Impressum"
-    | Familiennachmittag -> "Familiennachmittag"
     |> sprintf "%s - WK Laufen"
   Fable.Import.Browser.document.title <- title
 

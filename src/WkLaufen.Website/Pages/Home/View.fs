@@ -27,7 +27,6 @@ let private menuItem page =
   | Jugend -> Some ((2, 4), render Images.jugend_w150h100 "Jugend")
   | Floetenkids -> Some ((2, 5), render Images.floetenkids_w150h100 "Flötenkids")
   | Impressum -> None
-  | Familiennachmittag -> None
 
 let private pages =
   Microsoft.FSharp.Reflection.FSharpType.GetUnionCases typeof<Page>
@@ -50,17 +49,6 @@ let root =
     [
       ul [ Id "top-menu"; ClassName "menu" ] topMenuItems
       Heading.h1 [ Heading.Is3 ] [ str "Willkommen bei der"; br []; str "Werkskapelle Laufen Gmunden-Engelhof" ]
-      a
-        [ Href (toHash Familiennachmittag)
-          Style
-            [ Display "inline-block"
-              Position "absolute"
-              Right "50px"
-              Transform "rotate(-5deg)"
-              BoxShadow "0px 0px 15px 15px white"
-              LineHeight "0" ]
-        ]
-        [ img [ Src Images.familiennachmittag_w250 ] ]
       div [ Id "bottom-menu-container" ] [
         ul [ Id "bottom-menu"; ClassName "menu" ] bottomMenuItems
       ]

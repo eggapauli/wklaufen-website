@@ -15,7 +15,6 @@ type Page =
   | Jugend
   | Floetenkids
   | Impressum
-  | Familiennachmittag
 
 let toHash = function
   | Home -> "#home"
@@ -32,6 +31,5 @@ let toHash = function
   | Jugend -> "#jugend"
   | Floetenkids -> "#floetenkids"
   | Impressum -> "#impressum"
-  | Familiennachmittag -> "#familiennachmittag"
 
 let toUrl = toHash >> fun s -> s.Replace("#", "/")

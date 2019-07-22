@@ -101,8 +101,6 @@ let resizeImages dataDir sourceDir deployBaseDir deployDir =
                 { defaultResizeOptions with Width = Some 110; Height = Some 160 }, Indexed "contacts"
             yield getImages "pages", { defaultResizeOptions with Width = Some 1000; Height = Some 600 }, IncludeSizeInName
             yield getImages "news", { defaultResizeOptions with Width = Some 940; Height = Some 480; Crop = false }, IndexedList "news"
-            yield [ "familiennachmittag.png" ], { defaultResizeOptions with Width = Some 250 }, IncludeSizeInName
-            yield [ "familiennachmittag_flyer_vorderseite.jpg"; "familiennachmittag_flyer_rueckseite.jpg" ], { defaultResizeOptions with Width = Some 450; Height = Some 560; Crop = false }, IncludeSizeInName
         ]
         |> List.map (fun (paths, resizeOptions, codeGeneration) ->
             let size =
