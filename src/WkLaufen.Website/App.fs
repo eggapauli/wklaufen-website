@@ -27,9 +27,8 @@ let view model dispatch =
   let pageHtml = function
     | Home -> Home.View.root
     | Kontakte -> Kontakte.View.root
+    | News -> div [] []
     | Termine -> Termine.View.root
-    | News -> News.View.root model.NewsModel (NewsMsg >> dispatch)
-    | NewsDetails newsId -> News.View.details model.NewsModel (NewsMsg >> dispatch) newsId
     | Musiker -> Musiker.View.root
     | MusikerRegister groupId -> Musiker.View.detail groupId
     | Unterstuetzen -> Unterstuetzen.View.root model.UnterstuetzenModel (UnterstuetzenMsg >> dispatch)
@@ -42,7 +41,7 @@ let view model dispatch =
 
   div [] [
     yield pageHtml model.CurrentPage
-    yield a [ ClassName "impressum"; toHash Impressum |> Href ] [ str "Impressum" ]
+    yield a [ ClassName "impressum"; toLink Impressum |> Href ] [ str "Impressum" ]
     yield! backArrow model.CurrentPage
   ]
 

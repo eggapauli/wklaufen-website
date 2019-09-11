@@ -8,7 +8,7 @@ open Global
 open global.Data
 
 let private menuItem page =
-  let href = toHash page
+  let href = toLink page
   let render bgImagePath text =
     App.Html.menuItem bgImagePath text href
 
@@ -16,7 +16,6 @@ let private menuItem page =
   | Home -> None
   | Kontakte -> Some ((1, 1), render Images.kontakte_w150h100 "Kontakte")
   | News -> Some ((1, 2), render Images.news_w150h100 "News")
-  | NewsDetails _ -> None
   | Termine -> Some ((1, 3), render Images.termine_w150h100 "Termine")
   | Musiker -> Some ((1, 4), render Images.musiker_w150h100 "Musiker")
   | MusikerRegister _ -> None
@@ -50,7 +49,7 @@ let root =
       ul [ Id "top-menu"; ClassName "menu" ] topMenuItems
       Heading.h1 [ Heading.Is3 ] [ str "Willkommen bei der"; br []; str "Werkskapelle Laufen Gmunden-Engelhof" ]
       a
-        [ Href (toHash Termine)
+        [ Href (toLink Termine)
           Style
             [ Display "inline-block"
               Position "absolute"

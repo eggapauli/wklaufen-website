@@ -4,7 +4,6 @@ type Page =
   | Home
   | Kontakte
   | News
-  | NewsDetails of string
   | Termine
   | Musiker
   | MusikerRegister of string
@@ -16,11 +15,10 @@ type Page =
   | Floetenkids
   | Impressum
 
-let toHash = function
+let toLink = function
   | Home -> "#home"
   | Kontakte -> "#kontakte"
-  | News -> "#news"
-  | NewsDetails newsId -> sprintf "#news/%s" newsId
+  | News -> "https://www.facebook.com/werkskapellelaufen"
   | Termine -> "#termine"
   | Musiker -> "#musiker"
   | MusikerRegister registerId -> sprintf "#musiker/%s" registerId
@@ -32,4 +30,4 @@ let toHash = function
   | Floetenkids -> "#floetenkids"
   | Impressum -> "#impressum"
 
-let toUrl = toHash >> fun s -> s.Replace("#", "/")
+let toUrl = toLink >> fun s -> s.Replace("#", "/")

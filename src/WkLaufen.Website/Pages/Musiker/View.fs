@@ -19,7 +19,7 @@ let root =
           let image =
             Images.memberGroups_w200h130
             |> Map.find group.Id
-          let href = MusikerRegister group.Id |> toHash
+          let href = MusikerRegister group.Id |> toLink
           App.Html.menuItem image group.Name href
         )
       )

@@ -14,9 +14,7 @@
     <Compile Include="Serialize.fs" />
     <Compile Include="ImageResize.fs" />
     <Compile Include="OOEBV.fs" />
-    <Compile Include="Facebook.fs" />
     <Compile Include="Members.fs" />
-    <Compile Include="News.fs" />
     <Compile Include="Contests.fs" />
     <Compile Include="Activities.fs" />
     <Compile Include="Program.fs" />

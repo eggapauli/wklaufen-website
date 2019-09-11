@@ -197,7 +197,6 @@ docs/tools/FSharp.Formatting.svclog
 project.lock.json
 
 assets/images/members
-assets/images/news
 public/
 src/WkLaufen.Website.Server/vendor
 src/WkLaufen.Website.Server/*.php

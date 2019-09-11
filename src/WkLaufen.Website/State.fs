@@ -12,7 +12,6 @@ let pageParser: Parser<Page->Page,Page> =
     map Home (s "home")
     map Kontakte (s "kontakte")
     map News (s "news")
-    map NewsDetails (s "news" </> str)
     map Termine (s "termine")
     map Musiker (s "musiker")
     map MusikerRegister (s "musiker" </> str)
@@ -31,8 +30,7 @@ let updateWindowTitle page dispatch =
     | Home -> "Willkommen"
     | Kontakte -> "Kontakte"
     | Termine -> "Termine"
-    | News
-    | NewsDetails _ -> "News"
+    | News -> "News"
     | Musiker
     | MusikerRegister _ -> "Musiker"
     | Unterstuetzen -> "Unterstützen"
@@ -52,14 +50,13 @@ let urlUpdate (result: Option<Page>) model =
   match result with
   | None ->
     console.error("Error parsing url")
-    model, Cmd.batch [ Navigation.modifyUrl (toHash model.CurrentPage) ]
+    model, Cmd.batch [ Navigation.modifyUrl (toLink model.CurrentPage) ]
   | Some page ->
     { model with CurrentPage = page }, [ updateWindowTitle page; trackPage page ]
 
 let init result =
   let model = {
     CurrentPage = Home
-    NewsModel = News.Types.init
     UnterstuetzenModel = Unterstuetzen.Types.init
     WirUeberUnsModel = WirUeberUns.Types.init
   }
@@ -67,23 +64,20 @@ let init result =
   let (model', cmd) =
     match result with
     | None ->
-      model, Navigation.modifyUrl (toHash model.CurrentPage)
+      model, Navigation.modifyUrl (toLink model.CurrentPage)
     | Some Home ->
       model, []
     | Some page ->
       { model with CurrentPage = page },
       Cmd.batch [
-        Navigation.modifyUrl (toHash Home)
-        Navigation.newUrl (toHash page)
+        Navigation.modifyUrl (toLink Home)
+        Navigation.newUrl (toLink page)
       ]
   model', Cmd.batch [ [ updateWindowTitle model'.CurrentPage ]; cmd ]
 
 let update msg model =
   match msg with
-  | GoBack when model.CurrentPage = News ->
-    { model with NewsModel = News.Types.init }, Navigation.jump -1
   | GoBack -> model, Navigation.jump -1
-  | NewsMsg msg -> { model with NewsModel = News.Types.update msg model.NewsModel }, Cmd.none
   | UnterstuetzenMsg msg ->
     let model', cmd' = Unterstuetzen.Types.update msg model.UnterstuetzenModel
     { model with UnterstuetzenModel = model' }, Cmd.map UnterstuetzenMsg cmd'

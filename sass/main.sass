@@ -247,51 +247,6 @@ strong
         td
           padding: 0 20px 0 5px
 
-#news
-  h1
-    margin-left: 50px
-
-  #news-frame
-    font-size: 130%
-    width: 490px
-    height: 480px
-    padding: 30px 20px 20px 20px
-
-    .slick-slider
-      height: 100%
-
-      .date
-        text-align: right
-        margin-bottom: 5px
-
-      .text
-        overflow-x: hidden
-        overflow-y: auto
-        height: 340px
-
-      a img
-        display: initial
-
-  #facebook-news-hint
-    display: inline-block
-    position: absolute
-    right: 90px
-    font-size: 150%
-    bottom: 20px
-    font-weight: bold
-    color: #fff
-    text-decoration: none
-
-    img
-      vertical-align: bottom
-
-#news-details
-  .news-image img
-    margin: 0 auto
-
-  .rich-text
-    padding-top: 20px
-
 #member-groups
   h1
     text-align: center
@@ -478,7 +433,7 @@ strong
     box-sizing: border-box
     overflow-y: auto
 
-$pages: home, contacts, news, news-details, activities, member-groups, members, support, about-us, become-member, contests, youths, recorder-kids, impressum, concert
+$pages: home, contacts, activities, member-groups, members, support, about-us, become-member, contests, youths, recorder-kids, impressum, concert
 @each $page in $pages
   @keyframes page-load-#{$page}
     from { opacity: 0 }

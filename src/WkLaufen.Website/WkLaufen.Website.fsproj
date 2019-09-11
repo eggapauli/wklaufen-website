@@ -13,7 +13,6 @@
     <Compile Include="data/Images.generated.fs" />
     <Compile Include="data/Members.generated.fs" />
     <Compile Include="data/MemberGroups.fs" />
-    <Compile Include="data/News.generated.fs" />
     <Compile Include="Html.fs" />
     <Compile Include="Forms.fs" />
     <!-- Pages -->
@@ -21,8 +20,6 @@
     <Compile Include="Pages/Home/View.fs" />
     <Compile Include="Pages/Kontakte/View.fs" />
     <Compile Include="Pages/Termine/View.fs" />
-    <Compile Include="Pages/News/Types.fs" />
-    <Compile Include="Pages/News/View.fs" />
     <Compile Include="Pages/Musiker/View.fs" />
     <Compile Include="Pages/Unterstuetzen/Types.fs" />
     <Compile Include="Pages/Unterstuetzen/View.fs" />

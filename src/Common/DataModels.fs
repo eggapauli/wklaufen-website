@@ -21,24 +21,6 @@ type OoebvMember = {
     IsActive: bool
 }
 
-type NewsEntry = {
-    Timestamp: DateTime
-    Content: string
-}
-
-type FacebookNews = {
-    Id: string
-    News: NewsEntry
-    Images: Uri list
-}
-
-type LocalNews = {
-    Id: string
-    News: NewsEntry
-    Images: string list
-    SourceUri: string
-}
-
 [<AutoOpen>]
 module ContestType_ =
     type ContestType =

@@ -36,19 +36,6 @@ let downloadContests credentials dataDir =
     | Choice1Of2 () -> printfn "Successfully downloaded contests."
     | Choice2Of2 x -> failwithf "Error while downloading contests. %s" x
 
-let downloadNews accessToken dataDir imageBaseDir =
-    let newsBaseDir = imageBaseDir @@ "news"
-    Directory.CreateDirectory newsBaseDir |> ignore
-
-    News.download accessToken
-    |> Async.bind (Choice.bindAsync ((List.map (News.downloadImages newsBaseDir)) >> Async.ofList >> Async.map Choice.ofList))
-    |> Async.RunSynchronously
-    |> Choice.map News.serialize
-    |> Choice.map (fun s -> File.WriteAllText(dataDir @@ "News.generated.fs", s))
-    |> function
-    | Choice1Of2 () -> printfn "Successfully downloaded news."
-    | Choice2Of2 x -> failwithf "Error while downloading news. %s" x
-
 let downloadActivities publicCalendarUrl internalCalendarUrl dataDir targetDir =
     Directory.CreateDirectory targetDir |> ignore
 
@@ -96,7 +83,6 @@ let main argv =
 
     downloadMembers (ooebvUsername, ooebvPassword) dataDir imageDir
     downloadContests (ooebvUsername, ooebvPassword) dataDir
-    downloadNews facebookAccessToken dataDir imageDir
     downloadActivities (Uri publicCalendarUrl) (Uri internalCalendarUrl) dataDir (deployDir @@ "calendar")
     ImageResize.resizeImages dataDir imageDir deployDir "images"
     0
