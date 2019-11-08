@@ -9,7 +9,7 @@ environment:
   PUBLIC_CALENDAR_URL:
     secure: pzv+VBoHIjy4e3yFDxI3sXeV2gOYJwqQigDPKScRiDcX3A0s7ItaulrNPh/LlPzng64oZCI0OOIk/N2WcBQCUCURZRcZ/4LLIp3fTVo01aEp9gzmXaZEvbCLKAsC8pztHZ4WunfOr1kjEuQBiQ+FYaWW9O4qIRkwCw1/LFa4qSrXfiln5K/Ld3QYbileBoSYQ3QK8rQgrrOoyePvkjvJzQ==
   INTERNAL_CALENDAR_URL:
-    secure: pzv+VBoHIjy4e3yFDxI3sXeV2gOYJwqQigDPKScRiDexfJlT+o29OMmwtN7sqh0a68lD/FEhnfSsgkibDZ/cehqa98m7d8j+vU29TDgHz55PP2neKXv1epnDSjDjcGoHcV9nbDh6yyJWdeY3LYPLHIZTpI7bCml/BJAyRy4E855oCs9Oumuz2YwA5hgWDOyWwrhL3Mb6ObKdTJ//VKw0HA==
+    secure: IkjKpD8HE3jo8+Ksy9KgAgia36dnBKXj09SKTTrzkFJ1nGRfbIQtDQStG+J+aq+xpZjAiqFsT5lt0FadBfAT0LBOXes1GBQmS+KmsiYfFKaxtKyZG71V7JKRN2DiL9jkqSIog4poqE1DWx/NWI83fndhKoPzyGwx/y0UyCBX3AA=
   UPLOAD_URL: ftp://s1.meinehp.at/web/a/
   TEMP_URL: ftp://s1.meinehp.at/tmp/upload/
   UPLOAD_USERNAME: wk_laufenatftp
