@@ -72,7 +72,6 @@ let getEnvVarOrFail name =
 let main argv =
     let ooebvUsername = getEnvVarOrFail "OOEBV_USERNAME"
     let ooebvPassword = getEnvVarOrFail "OOEBV_PASSWORD"
-    let facebookAccessToken = getEnvVarOrFail "FACEBOOK_ACCESS_TOKEN"
     let publicCalendarUrl = getEnvVarOrFail "PUBLIC_CALENDAR_URL"
     let internalCalendarUrl = getEnvVarOrFail "INTERNAL_CALENDAR_URL"
 
