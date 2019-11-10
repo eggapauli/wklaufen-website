@@ -36,22 +36,16 @@ let downloadContests credentials dataDir =
     | Choice1Of2 () -> printfn "Successfully downloaded contests."
     | Choice2Of2 x -> failwithf "Error while downloading contests. %s" x
 
-let downloadActivities publicCalendarUrl internalCalendarUrl dataDir targetDir =
+let downloadActivities calendarUrl dataDir targetDir =
     Directory.CreateDirectory targetDir |> ignore
 
-    [
-        "public.ics", publicCalendarUrl
-        "internal.ics", internalCalendarUrl
-    ]
-    |> List.iter (fun (fileName, url) ->
-        Http.get url
-        |> AsyncChoice.bindAsync Http.getContentString
-        |> AsyncChoice.map (fun content -> File.WriteAllText(targetDir @@ fileName, content))
-        |> Async.RunSynchronously
-        |> function
-        | Choice1Of2 () -> printfn "Successfully downloaded calendar %s." fileName
-        | Choice2Of2 x -> failwithf "Error while downloading calendar %s. %s" fileName x
-    )
+    Http.get calendarUrl
+    |> AsyncChoice.bindAsync Http.getContentString
+    |> AsyncChoice.map (Activities.fixKonzertmeisterCalendar >> fun content -> File.WriteAllText(targetDir @@ "public.ics", content))
+    |> Async.RunSynchronously
+    |> function
+    | Choice1Of2 () -> printfn "Successfully downloaded calendar."
+    | Choice2Of2 x -> failwithf "Error while downloading calendar: %s" x
 
     try
         Activities.fromFile (targetDir @@ "public.ics")
@@ -72,8 +66,7 @@ let getEnvVarOrFail name =
 let main argv =
     let ooebvUsername = getEnvVarOrFail "OOEBV_USERNAME"
     let ooebvPassword = getEnvVarOrFail "OOEBV_PASSWORD"
-    let publicCalendarUrl = getEnvVarOrFail "PUBLIC_CALENDAR_URL"
-    let internalCalendarUrl = getEnvVarOrFail "INTERNAL_CALENDAR_URL"
+    let calendarUrl = getEnvVarOrFail "CALENDAR_URL"
 
     let rootDir = Path.GetFullPath "."
     let dataDir = rootDir @@ "src" @@ "WkLaufen.Website" @@ "data"
@@ -82,6 +75,6 @@ let main argv =
 
     downloadMembers (ooebvUsername, ooebvPassword) dataDir imageDir
     downloadContests (ooebvUsername, ooebvPassword) dataDir
-    downloadActivities (Uri publicCalendarUrl) (Uri internalCalendarUrl) dataDir (deployDir @@ "calendar")
+    downloadActivities (Uri calendarUrl) dataDir (deployDir @@ "calendar")
     ImageResize.resizeImages dataDir imageDir deployDir "images"
     0
