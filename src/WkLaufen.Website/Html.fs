@@ -54,7 +54,22 @@ let phone (m: DataModels.Member) =
   | None -> None
 
 let emailAddress (m: DataModels.Member) =
-  match m.EmailAddresses |> List.tryHead with
+  let roleMail =
+    [
+      ["Obmann"; "Obfrau"], "obmann@wk-laufen.at"
+      ["Kapellmeister"; "Kapellmeisterin"], "kapellmeister@wk-laufen.at"
+      ["Jugendreferent"; "Jugendreferentin"], "jugendreferat@wk-laufen.at"
+      ["Jugendorchesterleiter"; "Jugendorchesterleiterin"], "jugendorchester@wk-laufen.at"
+    ]
+    |> List.tryPick (fun (roles, mail) ->
+      if Set.intersect (Set.ofList m.Roles) (Set.ofList roles) <> Set.empty
+      then Some mail
+      else None
+    )
+  let mail =
+    roleMail
+    |> Option.orElse (List.tryHead m.EmailAddresses)
+  match mail with
   | Some email -> span [ ClassName "email" ] (obfuscate email) |> Some
   | None -> None
 
