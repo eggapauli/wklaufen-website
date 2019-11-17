@@ -125,8 +125,14 @@ module Members =
         let genderRole gender role =
             let replacements =
                 match gender with
-                | Male -> [("/in", ""); ("/obfrau", "")]
-                | Female -> [("/in", "in"); ("obmann/", ""); ("Archivarstellvertreter", "Archivarstellvertreterin")]
+                | Male -> ["/in", ""; "/obfrau", ""]
+                | Female ->
+                    [
+                        "/in", "in"
+                        "obmann/", ""
+                        "Archivarstellvertreter", "Archivarstellvertreterin"
+                        "Beirat", "Beirätin"
+                    ]
                 | Unspecified -> []
 
             let folder (s: string) (p: string, r: string) =
