@@ -93,6 +93,7 @@ module Members =
             |> fun n -> n.Trim()
             |> fun n -> n.ToLowerInvariant()
             |> fun n -> Regex.Replace(n, @"\b(\w)", new MatchEvaluator(fun m -> m.Value.ToUpper()))
+            |> fun n -> Regex.Replace(n, @"\bEDV\b", new MatchEvaluator(fun m -> m.Value.ToUpper()), RegexOptions.IgnoreCase)
 
         let isMember (status: string) =
             [ "akt"; "mim"; "mip"; "ten" ]
