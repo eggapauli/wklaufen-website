@@ -126,7 +126,7 @@ module Members =
             let replacements =
                 match gender with
                 | Male -> [("/in", ""); ("/obfrau", "")]
-                | Female -> [("/in", "in"); ("obmann/", "")]
+                | Female -> [("/in", "in"); ("obmann/", ""); ("Archivarstellvertreter", "Archivarstellvertreterin")]
                 | Unspecified -> []
 
             let folder (s: string) (p: string, r: string) =
