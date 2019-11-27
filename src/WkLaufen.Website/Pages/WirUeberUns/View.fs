@@ -20,7 +20,7 @@ type Sample = {
 }
 
 let items = [
-  "A", "Adventkonzert", "Jedes Jahr gestalten wir zusammen mit dem Jugendorchester und den Blockflötenkids ein Kirchenkonzert in der Vorweihnachtszeit. Außerdem stimmen wir uns mit Spielereien auf Weihnachtsmärkten, dem Keksebacken der Jugend und unserer Vereinsweihnachtsfeier auf die schönste Zeit des Jahres ein."
+  "A", "Adventspielereien", "Jedes Jahr gestalten wir Adventmärkte und Weihnachtsfeiern durch kleine Ensembles musikalisch mit. Unsere Jungmusiker/innen backen gemeinsam Kekse, die wir auf Adventmärkten verkaufen."
   "B", "Blockflötenkids", "Ab dem Kindergartenalter bieten wir Kindern einmal pro Woche Blockflötenunterricht bei uns im Probenheim. Dabei wird ihr Selbstbewusstsein gefördert und sie lernen Notenkunde und Rhythmusgefühl. Anmeldungen unter jugendorchester@wk-laufen.at."
   "C", "Chamäleons", "Wir sehen uns als musikalische Chamäleons. Ob Marschmusik, Klassisches, Big Band Sound, böhmische Blasmusik, Filmmusik, moderne Konzertwerke, Polka oder Walzer - wir spielen alles gerne und mit Begeisterung!"
   "D", "Dämmerschoppen", "Dämmerschoppen und Frühschoppen gehören bei einem österreichischen Musikverein einfach dazu. Bei uns unter anderem am Tag der Tracht oder abends an Sommertagen bei einem der Traunsee-Wirte."
