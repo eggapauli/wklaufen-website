@@ -30,6 +30,8 @@
     <Compile Include="Pages/Jugend/View.fs" />
     <Compile Include="Pages/Floetenkids/View.fs" />
     <Compile Include="Pages/Impressum/View.fs" />
+    <Compile Include="Pages/Jahreskonzert/Types.fs" />
+    <Compile Include="Pages/Jahreskonzert/View.fs" />
     <!-- App -->
     <Compile Include="Types.fs" />
     <Compile Include="State.fs" />

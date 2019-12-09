@@ -175,4 +175,15 @@ let main argv =
           EmailSubject = "Neues unterstützendes Mitglied" }
     generateServerForm supportFormReport
 
+    let ticketFormReport =
+        { FormInputs = Forms.Kartenreservierung.inputs
+          FilePath = Forms.Kartenreservierung.path
+          EmailReportHeadline = "Juhuuu, über das Online-Formular auf wk-laufen.at sind Karten für das Jahreskonzert reserviert worden."
+          EmailRecipients =
+            [ Main "marketing@wk-laufen.at"
+              CC "obmann@wk-laufen.at"
+              BCC "j.egger@posteo.at" ]
+            // [ Main "j.egger@posteo.at" ]
+          EmailSubject = "Kartenreservierung Jahreskonzert 2019" }
+    generateServerForm ticketFormReport
     0
