@@ -75,9 +75,9 @@ let fixKonzertmeisterCalendar (content: string) =
                 Some evt
 
             fun (evt: CalendarEvent) ->
-                if Regex.IsMatch(evt.Description, "^auftritt(:|$)", RegexOptions.IgnoreCase)
+                if Regex.IsMatch(evt.Description, "^(auftritt|performance)(:|$)", RegexOptions.IgnoreCase)
                 then
-                    evt.Description <- Regex.Replace(evt.Description, @"^auftritt(:\s*)?", "", RegexOptions.IgnoreCase)
+                    evt.Description <- Regex.Replace(evt.Description, @"^(auftritt|performance)(:\s*)?", "", RegexOptions.IgnoreCase)
                     Some evt
                 else None
 
