@@ -42,7 +42,7 @@ let fromFile path =
     calendar.GetOccurrences(from, ``to``)
     |> Seq.map (fun v ->
         let calendarEvent = v.Source :?> CalendarEvent
-        
+
         // Ical.Net calculates a wrong period on a day where Daylight Saving Time changes
         if v.Period.Duration <> TimeSpan.Zero && not v.Period.StartTime.HasTime && not v.Period.EndTime.HasTime
         then
@@ -75,20 +75,14 @@ let fixKonzertmeisterCalendar (content: string) =
                 Some evt
 
             fun (evt: CalendarEvent) ->
-                if Regex.IsMatch(evt.Description, "^(auftritt|performance)(:|$)", RegexOptions.IgnoreCase)
-                then
-                    evt.Description <- Regex.Replace(evt.Description, @"^(auftritt|performance)(:\s*)?", "", RegexOptions.IgnoreCase)
-                    Some evt
-                else None
-
-            fun (evt: CalendarEvent) ->
+                let description = Regex.Replace(evt.Description, @"^(\w+)(:\s+)?", "")
                 let descriptionLines =
-                    evt.Description.Split([| "\r\n"; "\r"; "\n" |], StringSplitOptions.None)
+                    description.Split([| "\r\n"; "\r"; "\n" |], StringSplitOptions.None)
                     |> Array.toList
                 let metadataLines =
                     match descriptionLines |> List.skipWhile (fun line -> not <| line.Trim().StartsWith("---")) with
                     | [] -> descriptionLines
-                    | x -> List.skip 1 descriptionLines
+                    | x -> List.skip 1 x
                 let metadata =
                     metadataLines
                     |> List.choose (fun line ->
@@ -107,7 +101,6 @@ let fixKonzertmeisterCalendar (content: string) =
                         let d = originalTimestamp.Value
                         if t = TimeSpan.Zero then
                             let result = CalDateTime(DateTime(d.Year, d.Month, d.Day)) :> IDateTime
-                            printfn "%b" result.HasTime
                             result
                         else
                             let dt = DateTime(d.Year, d.Month, d.Day, t.Hours, t.Minutes, t.Seconds, t.Milliseconds)
@@ -128,20 +121,38 @@ let fixKonzertmeisterCalendar (content: string) =
                         )
                     )
                     |> Option.defaultWith (fun () -> failwithf "Can't parse time: \"%s\" (Event title = %s)" v evt.Summary)
-                evt.Summary <- Map.tryFind "titel" metadata |> Option.defaultValue evt.Summary
-                evt.Description <- Map.tryFind "details" metadata |> Option.defaultValue ""
-                evt.Start <-
-                    Map.tryFind "beginn" metadata
-                    |> Option.map (parseAndUpdateTime evt.Start)
-                    |> Option.defaultValue evt.Start
-                evt.End <-
-                    Map.tryFind "ende" metadata
-                    |> Option.map (parseAndUpdateTime evt.End)
-                    |> Option.defaultValue evt.End
-                evt.Location <-
-                    Map.tryFind "ort" metadata
-                    |> Option.defaultValue evt.Location
-                Some evt
+                let parseBool text =
+                    String.equalsIgnoreCase text "ja"
+                let isPublic =
+                    let isPerformance = Regex.IsMatch(evt.Description, "^(auftritt|performance)(:|$)", RegexOptions.IgnoreCase)
+                    Map.tryFind "öffentlich" metadata
+                    |> Option.map parseBool
+                    |> Option.defaultValue isPerformance
+                if isPublic
+                then
+                    evt.Summary <- Map.tryFind "titel" metadata |> Option.defaultValue evt.Summary
+                    evt.Description <- Map.tryFind "details" metadata |> Option.defaultValue ""
+                    if Map.tryFind "zeit öffentlich" metadata |> Option.map parseBool |> Option.defaultValue true
+                    then
+                        evt.Start <-
+                            Map.tryFind "beginn" metadata
+                            |> Option.map (parseAndUpdateTime evt.Start)
+                            |> Option.defaultValue evt.Start
+                        evt.End <-
+                            Map.tryFind "ende" metadata
+                            |> Option.map (parseAndUpdateTime evt.End)
+                            |> Option.defaultValue evt.End
+                    else
+                        evt.Start <- CalDateTime(DateTime(evt.Start.Year, evt.Start.Month, evt.Start.Day)) :> IDateTime
+                        evt.End <-
+                            let date = DateTime(evt.End.Year, evt.End.Month, evt.End.Day)
+                            let date' = if evt.Start.Date = evt.End.Date then date.AddDays 1. else date
+                            CalDateTime(date') :> IDateTime
+                    evt.Location <-
+                        Map.tryFind "ort" metadata
+                        |> Option.defaultValue evt.Location
+                    Some evt
+                else None
         ]
         match List.fold (flip Option.bind) (Some evt) fns with
         | Some evt -> ()
