@@ -25,8 +25,7 @@ let private menuItem page =
   | Wertungen -> Some ((2, 3), render Images.wertungen_w150h100 "Wertungen")
   | Jugend -> Some ((2, 4), render Images.jugend_w150h100 "Jugend")
   | Floetenkids -> Some ((2, 5), render Images.floetenkids_w150h100 "Flötenkids")
-  | Impressum
-  | Jahreskonzert -> None
+  | Impressum -> None
 
 let private pages =
   Microsoft.FSharp.Reflection.FSharpType.GetUnionCases typeof<Page>
@@ -49,24 +48,6 @@ let root =
     [
       ul [ Id "top-menu"; ClassName "menu" ] topMenuItems
       Heading.h1 [ Heading.Is3 ] [ str "Willkommen bei der"; br []; str "Werkskapelle Laufen Gmunden-Engelhof" ]
-      a
-        [ Href (toLink Jahreskonzert)
-          Style
-            [ Display "inline-block"
-              Position "absolute"
-              Right "50px"
-              Transform "rotate(-5deg)"
-              FontSize "25px"
-              Padding "30px"
-              Background "rgba(255,255,255,0.8)"
-              BorderRadius "20px"
-              Border "5px double darkgoldenrod"
-              TextShadow "0px 0px 1px black"
-              Color "darkgoldenrod"
-              TextDecoration "none"
-              FontFamily "'Special Elite', cursive"
-              TextAlign "center" ] ]
-        [ str "Kartenreservierung"; br []; str "Jahreskonzert 2020" ]
       div [ Id "bottom-menu-container" ] [
         ul [ Id "bottom-menu"; ClassName "menu" ] bottomMenuItems
       ]

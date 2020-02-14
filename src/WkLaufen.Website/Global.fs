@@ -14,7 +14,6 @@ type Page =
   | Jugend
   | Floetenkids
   | Impressum
-  | Jahreskonzert
 
 let toLink = function
   | Home -> "#home"
@@ -30,6 +29,5 @@ let toLink = function
   | Jugend -> "#jugend"
   | Floetenkids -> "#floetenkids"
   | Impressum -> "#impressum"
-  | Jahreskonzert -> "#jahreskonzert"
 
 let toUrl = toLink >> fun s -> s.Replace("#", "/")
