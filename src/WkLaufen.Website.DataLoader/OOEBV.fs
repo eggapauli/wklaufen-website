@@ -114,31 +114,12 @@ module Members =
                 |> fun x -> Regex.Replace(x, @"\D", "")
             )
 
-        type Gender = | Male | Female | Unspecified
-
-        let gender text =
-            match text with
-            | "m\u00E4nnlich" -> Male
-            | "weiblich" -> Female
-            | _ -> Unspecified
-
-        let genderRole gender role =
-            let replacements =
-                match gender with
-                | Male -> ["/in", ""; "/obfrau", ""]
-                | Female ->
-                    [
-                        "/in", "in"
-                        "obmann/", ""
-                        "Archivarstellvertreter", "Archivarstellvertreterin"
-                        "Beirat", "Beirätin"
-                    ]
-                | Unspecified -> []
-
-            let folder (s: string) (p: string, r: string) =
-                Regex.Replace(s, p, r, RegexOptions.IgnoreCase)
-
-            List.fold folder role replacements
+        let role roleName =
+            if String.equalsIgnoreCase roleName "Obmann/Obfrau" then Obmann
+            elif String.equalsIgnoreCase roleName "Kapellmeister/in" then Kapellmeister
+            elif String.equalsIgnoreCase roleName "Jugendorchesterleiter/in" then Jugendorchesterleiter
+            elif String.equalsIgnoreCase roleName "Jugendreferent/in" then Jugendreferent
+            else Other roleName
 
     let private rand = Random()
 
@@ -191,9 +172,9 @@ module Members =
                     doc.DocumentNode.SelectNodes("//input[@type=\"radio\"][@name=\"mit_geschlecht\"]")
                     |> Seq.tryFind(fun n -> n.Attributes.["checked"] <> null)
                     |> function
-                    | Some n when n.Attributes.["value"].Value.Equals("m", StringComparison.InvariantCultureIgnoreCase) -> Parse.Gender.Male
-                    | Some n when n.Attributes.["value"].Value.Equals("w", StringComparison.InvariantCultureIgnoreCase) -> Parse.Gender.Female
-                    | _ -> Parse.Gender.Unspecified
+                    | Some n when n.Attributes.["value"].Value.Equals("m", StringComparison.InvariantCultureIgnoreCase) -> Male
+                    | Some n when n.Attributes.["value"].Value.Equals("w", StringComparison.InvariantCultureIgnoreCase) -> Female
+                    | _ -> Unspecified
                 
                 let roles =
                     doc.DocumentNode.SelectNodes("//select")
@@ -208,7 +189,7 @@ module Members =
                             |> fun n -> not <| String.IsNullOrWhiteSpace(n.Attributes.["value"].Value)
 
                         match roleName, roleEnded with
-                        | Some n, false -> n |> Parse.genderRole gender |> Some
+                        | Some n, false -> Parse.role n |> Some
                         | _ -> None
                     )
                     |> Seq.toList
@@ -252,6 +233,7 @@ module Members =
                             FirstName = firstName
                             LastName = lastName
                             DateOfBirth = getTextBoxValue "mit_geburtsdatum" |> Parse.date
+                            Gender = gender
                             City = getTextBoxValue "mit_ort" |> Parse.normalizeName
                             Phones = [ getTextBoxValue "mit_mobil"; getTextBoxValue "mit_telefon1"; getTextBoxValue "mit_telefon2" ] |> List.collect Parse.phones
                             EmailAddresses =

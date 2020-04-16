@@ -12,7 +12,7 @@
     <Compile Include="data/Contests.generated.fs" />
     <Compile Include="data/Images.generated.fs" />
     <Compile Include="data/Members.generated.fs" />
-    <Compile Include="data/MemberGroups.fs" />
+    <Compile Include="data/MemberQuery.fs" />
     <Compile Include="Html.fs" />
     <Compile Include="Forms.fs" />
     <!-- Pages -->

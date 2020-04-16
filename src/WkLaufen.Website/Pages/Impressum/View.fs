@@ -1,13 +1,12 @@
 module Impressum.View
 
+open global.Data
+open DataModels
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fulma
-open global.Data
 
-let obmann =
-  Members.items
-  |> Seq.find (fun m -> m.Roles |> Seq.contains "Obmann")
+let obmann = MemberQuery.firstWithRole Obmann
 
 let root =
   Layout.page

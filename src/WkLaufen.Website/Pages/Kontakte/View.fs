@@ -1,9 +1,10 @@
 module Kontakte.View
 
+open global.Data
+open DataModels
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fulma
-open global.Data
 
 let root =
   Layout.page
@@ -21,11 +22,7 @@ let root =
         ]
       ]
       div [ ClassName "contacts" ] (
-        [ 31180; 87181 ]
-        |> List.map (fun memberId ->
-          MemberGroups.getIndexed()
-          |> Map.find memberId
-          |> App.Html.contact
-        )
+        [ Obmann; Kapellmeister ]
+        |> List.map (MemberQuery.firstWithRole >> App.Html.contact)
       )
     ]

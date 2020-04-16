@@ -1,14 +1,13 @@
 module Jugend.View
 
+open global.Data
+open DataModels
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fulma
-open global.Data
 
 let root =
-  let contact =
-    MemberGroups.getIndexed()
-    |> Map.find 31145
+  let contact = MemberQuery.firstWithRole Jugendreferent
   Layout.page
     "youths"
     Images.jugendreferat_w1000h600

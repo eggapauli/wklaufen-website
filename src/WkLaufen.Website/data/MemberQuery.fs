@@ -1,4 +1,4 @@
-module Data.MemberGroups
+module Data.MemberQuery
 
 type MemberGroup = {
     Id: string
@@ -70,3 +70,7 @@ let getGroups() =
             |> List.filter (isMember g.Id)
         g, groupMembers
     )
+
+let firstWithRole role =
+    Members.items
+    |> Seq.find (fun m -> m.Roles |> Seq.contains role)

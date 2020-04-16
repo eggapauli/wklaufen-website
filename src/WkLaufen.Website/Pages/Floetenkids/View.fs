@@ -1,14 +1,13 @@
 module Floetenkids.View
 
+open global.Data
+open DataModels
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fulma
-open global.Data
 
 let root =
-  let contact =
-    MemberGroups.getIndexed()
-    |> Map.find 39627
+  let contact = MemberQuery.firstWithRole Jugendorchesterleiter
   Layout.page
     "recorder-kids"
     Images.blockfloetenkids_w1000h600

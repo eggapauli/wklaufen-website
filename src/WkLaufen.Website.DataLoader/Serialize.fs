@@ -41,12 +41,14 @@ let stringOption = function
 let string =
     sprintf "\"\"\"%s\"\"\""
 
-let stringSeq lines =
+let seq lines =
     [
         yield "["
-        yield! lines |> List.map (string >> sprintf "  %s")
+        yield! lines |> List.map (sprintf "  %s")
         yield "]"
     ]
+
+let stringSeq = List.map string >> seq
 
 let activityTimestamp = function
     | DateTime d -> dateTimeOffset d |> sprintf "%s |> DateTime"

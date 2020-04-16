@@ -14,7 +14,7 @@ let root =
     [
       Heading.h1 [ Heading.Is3 ] [ str "Die Musikerinnen & Musiker der WK Laufen" ]
       ul [Class "menu"] (
-        MemberGroups.getGroups()
+        MemberQuery.getGroups()
         |> List.map (fst >> fun group ->
           let image =
             Images.memberGroups_w200h130
@@ -26,7 +26,7 @@ let root =
     ]
 
 let detail groupId =
-  MemberGroups.getGroups()
+  MemberQuery.getGroups()
   |> List.tryFind (fst >> fun g -> g.Id = groupId)
   |> function
     | Some (group, members) ->
@@ -66,7 +66,7 @@ let detail groupId =
                                 )
                                 |> Option.toList
                               yield!
-                                match m.Roles with
+                                match m.Roles |> List.map (DataModels.Role.toString m.Gender) with
                                 | [] -> []
                                 | [ head ] -> [ li [] [ sprintf "Funktion: %s" head |> str ] ]
                                 | x -> [ li [] [ x |> String.concat ", " |> sprintf "Funktionen: %s" |> str ] ]

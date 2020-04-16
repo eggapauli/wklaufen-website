@@ -1,17 +1,59 @@
 module DataModels
 
 open System
+open System.Text.RegularExpressions
+
+type Role =
+    | Obmann
+    | Kapellmeister
+    | Jugendorchesterleiter
+    | Jugendreferent
+    | Other of string
+
+type Gender = | Male | Female | Unspecified
+
+module Role =
+    let private genderRole gender role =
+        let replacements =
+            match gender with
+            | Male -> ["/in", ""; "/obfrau", ""]
+            | Female ->
+                [
+                    "/in", "in"
+                    "obmann/", ""
+                    "Archivarstellvertreter", "Archivarstellvertreterin"
+                    "Beirat", "Beirätin"
+                ]
+            | Unspecified -> []
+
+        let folder (s: string) (p: string, r: string) =
+            Regex.Replace(s, p, r, RegexOptions.IgnoreCase)
+
+        List.fold folder role replacements
+
+    let toString gender role =
+        match gender, role with
+        | Male, Obmann | Unspecified, Obmann -> "Obmann"
+        | Female, Obmann -> "Obfrau"
+        | Male, Kapellmeister | Unspecified, Kapellmeister -> "Kapellmeister"
+        | Female, Kapellmeister -> "Kapellmeisterin"
+        | Male, Jugendorchesterleiter | Unspecified, Jugendorchesterleiter -> "Jugendorchesterleiter"
+        | Female, Jugendorchesterleiter -> "Jugendorchesterleiterin"
+        | Male, Jugendreferent | Unspecified, Jugendreferent -> "Jugendreferent"
+        | Female, Jugendreferent -> "Jugendreferentin"
+        | role, Other name -> genderRole role name
 
 type Member = {
     OoebvId: int
     FirstName: string
     LastName: string
     DateOfBirth: DateTime option
+    Gender: Gender
     City: string
     Phones: string list
     EmailAddresses: string list
     MemberSince: DateTime option
-    Roles: string list
+    Roles: Role list
     Instruments: string list
 }
 

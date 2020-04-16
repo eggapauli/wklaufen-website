@@ -1,14 +1,13 @@
 module MitgliedWerden.View
 
+open global.Data
+open DataModels
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fulma
-open global.Data
 
 let root =
-  let contact =
-    MemberGroups.getIndexed()
-    |> Map.find 31180
+  let contact = MemberQuery.firstWithRole Obmann
   Layout.page
     "become-member"
     Images.mitglied_werden_w1000h600

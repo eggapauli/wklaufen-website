@@ -1,12 +1,13 @@
 module App.Html
 
+open global.Data
+open DataModels
 open Fable.Core.JsInterop
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open System
 open System.Text.RegularExpressions
 open Fulma
-open global.Data
 
 let splitFileName (fileName: string) =
   match fileName.LastIndexOf '.' with
@@ -54,24 +55,15 @@ let phone (m: DataModels.Member) =
   | None -> None
 
 let emailAddress (m: DataModels.Member) =
-  let roleMail =
-    [
-      ["Obmann"; "Obfrau"], "obmann@wk-laufen.at"
-      ["Kapellmeister"; "Kapellmeisterin"], "kapellmeister@wk-laufen.at"
-      ["Jugendreferent"; "Jugendreferentin"], "jugendreferat@wk-laufen.at"
-      ["Jugendorchesterleiter"; "Jugendorchesterleiterin"], "jugendorchester@wk-laufen.at"
-    ]
-    |> List.tryPick (fun (roles, mail) ->
-      if Set.intersect (Set.ofList m.Roles) (Set.ofList roles) <> Set.empty
-      then Some mail
-      else None
-    )
-  let mail =
-    roleMail
-    |> Option.orElse (List.tryHead m.EmailAddresses)
-  match mail with
-  | Some email -> span [ ClassName "email" ] (obfuscate email) |> Some
-  | None -> None
+  let mailAddress =
+    if m.Roles |> List.contains Obmann then Some "obmann@wk-laufen.at"
+    elif m.Roles |> List.contains Kapellmeister then Some "kapellmeister@wk-laufen.at"
+    elif m.Roles |> List.contains Jugendreferent then Some "jugendreferat@wk-laufen.at"
+    elif m.Roles |> List.contains Jugendorchesterleiter then Some "jugendorchester@wk-laufen.at"
+    else List.tryHead m.EmailAddresses
+  
+  mailAddress
+  |> Option.map (obfuscate >> (span [ ClassName "email" ]))
 
 let (|Uri|_|) str =
   if Regex.IsMatch(str, "^https?://")
@@ -113,7 +105,7 @@ let contact (m: DataModels.Member) =
     )
     yield span [ ClassName "name" ] [ str (sprintf "%s %s" m.FirstName m.LastName) ]
     yield br []
-    yield span [ ClassName "roles" ] [ str (m.Roles |> String.concat ", ") ]
+    yield span [ ClassName "roles" ] [ str (m.Roles |> List.map (Role.toString m.Gender) |> String.concat ", ") ]
     yield!
       match phone m with
       | Some x -> [ br []; x ]
