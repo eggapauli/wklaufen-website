@@ -95,10 +95,7 @@ let resizeImages dataDir sourceDir deployBaseDir deployDir =
             yield getImages "menu-items", { defaultResizeOptions with Width = Some 150; Height = Some 100 }, IncludeSizeInName
             yield getImages "member-groups", { defaultResizeOptions with Width = Some 200; Height = Some 130 }, Indexed "memberGroups_w200h130"
             yield getImages "members", { defaultResizeOptions with Width = Some 200; Height = Some 270 }, Indexed "members_w200h270"
-            yield
-                [ "87181.jpg"; "31180.jpg"; "31145.jpg"; "39627.jpg" ]
-                |> List.map (fun f -> "members" @@ f),
-                { defaultResizeOptions with Width = Some 110; Height = Some 160 }, Indexed "contacts"
+            yield getImages "members", { defaultResizeOptions with Width = Some 110; Height = Some 160 }, Indexed "contacts"
             yield getImages "pages", { defaultResizeOptions with Width = Some 1000; Height = Some 600 }, IncludeSizeInName
         ]
         |> List.map (fun (paths, resizeOptions, codeGeneration) ->
