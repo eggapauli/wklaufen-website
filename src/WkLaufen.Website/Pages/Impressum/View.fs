@@ -27,7 +27,7 @@ let root =
           yield br []
           yield sprintf "Obmann: %s %s" obmann.FirstName obmann.LastName |> str
           yield!
-              match Html.emailAddress obmann with
+              match App.Html.emailAddress obmann with
               | Some node ->
                 [
                   str ", "
