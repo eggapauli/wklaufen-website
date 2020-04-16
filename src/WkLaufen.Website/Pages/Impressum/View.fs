@@ -27,11 +27,11 @@ let root =
           yield br []
           yield sprintf "Obmann: %s %s" obmann.FirstName obmann.LastName |> str
           yield!
-              match obmann.EmailAddresses |> List.tryHead with
-              | Some email ->
+              match Html.emailAddress obmann with
+              | Some node ->
                 [
                   str ", "
-                  span [] (App.Html.obfuscate email)
+                  node
                 ]
               | None -> []
         ]
