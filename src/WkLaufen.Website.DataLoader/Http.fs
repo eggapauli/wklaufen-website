@@ -121,3 +121,10 @@ let uploadImageMultipart (uri: Uri) imagePath = async {
 
     return! sendRequest request
 }
+
+let createClientWithCookies (cookies: Cookie list) =
+    let cookieContainer = CookieContainer()
+    cookies
+    |> List.iter cookieContainer.Add
+    let handler = new HttpClientHandler(CookieContainer = cookieContainer)
+    new HttpClient(handler)

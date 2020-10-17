@@ -24,5 +24,6 @@ group DataLoader
 
     nuget FSharp.Data
     nuget HtmlAgilityPack
-    nuget SixLabors.ImageSharp
     nuget Ical.Net
+    nuget Selenium.WebDriver
+    nuget SixLabors.ImageSharp

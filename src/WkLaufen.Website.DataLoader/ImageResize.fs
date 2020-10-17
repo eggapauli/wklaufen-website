@@ -67,7 +67,7 @@ let resizeImages dataDir sourceDir deployBaseDir deployDir =
             let cropRect =
                 let srcX = (image.Width - width) / 2
                 let srcY = (image.Height - height) / 2
-                SixLabors.Primitives.Rectangle(srcX, srcY, width, height)
+                Rectangle(srcX, srcY, width, height)
             x.Crop cropRect |> ignore
         )
 

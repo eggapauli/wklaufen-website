@@ -3,5 +3,6 @@ FSharp.Core
 group DataLoader
     FSharp.Data
     HtmlAgilityPack
+    Selenium.WebDriver
     SixLabors.ImageSharp
     Ical.Net

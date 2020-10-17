@@ -44,7 +44,7 @@ module Role =
         | role, Other name -> genderRole role name
 
 type Member = {
-    OoebvId: int
+    BMVId: string
     FirstName: string
     LastName: string
     DateOfBirth: DateTime option
@@ -57,10 +57,9 @@ type Member = {
     Instruments: string list
 }
 
-type OoebvMember = {
+type BMVMember = {
     Member: Member
     Image: Uri option
-    IsActive: bool
 }
 
 [<AutoOpen>]

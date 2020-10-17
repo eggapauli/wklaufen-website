@@ -229,7 +229,7 @@ module Members =
                 {
                     Member =
                         {
-                            OoebvId = memberId
+                            BMVId = string memberId
                             FirstName = firstName
                             LastName = lastName
                             DateOfBirth = getTextBoxValue "mit_geburtsdatum" |> Parse.date
@@ -245,7 +245,6 @@ module Members =
                             Instruments = instruments
                         }
                     Image = image
-                    IsActive = isActive
                 }
             ))
     }

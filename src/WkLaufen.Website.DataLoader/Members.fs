@@ -26,7 +26,7 @@ let serializeMember (m: DataModels.Member) =
         yield "{"
         yield!
             [
-                yield sprintf "OoebvId = %d" m.OoebvId
+                yield sprintf "BMVId = %s" m.BMVId
                 yield sprintf "FirstName = %s" (Serialize.string m.FirstName)
                 yield sprintf "LastName = %s" (Serialize.string m.LastName)
                 yield sprintf "DateOfBirth = %s" (Serialize.dateOption m.DateOfBirth)
@@ -63,10 +63,10 @@ let items =
 %s
   ]""")
 
-let tryDownloadImage baseDir (m: DataModels.OoebvMember) =
+let tryDownloadImage baseDir (m: DataModels.BMVMember) =
     match m.Image with
     | Some imageUri ->
-        let fileName = sprintf "%d%s" m.Member.OoebvId (DownloadHelper.getExtension imageUri)
+        let fileName = sprintf "%s%s" m.Member.BMVId (DownloadHelper.getExtension imageUri)
         let filePath = Path.Combine(baseDir, "members", fileName)
         DownloadHelper.tryDownload imageUri filePath
     | None ->
