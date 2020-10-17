@@ -6,6 +6,7 @@ open OpenQA.Selenium
 open OpenQA.Selenium.Chrome
 open OpenQA.Selenium.Support.UI
 open System
+open System.Globalization
 open System.IO
 open System.Net.Http
 open System.Text.RegularExpressions
@@ -35,20 +36,26 @@ let login (userName, password) =
 
     driver.Manage().Cookies.GetCookieNamed("BMVOnline").Value
 
-let createLoggedInHttpClient sessionCookie =
-    Http.createClientWithCookies [ Net.Cookie("BMVOnline", sessionCookie, "/", baseUrl.Host) ]
+let createLoggedInHttpClient sessionCookie = async {
+    let httpClient = Http.createClientWithCookies [
+        Net.Cookie("BMVOnline", sessionCookie, "/", baseUrl.Host)
+        Net.Cookie("chacheAuswahlfilter", "kein%20Auswahlfilter", "/", baseUrl.Host)
+    ]
+    do! httpClient.PostAsync(Uri(baseUrl, "/Personen/Read"), new StringContent("sort=&group=&filter=&Personenfilter=&Auswahlfilter=kein+Auswahlfilter")) |> Async.AwaitTask |> Async.Ignore
+    return httpClient
+}
 
 [<Literal>]
 let PersonenSample = __SOURCE_DIRECTORY__ + "\\data\\Personen.csv"
-type Personen = CsvProvider<PersonenSample, Separators=";">
+type Personen = CsvProvider<PersonenSample, Separators=";", Schema="geb_dat=string">
 
 [<Literal>]
 let MitgliederuebersichtSample = __SOURCE_DIRECTORY__ + "\\data\\Mitgliederuebersicht.csv"
-type Mitgliederuebersicht = CsvProvider<MitgliederuebersichtSample, Separators=";">
+type Mitgliederuebersicht = CsvProvider<MitgliederuebersichtSample, Separators=";", SkipRows=1, Schema="GebDat=string,von=string,bis=string">
 
 [<Literal>]
 let FunktionaereSample = __SOURCE_DIRECTORY__ + "\\data\\Funktionaere.csv"
-type Funktionaere = CsvProvider<FunktionaereSample, Separators=";">
+type Funktionaere = CsvProvider<FunktionaereSample, Separators=";", Schema="Funktion von=string,Funktion bis=string">
 
 let private parseGender text =
     if String.equalsIgnoreCase text "herr" then Male
@@ -71,9 +78,14 @@ let private tryParseEmail text =
         |> fun x -> Regex.Replace(x, @"\D", "")
         |> Some
 
+let private tryParseDateTime v =
+    match DateTime.TryParse(v, CultureInfo.GetCultureInfo("de-AT"), DateTimeStyles.None) with
+    | (true, v) -> Some v
+    | _ -> None
+
 let private parseMembershipEntry (row: Mitgliederuebersicht.Row) =
-    let memberId = (row.Vorname, row.Zuname, row.GebDat)
-    (memberId, (row.Von, row.Bis))
+    let memberId = (row.Vorname, row.Zuname, tryParseDateTime row.GebDat)
+    (memberId, (tryParseDateTime row.Von, tryParseDateTime row.Bis))
 
 let private parseRole v =
     if String.equalsIgnoreCase v "Obmann" then Obmann
@@ -90,7 +102,6 @@ let getMembers (httpClient: HttpClient) = async {
     let! persons = async {
         let url = Uri(baseUrl, "/Personen/CsvExport/?page=1&pageSize=1000&filter=~&sort=ZUNAME-asc&Auswahlfilter=kein%20Auswahlfilter&kurzbezeichnung=undefined")
         let! responseContent = httpClient.GetStringAsync(url) |> Async.AwaitTask
-        printfn "Persons content: %A" responseContent
         return Personen.Parse responseContent
     }
     let! members = async {
@@ -122,18 +133,18 @@ let getMembers (httpClient: HttpClient) = async {
                         BMVId = sprintf "%O" row.M_nr
                         FirstName = row.Vorname
                         LastName = row.Zuname
-                        DateOfBirth = row.Geb_dat
+                        DateOfBirth = tryParseDateTime row.Geb_dat
                         Gender = parseGender row.Anrede
                         City = row.Ort
                         Phones = [ row.Tel_nr; row.Tel_nr1; row.Tel_nr2 ] |> List.choose tryParsePhoneNumber
                         EmailAddresses = [ row.Email1; row.Email2 ] |> List.choose tryParseEmail
                         MemberSince =
                             members
-                            |> Map.tryFind (row.Vorname, row.Zuname, row.Geb_dat)
-                            |> Option.map (List.map fst >> List.min)
+                            |> Map.tryFind (row.Vorname, row.Zuname, tryParseDateTime row.Geb_dat)
+                            |> Option.bind (List.choose fst >> function | [] -> None | xs -> Some (List.min xs))
                         Roles =
                             roles
-                            |> Map.tryFind (row.Vorname, row.Zuname, row.Geb_dat)
+                            |> Map.tryFind (row.Vorname, row.Zuname, tryParseDateTime row.Geb_dat)
                             |> Option.defaultValue []
                         Instruments = []  // TODO
                     }

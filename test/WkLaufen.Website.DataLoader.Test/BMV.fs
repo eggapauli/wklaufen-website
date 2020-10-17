@@ -11,9 +11,9 @@ let tests =
         testCase "Can log in" <| fun _ ->
             let sessionCookie = BMV.login (userName, password)
             Expect.isNotEmpty sessionCookie "Session cookie should not be empty"
-        ftestCaseAsync "Can get members" <| async {
+        testCaseAsync "Can get members" <| async {
             let sessionCookie = BMV.login (userName, password)
-            use httpClient = BMV.createLoggedInHttpClient sessionCookie
+            use! httpClient = BMV.createLoggedInHttpClient sessionCookie
             let! members = BMV.getMembers httpClient
             Expect.isNonEmpty members "Members should not be empty"
         }
