@@ -180,29 +180,29 @@ let getMembers (httpClient: HttpClient) = async {
 
     return
         persons
-        |> List.choose (fun row ->
-            match Map.tryFind (row.Vorname, row.Zuname, tryParseDateTime row.Geb_dat) activeMembers with
+        |> List.choose (fun person ->
+            match Map.tryFind (person.Vorname, person.Zuname, tryParseDateTime person.Geb_dat) activeMembers with
             | Some memberSince ->
                 Some {
                     Member =
                         {
-                            BMVId = sprintf "%O" row.M_nr
-                            FirstName = row.Vorname
-                            LastName = row.Zuname
-                            DateOfBirth = tryParseDateTime row.Geb_dat
-                            Gender = parseGender row.Anrede
-                            City = row.Ort
-                            Phones = [ row.Tel_nr; row.Tel_nr1; row.Tel_nr2 ] |> List.choose tryParsePhoneNumber
-                            EmailAddresses = [ row.Email1; row.Email2 ] |> List.choose tryParseEmail
+                            BMVId = sprintf "%O" person.M_nr
+                            FirstName = person.Vorname
+                            LastName = person.Zuname
+                            DateOfBirth = tryParseDateTime person.Geb_dat
+                            Gender = parseGender person.Anrede
+                            City = person.Ort
+                            Phones = [ person.Tel_nr; person.Tel_nr1; person.Tel_nr2 ] |> List.choose tryParsePhoneNumber
+                            EmailAddresses = [ person.Email1; person.Email2 ] |> List.choose tryParseEmail
                             MemberSince = Some memberSince
                             Roles =
                                 roles
-                                |> Map.tryFind (row.Vorname, row.Zuname, tryParseDateTime row.Geb_dat)
+                                |> Map.tryFind (person.Vorname, person.Zuname, tryParseDateTime person.Geb_dat)
                                 |> Option.defaultValue []
                             Instruments =
                                 instruments
-                                |> Map.tryFind row.M_nr
-                                |> Option.defaultWith (fun () -> failwithf "Can't find instruments for person %O" row.M_nr)
+                                |> Map.tryFind person.M_nr
+                                |> Option.defaultWith (fun () -> failwithf "Can't find instruments for person %O" person.M_nr)
                         }
                     Image = None // TODO
                 }
