@@ -244,7 +244,7 @@ module Members =
                             Roles = roles
                             Instruments = instruments
                         }
-                    Image = image
+                    ImageContent = None
                 }
             ))
     }

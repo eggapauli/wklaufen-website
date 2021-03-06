@@ -5,6 +5,7 @@ open FSharp.Data
 open OpenQA.Selenium
 open OpenQA.Selenium.Chrome
 open OpenQA.Selenium.Support.UI
+open SixLabors.ImageSharp
 open System
 open System.Globalization
 open System.IO
@@ -178,6 +179,28 @@ let getMembers (httpClient: HttpClient) = async {
         |> Async.Parallel
         |> Async.map Map.ofArray
 
+    let! images =
+        persons
+        |> Seq.map (fun person -> async {
+            let url = Uri(baseUrl, sprintf "/Personen/Edit/?id=%O" person.M_nr)
+            let! responseContent = httpClient.GetStringAsync(url) |> Async.AwaitTask
+            let m = Regex.Match(responseContent, @"id=""Personenfotoanzeigen""[^>]*>\s*<img src=""data:(?<imageType>[^;]+);base64,(?<content>[^""]*)""")
+            if not m.Success then
+                failwithf "Can't find photo of %s %s (%O) in %s" person.Zuname person.Vorname person.M_nr responseContent
+            let imageType = m.Groups.["imageType"].Value
+            if not <| String.equalsIgnoreCase imageType "image/png" then
+                failwithf "Unknown image type \"%s\" for %s %s (%O)" imageType person.Zuname person.Vorname person.M_nr
+            let imageContent = m.Groups.["content"].Value |> Convert.FromBase64String
+            
+            let isDummyImage =
+                use image = Image.Load(imageContent)
+                image.Width = 0 && image.Height = 0
+            if isDummyImage then return None
+            else return Some (person.M_nr, imageContent)
+        })
+        |> Async.Parallel
+        |> Async.map (Array.choose id >> Map.ofArray)
+
     return
         persons
         |> List.choose (fun person ->
@@ -204,7 +227,7 @@ let getMembers (httpClient: HttpClient) = async {
                                 |> Map.tryFind person.M_nr
                                 |> Option.defaultWith (fun () -> failwithf "Can't find instruments for person %O" person.M_nr)
                         }
-                    Image = None // TODO
+                    ImageContent = Map.tryFind person.M_nr images
                 }
             | None -> None
         )

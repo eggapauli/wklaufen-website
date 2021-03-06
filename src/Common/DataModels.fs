@@ -59,7 +59,7 @@ type Member = {
 
 type BMVMember = {
     Member: Member
-    Image: Uri option
+    ImageContent: byte[] option
 }
 
 [<AutoOpen>]

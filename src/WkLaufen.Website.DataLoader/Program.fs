@@ -4,28 +4,41 @@ open System
 open System.IO
 open DataModels
 
+// let downloadMembers credentials dataDir imageBaseDir =
+//     Directory.CreateDirectory dataDir |> ignore
+
+//     let result =
+//         Members.download credentials
+//         |> Async.bind (
+//             Choice.bindAsync (
+//                 List.map (fun m ->
+//                     Members.tryDownloadImage imageBaseDir m
+//                     |> AsyncChoice.map (fun () -> m.Member)
+//                 )
+//                 >> Async.ofList
+//                 >> Async.map Choice.ofList
+//             )
+//         )
+//         |> Async.RunSynchronously
+
+//     match result with
+//     | Choice1Of2 members ->
+//         File.WriteAllText(dataDir @@ "Members.generated.fs", Members.serialize members)
+//         printfn "Successfully downloaded members."
+//     | Choice2Of2 x -> failwithf "Error while downloading members. %s" x
+
 let downloadMembers credentials dataDir imageBaseDir =
     Directory.CreateDirectory dataDir |> ignore
+    
+    use httpClient = BMV.login credentials |> BMV.createLoggedInHttpClient |> Async.RunSynchronously
+    let members = BMV.getMembers httpClient |> Async.RunSynchronously
 
-    let result =
-        Members.download credentials
-        |> Async.bind (
-            Choice.bindAsync (
-                List.map (fun m ->
-                    Members.tryDownloadImage imageBaseDir m
-                    |> AsyncChoice.map (fun () -> m.Member)
-                )
-                >> Async.ofList
-                >> Async.map Choice.ofList
-            )
-        )
-        |> Async.RunSynchronously
-
-    match result with
-    | Choice1Of2 members ->
-        File.WriteAllText(dataDir @@ "Members.generated.fs", Members.serialize members)
-        printfn "Successfully downloaded members."
-    | Choice2Of2 x -> failwithf "Error while downloading members. %s" x
+    members
+    |> 
+    Path.GetDirectoryName filePath |> Directory.CreateDirectory |> ignore
+    use targetStream = File.OpenWrite filePath
+    content.CopyToAsync targetStream |> Async.AwaitTask |> Async.RunSynchronously
+    |> ignore
 
 let downloadContests credentials dataDir =
     Contests.download credentials
@@ -64,8 +77,8 @@ let getEnvVarOrFail name =
 
 [<EntryPoint>]
 let main argv =
-    let ooebvUsername = getEnvVarOrFail "OOEBV_USERNAME"
-    let ooebvPassword = getEnvVarOrFail "OOEBV_PASSWORD"
+    let bmvUsername = getEnvVarOrFail "BMV_USERNAME"
+    let bmvPassword = getEnvVarOrFail "BMV_PASSWORD"
     let calendarUrl = getEnvVarOrFail "CALENDAR_URL"
 
     let rootDir = Path.GetFullPath "."
@@ -73,8 +86,8 @@ let main argv =
     let imageDir = rootDir @@ "assets" @@ "images"
     let deployDir = rootDir @@ "public"
 
-    downloadMembers (ooebvUsername, ooebvPassword) dataDir imageDir
-    downloadContests (ooebvUsername, ooebvPassword) dataDir
+    downloadMembers (bmvUsername, bmvPassword) dataDir imageDir
+    downloadContests (bmvUsername, bmvPassword) dataDir
     downloadActivities (Uri calendarUrl) dataDir (deployDir @@ "calendar")
     ImageResize.resizeImages dataDir imageDir deployDir "images"
     0

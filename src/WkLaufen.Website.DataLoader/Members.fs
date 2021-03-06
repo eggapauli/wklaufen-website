@@ -63,11 +63,11 @@ let items =
 %s
   ]""")
 
-let tryDownloadImage baseDir (m: DataModels.BMVMember) =
-    match m.Image with
-    | Some imageUri ->
-        let fileName = sprintf "%s%s" m.Member.BMVId (DownloadHelper.getExtension imageUri)
-        let filePath = Path.Combine(baseDir, "members", fileName)
-        DownloadHelper.tryDownload imageUri filePath
-    | None ->
-        AsyncChoice.success ()
+// let tryDownloadImage baseDir (m: DataModels.BMVMember) =
+//     match m.Image with
+//     | Some imageUri ->
+//         let fileName = sprintf "%s%s" m.Member.BMVId (DownloadHelper.getExtension imageUri)
+//         let filePath = Path.Combine(baseDir, "members", fileName)
+//         DownloadHelper.tryDownload imageUri filePath
+//     | None ->
+//         AsyncChoice.success ()
