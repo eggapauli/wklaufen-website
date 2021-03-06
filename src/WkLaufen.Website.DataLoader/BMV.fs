@@ -19,8 +19,7 @@ let login (userName, password) =
     #if !DEBUG
     options.AddArgument("headless")
     #endif
-    let driverPath = Path.Combine(__SOURCE_DIRECTORY__, "chromedriver_v86")
-    use driver = new ChromeDriver(driverPath, options) :> IWebDriver
+    use driver = new ChromeDriver(options) :> IWebDriver
     driver.Manage().Timeouts().ImplicitWait <- TimeSpan.FromSeconds(30.)
 
     driver.Navigate().GoToUrl(Uri(baseUrl, "/Account/Login"))
