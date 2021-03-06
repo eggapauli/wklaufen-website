@@ -17,4 +17,10 @@ let tests =
             let! members = BMV.getMembers httpClient
             Expect.isNonEmpty members "Members should not be empty"
         }
+        ftestCaseAsync "Can get instruments" <| async {
+            let sessionCookie = BMV.login (userName, password)
+            use! httpClient = BMV.createLoggedInHttpClient sessionCookie
+            let! members = BMV.getMembers httpClient
+            Expect.all (members |> List.map (fun m -> m.Member.Instruments)) (List.isEmpty >> not) "Everyone should play at least one instrument"
+        }
     ]
