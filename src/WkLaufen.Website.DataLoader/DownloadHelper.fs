@@ -11,7 +11,7 @@ let saveEntries filePath entries =
         |> sprintf "[%s]"
     File.WriteAllText(filePath, content)
 
-let download filePath uri =
+let download (filePath: string) uri =
     printfn "Downloading image from %O" uri
     Http.get uri
     |> Async.bind (Choice.mapAsync (fun res -> res.Content.ReadAsStreamAsync() |> Async.AwaitTask))

@@ -80,7 +80,7 @@ let resizeImages dataDir sourceDir deployBaseDir deployDir =
         Crop = true
     }
 
-    let fileHasExtension extensions file =
+    let fileHasExtension extensions (file: string) =
         let fileExt = Path.GetExtension file
         extensions
         |> Seq.exists (fun ext -> String.equalsIgnoreCase ext fileExt)

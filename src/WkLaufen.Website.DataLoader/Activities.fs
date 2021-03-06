@@ -95,7 +95,7 @@ let fixKonzertmeisterCalendar (content: string) =
                     match fn arg with
                     | (true, value) -> Some value
                     | (false, _) -> None
-                let parseAndUpdateTime (originalTimestamp: IDateTime) v =
+                let parseAndUpdateTime (originalTimestamp: IDateTime) (v: string) =
                     let timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById "W. Europe Standard Time"
                     let setTime (t: TimeSpan) =
                         let d = originalTimestamp.Value

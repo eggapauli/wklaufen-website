@@ -107,7 +107,7 @@ let postXml (uri: Uri) xml = async {
     return! sendRequest request
 }
 
-let uploadImageMultipart (uri: Uri) imagePath = async {
+let uploadImageMultipart (uri: Uri) (imagePath: string) = async {
     use request = createPostRequestMessage uri
 
     let content = new MultipartFormDataContent()

@@ -78,7 +78,7 @@ let private tryParseEmail text =
         |> fun x -> Regex.Replace(x, @"\D", "")
         |> Some
 
-let private tryParseDateTime v =
+let private tryParseDateTime (v: string) =
     match DateTime.TryParse(v, CultureInfo.GetCultureInfo("de-AT"), DateTimeStyles.None) with
     | (true, v) -> Some v
     | _ -> None
