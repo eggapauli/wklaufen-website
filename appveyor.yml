@@ -50,7 +50,7 @@ install:
   - ps: dotnet run --project src\WkLaufen.Website.DataLoader --configuration Release
 
 build_script:
-  - yarn build
+  - dotnet fable .\src\WkLaufen.Website\ --run yarn --cwd .\src\WkLaufen.Website build
   - dotnet run --project ./src/WkLaufen.Website.ServerGenerator
 
 test: off
