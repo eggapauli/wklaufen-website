@@ -56,6 +56,7 @@ let main argv =
     let bmvUsername = getEnvVarOrFail "BMV_USERNAME"
     let bmvPassword = getEnvVarOrFail "BMV_PASSWORD"
     let bmvClubId = getEnvVarOrFail "BMV_CLUB_ID"
+    let chromeLocation = getEnvVarOrFail "CHROME_LOCATION"
     let calendarUrl = getEnvVarOrFail "CALENDAR_URL"
 
     let rootDir = Path.GetFullPath "."
@@ -64,7 +65,7 @@ let main argv =
     let imageDir = rootDir @@ "assets" @@ "images"
     let deployDir = rootDir @@ "public"
 
-    BMV.runAsLoggedIn (bmvUsername, bmvPassword) (fun httpClient -> async {
+    BMV.runAsLoggedIn chromeLocation (bmvUsername, bmvPassword) (fun httpClient -> async {
         do! downloadMembers httpClient dataDir imageDir
         do! downloadContests httpClient bmvClubId dataDir
     })

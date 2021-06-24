@@ -17,9 +17,9 @@ open System.Text.RegularExpressions
 
 let private baseUrl = Uri("https://bmv.ooe-bv.at")
 
-let private createWebDriver () =
+let private createWebDriver chromeLocation =
     let options = ChromeOptions()
-    options.BinaryLocation <- @"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
+    options.BinaryLocation <- chromeLocation
     #if !DEBUG
     options.AddArgument("headless")
     #endif
@@ -57,8 +57,8 @@ let createLoggedInHttpClient sessionCookie = async {
     return httpClient
 }
 
-let runAsLoggedIn credentials fn = async {
-    use driver = createWebDriver ()
+let runAsLoggedIn chromeLocation credentials fn = async {
+    use driver = createWebDriver chromeLocation
     let sessionCookie = login driver credentials
     try
         use! httpClient = createLoggedInHttpClient sessionCookie
