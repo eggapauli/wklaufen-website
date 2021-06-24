@@ -43,7 +43,7 @@ install:
       Push-Location src/WkLaufen.Website.Server
       php ../../bin/composer install
       Pop-Location
-  - ./.paket/paket.exe update --group DataLoader Selenium.WebDriver.ChromeDriver
+  - .\.paket\paket.exe update --group DataLoader Selenium.WebDriver.ChromeDriver
   - dotnet restore
   - yarn install --frozen-lockfile
   - ps: ./load-data.ps1
