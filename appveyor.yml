@@ -5,7 +5,7 @@ environment:
   BMV_PASSWORD:
     secure: eb/SFyWXh28sH75/N3LpUA==
   BMV_CLUB_ID: 96
-  CHROME_LOCATION: C:\Users\appveyor\AppData\Local\BraveSoftware\Brave-Browser\Application
+  CHROME_LOCATION: C:\Users\appveyor\AppData\Local\BraveSoftware\Brave-Browser\Application\brave.exe
   CALENDAR_URL:
     secure: IkjKpD8HE3jo8+Ksy9KgAgia36dnBKXj09SKTTrzkFJ1nGRfbIQtDQStG+J+aq+xpZjAiqFsT5lt0FadBfAT0LBOXes1GBQmS+KmsiYfFKaxtKyZG71V7JKRN2DiL9jkqSIog4poqE1DWx/NWI83fndhKoPzyGwx/y0UyCBX3AA=
   UPLOAD_URL: ftp://s1.meinehp.at/web/a/
