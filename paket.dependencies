@@ -22,8 +22,11 @@ group Website
 group DataLoader
     source https://nuget.org/api/v2
 
+    nuget ExcelProvider
     nuget FSharp.Data
     nuget HtmlAgilityPack
     nuget Ical.Net
+    nuget Polly
     nuget Selenium.WebDriver
+    nuget Selenium.WebDriver.ChromeDriver
     nuget SixLabors.ImageSharp

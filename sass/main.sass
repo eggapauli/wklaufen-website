@@ -230,7 +230,7 @@ strong
       table
         border-collapse: collapse
         margin-right: 30px
-        
+
         tr.highlight
           text-shadow: 0px 0px 1px black
           font-weight: bold
@@ -311,7 +311,7 @@ strong
 
   div:last-child
     flex: 1
-  
+
   .rich-text .slick-slider
     height: 100%
 
@@ -401,7 +401,7 @@ strong
     overflow-y: auto
 
   .contact
-    width: 
+    //width:
     line-height: 200%
 
   .contact .image
@@ -436,8 +436,10 @@ strong
 $pages: home, contacts, activities, member-groups, members, support, about-us, become-member, contests, youths, recorder-kids, impressum, concert
 @each $page in $pages
   @keyframes page-load-#{$page}
-    from { opacity: 0 }
-    to { opacity: 1 }
+    from
+        opacity: 0
+    to
+        opacity: 1
   .content-background-#{$page}
     animation-name: page-load-#{$page}
     animation-duration: 1s

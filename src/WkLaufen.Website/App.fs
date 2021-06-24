@@ -1,18 +1,18 @@
 module App.View
 
 open Elmish
-open Elmish.Browser.Navigation
-open Elmish.Browser.UrlParser
-open Elmish.HMR
+open Fable.React
+open Fable.React.Props
 open Fable.Core.JsInterop
 open Types
 open App.State
 open Global
+open Elmish.React
+open Elmish.Debug
+open Elmish.HMR
+open Elmish.UrlParser
 
 importAll "../../sass/main.sass"
-
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
 
 let view model dispatch =
   let backArrow = function
@@ -41,18 +41,15 @@ let view model dispatch =
 
   div [] [
     yield pageHtml model.CurrentPage
-    yield a [ ClassName "impressum"; toLink Impressum |> Href ] [ str "Impressum" ]
+    yield a [ ClassName "impressum"; toLink Impressum |> Href ] [ Helpers.str "Impressum" ]
     yield! backArrow model.CurrentPage
   ]
 
-open Elmish.React
-open Elmish.Debug
-open Elmish.HMR
 
 // App
 Program.mkProgram init update view
 |> Program.toNavigable (parseHash pageParser) urlUpdate
-|> Program.withReact "elmish-app"
+|> Program.withReactBatched "elmish-app"
 #if DEBUG
 |> Program.withConsoleTrace
 |> Program.withDebugger

@@ -3,11 +3,11 @@ module App.Html
 open global.Data
 open DataModels
 open Fable.Core.JsInterop
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
+open Fable.React.Props
+open Fulma
 open System
 open System.Text.RegularExpressions
-open Fulma
 
 let splitFileName (fileName: string) =
   match fileName.LastIndexOf '.' with
@@ -31,7 +31,7 @@ let menuItem bgImagePath text href =
       a
         [ ClassName "menu-item"; Href href ]
         [
-          span [ ClassName "bg"; Style [ BackgroundImage (sprintf "url(%s)" bgImagePath) ] ] []      
+          span [ ClassName "bg"; Style [ BackgroundImage (sprintf "url(%s)" bgImagePath) ] ] []
           span [ ClassName "title-bar" ] [ span [ ClassName "text" ] [ str text ] ]
         ]
     ]
@@ -43,7 +43,7 @@ let obfuscate (text: string) =
     let chars = "abcdefghijklmnopqrstuvwxyz0123456789"
     let randomChar = chars.[random.Next(chars.Length)] |> string
     [
-      span [ Style [ Display "none" ] ] [ str randomChar ]
+      span [ Style [ Display DisplayOptions.None ] ] [ str randomChar ]
       span [] [ str (string ch) ]
     ]
   )
@@ -61,7 +61,7 @@ let emailAddress (m: DataModels.Member) =
     elif m.Roles |> List.contains Jugendreferent then Some "jugendreferat@wk-laufen.at"
     elif m.Roles |> List.contains Jugendorchesterleiter then Some "jugendorchester@wk-laufen.at"
     else List.tryHead m.EmailAddresses
-  
+
   mailAddress
   |> Option.map (obfuscate >> (span [ ClassName "email" ]))
 
@@ -82,7 +82,7 @@ let htmlify (text: string) =
   |> Seq.toList
 
 let pdfDoc url =
-  object [ Class "flyer"; !!("data", url); Fable.Helpers.React.Props.Type "application/pdf" ]
+  object [ Class "flyer"; !!("data", url); Props.Type "application/pdf" ]
     [
       div [ Class "rich-text not-supported-warning" ]
         [
@@ -90,7 +90,7 @@ let pdfDoc url =
             div [] [
               str "Klicken Sie "
               a [ Href url ] [ str "hier" ]
-              str " um die Datei direkt herunterzuladen oder versuchen Sie es mit einem anderen Browser od. Endgerät."  
+              str " um die Datei direkt herunterzuladen oder versuchen Sie es mit einem anderen Browser od. Endgerät."
             ]
         ]
     ]
@@ -99,7 +99,7 @@ let contact (m: DataModels.Member) =
   div [ ClassName "contact" ] [
     yield div [ ClassName "image" ] (
       Images.contacts
-      |> Map.tryFind (string m.OoebvId)
+      |> Map.tryFind (string m.BMVId)
       |> Option.map (fun p ->  image p (Some 110, Some 160))
       |> Option.toList
     )

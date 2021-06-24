@@ -79,7 +79,7 @@ let postJson url data properties =
   // Append properties after defaultProps to make sure user-defined values
   // override the default ones if necessary
   let props = List.append defaultProps properties
-  
+
   GlobalFetch.fetch(RequestInfo.Url url, requestProps props)
   |> Promise.map (fun response ->
     if response.Ok
@@ -140,9 +140,9 @@ let validateAllInputs inputs =
 
 module UI =
   open Fulma
-  open Fable.Helpers.React
-  open Fable.Helpers.React.Props
   open Fable.FontAwesome
+  open Fable.React
+  open Fable.React.Props
 
   let textInput placeholder value icon error onChange onBlur =
     Field.div []

@@ -26,7 +26,7 @@ let private isMember groupId (m: DataModels.Member) =
 
 let getIndexed() =
     Members.items
-    |> List.map (fun m -> m.OoebvId, m)
+    |> List.map (fun m -> m.BMVId, m)
     |> Map.ofList
 
 let getGroups() =

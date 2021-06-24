@@ -11,7 +11,7 @@ var CONFIG = {
         "app": [
             // "whatwg-fetch",
             // "@babel/polyfill",
-            resolve("./src/WkLaufen.Website/WkLaufen.Website.fsproj")
+            resolve("./src/WkLaufen.Website/App.fs.js")
         ]
     },
     devServerProxy: {
@@ -34,6 +34,7 @@ var CONFIG = {
                 },
                 "modules": false,
                 "useBuiltIns": "usage",
+                "corejs": "3"
             }]
         ],
         plugins: ["@babel/plugin-transform-runtime"]
@@ -67,13 +68,13 @@ module.exports = {
                 }
             }
         },
-        minimizer: isProduction ? [new MinifyPlugin()] : []
+        minimizer: isProduction ? [new MinifyPlugin()] : [],
+        moduleIds: isProduction ? "deterministic" : "named"
     },
     // DEVELOPMENT
     //      - HotModuleReplacementPlugin: Enables hot reloading when code changes without refreshing
     plugins: [
-        ...(isProduction ? [] : [ new webpack.HotModuleReplacementPlugin() ]),
-        ...(isProduction ? [] : [ new webpack.NamedModulesPlugin() ]),
+        ...(isProduction ? [] : [ new webpack.HotModuleReplacementPlugin() ])
     ],
     // Configuration for webpack-dev-server
     devServer: {
@@ -85,10 +86,6 @@ module.exports = {
     },
     module: {
         rules: [
-            {
-                test: /\.fs(x|proj)?$/,
-                use: "fable-loader"
-            },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,

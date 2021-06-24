@@ -1,7 +1,7 @@
 module Termine.View
 
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
+open Fable.React.Props
 open Fulma
 open global.Data
 open DataModels

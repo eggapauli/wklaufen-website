@@ -2,8 +2,7 @@ module MitgliedWerden.View
 
 open global.Data
 open DataModels
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
 open Fulma
 
 let root =

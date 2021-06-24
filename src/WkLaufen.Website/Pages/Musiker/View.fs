@@ -1,8 +1,8 @@
 module Musiker.View
 
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
 open Fable.Import.Slick
+open Fable.React
+open Fable.React.Props
 open Fulma
 open global.Data
 open Global
@@ -50,7 +50,7 @@ let detail groupId =
 
                           yield!
                             Images.members_w200h270
-                            |> Map.tryFind (string m.OoebvId)
+                            |> Map.tryFind (string m.BMVId)
                             |> function
                             | Some photo -> [ div [Class "image"] [ App.Html.image photo (Some 200, Some 270)] ]
                             | None -> []
@@ -83,5 +83,5 @@ let detail groupId =
           ]
         ]
     | None ->
-      Fable.Import.Browser.console.error ("Can't find member group with id " + groupId)
+      Browser.Dom.console.error ("Can't find member group with id " + groupId)
       root

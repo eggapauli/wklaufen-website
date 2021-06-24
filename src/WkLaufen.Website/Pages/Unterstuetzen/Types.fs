@@ -36,7 +36,7 @@ let update msg model =
     if inputsValid
     then
       let cmd =
-        Cmd.ofPromise
+        Cmd.OfPromise.either
           (postJson Forms.Unterstuetzen.path (encodeForm model.Inputs))
           []
           (Ok >> SubmitResponse)
@@ -50,6 +50,6 @@ let update msg model =
   | SubmitResponse (Ok (Error messages)) ->
     // TODO show validation errors
     model, Cmd.none
-  | SubmitResponse (Error e) -> 
+  | SubmitResponse (Error e) ->
     let model' = { model with FormState = SendError }
     model', Cmd.none

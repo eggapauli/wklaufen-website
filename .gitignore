@@ -1,3 +1,9 @@
+assets/images/members
+public/
+src/WkLaufen.Website.Server/vendor
+src/WkLaufen.Website.Server/*.php
+*.fs.js
+
 .ionide/
 public/bundle.js*
 
@@ -195,8 +201,3 @@ docs/tools/FSharp.Formatting.svclog
 .ionide.debug
 *.bak
 project.lock.json
-
-assets/images/members
-public/
-src/WkLaufen.Website.Server/vendor
-src/WkLaufen.Website.Server/*.php

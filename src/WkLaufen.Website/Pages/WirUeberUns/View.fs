@@ -1,8 +1,7 @@
 module WirUeberUns.View
 
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
-open Fable.Import.React
+open Fable.React
+open Fable.React.Props
 open Fable.Import.Slick
 open Fulma
 open Fulma.Extensions.Wikiki
@@ -79,14 +78,14 @@ let root model dispatch =
           lettersView ]
 
       Divider.divider [ ]
-      
+
       div [ClassName "rich-text"]
-        [ Fable.Import.Slick.slider
+        [ slider
             [ Draggable false
               Infinite true
               AdaptiveHeight false
               InitialSlide model.SlideNumber
               AfterChange (SlideTo >> dispatch)
-              Ref (fun slider -> sliderRef <- Some slider) 
+              Ref (fun slider -> sliderRef <- Some slider)
             ]
-            descriptionsView ] ] 
+            descriptionsView ] ]

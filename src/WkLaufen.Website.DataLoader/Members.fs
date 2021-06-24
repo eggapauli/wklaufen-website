@@ -1,32 +1,14 @@
-#if INTERACTIVE
-#load "AsyncChoice.fsx"
-#load "DataModels.fsx"
-#load "Http.fsx"
-#load "Serialize.fsx"
-#load "OOEBV.fsx"
-#load "DownloadHelper.fsx"
-#endif
-
-#if COMPILED
 module Members
-#endif
 
 open System
-open System.IO
-open System.Text.RegularExpressions
 open DataModels
-
-let download credentials =
-    OOEBV.login credentials
-    |> AsyncChoice.bind OOEBV.Members.loadAndResetMemberOverviewPage
-    |> AsyncChoice.bind OOEBV.Members.loadActiveMembers
 
 let serializeMember (m: DataModels.Member) =
     [
         yield "{"
         yield!
             [
-                yield sprintf "BMVId = %s" m.BMVId
+                yield sprintf "BMVId = %s" (Serialize.string m.BMVId)
                 yield sprintf "FirstName = %s" (Serialize.string m.FirstName)
                 yield sprintf "LastName = %s" (Serialize.string m.LastName)
                 yield sprintf "DateOfBirth = %s" (Serialize.dateOption m.DateOfBirth)
@@ -62,12 +44,3 @@ let items =
   [
 %s
   ]""")
-
-// let tryDownloadImage baseDir (m: DataModels.BMVMember) =
-//     match m.Image with
-//     | Some imageUri ->
-//         let fileName = sprintf "%s%s" m.Member.BMVId (DownloadHelper.getExtension imageUri)
-//         let filePath = Path.Combine(baseDir, "members", fileName)
-//         DownloadHelper.tryDownload imageUri filePath
-//     | None ->
-//         AsyncChoice.success ()

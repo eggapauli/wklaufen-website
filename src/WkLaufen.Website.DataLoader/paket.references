@@ -1,8 +1,12 @@
 FSharp.Core
 
 group DataLoader
+    ExcelProvider
+    ExcelDataReader.DataSet
     FSharp.Data
     HtmlAgilityPack
-    Selenium.WebDriver
-    SixLabors.ImageSharp
     Ical.Net
+    Polly
+    Selenium.WebDriver
+    Selenium.WebDriver.ChromeDriver
+    SixLabors.ImageSharp

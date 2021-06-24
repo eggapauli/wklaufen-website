@@ -1,9 +1,10 @@
 image: Visual Studio 2017
 
 environment:
-  OOEBV_USERNAME: EGGER5
-  OOEBV_PASSWORD:
-    secure: fohNC7EhImjczRjtEvJx4Q==
+  BMV_USERNAME: EGGER5
+  BMV_PASSWORD:
+    secure: eb/SFyWXh28sH75/N3LpUA==
+  BMV_CLUB_ID: 96
   CALENDAR_URL:
     secure: IkjKpD8HE3jo8+Ksy9KgAgia36dnBKXj09SKTTrzkFJ1nGRfbIQtDQStG+J+aq+xpZjAiqFsT5lt0FadBfAT0LBOXes1GBQmS+KmsiYfFKaxtKyZG71V7JKRN2DiL9jkqSIog4poqE1DWx/NWI83fndhKoPzyGwx/y0UyCBX3AA=
   UPLOAD_URL: ftp://s1.meinehp.at/web/a/
@@ -23,6 +24,7 @@ init:
 
 install:
   - cinst php -y
+  - cinst brave -y
   - cmd: refreshenv
   - ps: |
       $phpPath = Split-Path -Parent (Get-Command php.exe).Path
@@ -41,8 +43,9 @@ install:
       Push-Location src/WkLaufen.Website.Server
       php ../../bin/composer install
       Pop-Location
+  - .paket/paket.exe update --group DataLoader Selenium.WebDriver.ChromeDriver
   - dotnet restore
-  - yarn
+  - yarn install --frozen-lockfile
   - ps: ./load-data.ps1
 
 build_script:

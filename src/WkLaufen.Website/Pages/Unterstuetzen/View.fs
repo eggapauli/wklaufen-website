@@ -1,8 +1,8 @@
 module Unterstuetzen.View
 
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
 open Fable.FontAwesome
+open Fable.React
+open Fable.React.Props
 open Fulma
 open global.Data
 open Unterstuetzen.Types
@@ -93,7 +93,7 @@ let root model dispatch =
                         yield
                           span
                             [ Style
-                                [ Display "inline-block"
+                                [ Display DisplayOptions.InlineBlock
                                   FontFamily "'Dancing Script', cursive"
                                   FontSize "24px"
                                   Color "darkgoldenrod"
@@ -103,7 +103,7 @@ let root model dispatch =
                         yield
                           span
                             [ Style
-                                [ Display "inline-block"
+                                [ Display DisplayOptions.InlineBlock
                                   MarginLeft "20px"
                                   FontFamily "'Dancing Script', cursive"
                                   FontSize "24px"

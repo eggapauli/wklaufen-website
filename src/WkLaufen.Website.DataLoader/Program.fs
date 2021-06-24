@@ -4,50 +4,26 @@ open System
 open System.IO
 open DataModels
 
-// let downloadMembers credentials dataDir imageBaseDir =
-//     Directory.CreateDirectory dataDir |> ignore
-
-//     let result =
-//         Members.download credentials
-//         |> Async.bind (
-//             Choice.bindAsync (
-//                 List.map (fun m ->
-//                     Members.tryDownloadImage imageBaseDir m
-//                     |> AsyncChoice.map (fun () -> m.Member)
-//                 )
-//                 >> Async.ofList
-//                 >> Async.map Choice.ofList
-//             )
-//         )
-//         |> Async.RunSynchronously
-
-//     match result with
-//     | Choice1Of2 members ->
-//         File.WriteAllText(dataDir @@ "Members.generated.fs", Members.serialize members)
-//         printfn "Successfully downloaded members."
-//     | Choice2Of2 x -> failwithf "Error while downloading members. %s" x
-
-let downloadMembers credentials dataDir imageBaseDir =
-    Directory.CreateDirectory dataDir |> ignore
-    
-    use httpClient = BMV.login credentials |> BMV.createLoggedInHttpClient |> Async.RunSynchronously
-    let members = BMV.getMembers httpClient |> Async.RunSynchronously
-
+let downloadMembers httpClient dataDir imageBaseDir = async {
+    let! members = BMV.getMembers httpClient
     members
-    |> 
-    Path.GetDirectoryName filePath |> Directory.CreateDirectory |> ignore
-    use targetStream = File.OpenWrite filePath
-    content.CopyToAsync targetStream |> Async.AwaitTask |> Async.RunSynchronously
-    |> ignore
+    |> List.iter (fun m ->
+        match m.ImageContent with
+        | Some imageContent ->
+            let memberImageDir = Path.Combine(imageBaseDir, "members")
+            Directory.CreateDirectory memberImageDir |> ignore
+            File.WriteAllBytes(Path.Combine(memberImageDir, sprintf "%s.jpg" m.Member.BMVId), imageContent)
+            // File.WriteAllBytes(Path.Combine(memberImageDir, sprintf "%s %s.jpg" m.Member.LastName m.Member.FirstName), imageContent)
+        | None -> ()
+    )
+    File.WriteAllText(dataDir @@ "Members.generated.fs", members |> List.map (fun v -> v.Member) |> Members.serialize)
+}
 
-let downloadContests credentials dataDir =
-    Contests.download credentials
-    |> Async.RunSynchronously
-    |> Choice.map Contests.serialize
-    |> Choice.map (fun s -> File.WriteAllText(dataDir @@ "Contests.generated.fs", s))
-    |> function
-    | Choice1Of2 () -> printfn "Successfully downloaded contests."
-    | Choice2Of2 x -> failwithf "Error while downloading contests. %s" x
+let downloadContests httpClient clubId dataDir = async {
+    let! contests = BMV.getContests httpClient clubId
+
+    File.WriteAllText(dataDir @@ "Contests.generated.fs", Contests.serialize contests)
+}
 
 let downloadActivities calendarUrl dataDir targetDir =
     Directory.CreateDirectory targetDir |> ignore
@@ -79,15 +55,20 @@ let getEnvVarOrFail name =
 let main argv =
     let bmvUsername = getEnvVarOrFail "BMV_USERNAME"
     let bmvPassword = getEnvVarOrFail "BMV_PASSWORD"
+    let bmvClubId = getEnvVarOrFail "BMV_CLUB_ID"
     let calendarUrl = getEnvVarOrFail "CALENDAR_URL"
 
     let rootDir = Path.GetFullPath "."
     let dataDir = rootDir @@ "src" @@ "WkLaufen.Website" @@ "data"
+    Directory.CreateDirectory dataDir |> ignore
     let imageDir = rootDir @@ "assets" @@ "images"
     let deployDir = rootDir @@ "public"
 
-    downloadMembers (bmvUsername, bmvPassword) dataDir imageDir
-    downloadContests (bmvUsername, bmvPassword) dataDir
+    BMV.runAsLoggedIn (bmvUsername, bmvPassword) (fun httpClient -> async {
+        do! downloadMembers httpClient dataDir imageDir
+        do! downloadContests httpClient bmvClubId dataDir
+    })
+    |> Async.RunSynchronously
     downloadActivities (Uri calendarUrl) dataDir (deployDir @@ "calendar")
     ImageResize.resizeImages dataDir imageDir deployDir "images"
     0

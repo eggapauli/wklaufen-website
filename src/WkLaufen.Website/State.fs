@@ -1,8 +1,7 @@
 module App.State
 
-open Elmish.Browser.Navigation
-open Elmish.Browser.UrlParser
-open Fable.Import.Browser
+open Elmish.Navigation
+open Elmish.UrlParser
 open Global
 open Types
 open Elmish
@@ -41,12 +40,12 @@ let updateWindowTitle page dispatch =
     | Floetenkids -> "Flötenkids"
     | Impressum -> "Impressum"
     |> sprintf "%s - WK Laufen"
-  Fable.Import.Browser.document.title <- title
+  Browser.Dom.document.title <- title
 
 let urlUpdate (result: Option<Page>) model =
   match result with
   | None ->
-    console.error("Error parsing url")
+    Browser.Dom.console.error("Error parsing url")
     model, Cmd.batch [ Navigation.modifyUrl (toLink model.CurrentPage) ]
   | Some page ->
     { model with CurrentPage = page }, [ updateWindowTitle page ]

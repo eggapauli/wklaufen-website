@@ -4,11 +4,11 @@ open Elmish
 open Fable.Core.JsInterop
 open Fable.Import
 
-let mutable sliderRef: Browser.Element option = None
+let mutable sliderRef: Browser.Types.Element option = None
 
-let gotoSlide n = 
+let gotoSlide n =
     match sliderRef with
-    | None -> () 
+    | None -> ()
     | Some slider -> slider?slickGoTo(n, false)
 
 type Model = {
@@ -22,4 +22,5 @@ let init =
 
 let update msg model =
   match msg with
-  | SlideTo idx -> { model with SlideNumber = idx }, Cmd.attemptFunc gotoSlide idx raise
+  | SlideTo idx -> { model with SlideNumber = idx }, Cmd.OfFunc.attempt gotoSlide idx raise
+
