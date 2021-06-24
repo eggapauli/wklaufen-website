@@ -41,7 +41,7 @@ var CONFIG = {
     }
 };
 
-var isProduction = process.argv.indexOf("-p") >= 0;
+var isProduction = process.argv.indexOf("serve") >= 0;
 console.log("Bundling for " + (isProduction ? "production" : "development") + "...");
 
 module.exports = {
