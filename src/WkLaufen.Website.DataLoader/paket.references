@@ -2,6 +2,7 @@ FSharp.Core
 
 group DataLoader
     ExcelProvider
+    ExcelDataReader
     ExcelDataReader.DataSet
     FSharp.Data
     HtmlAgilityPack
