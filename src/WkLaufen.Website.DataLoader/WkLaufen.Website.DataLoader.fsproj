@@ -25,5 +25,9 @@
     <ProjectReference Include="..\Common\Common.fsproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
