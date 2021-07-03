@@ -110,10 +110,10 @@ let private parseMembershipEntry (row: Mitgliederuebersicht.Row) =
     (memberId, (tryParseDateTime row.Von, tryParseDateTime row.Bis))
 
 let private parseRole v =
-    if Regex.IsMatch(v, "Obmann|Obfrau") then Obmann
-    elif Regex.IsMatch(v, "Kapellmeister(in)?") then Kapellmeister
-    elif Regex.IsMatch(v, "Jugendorchesterleiter(in)?") then Jugendorchesterleiter
-    elif Regex.IsMatch(v, "Jugendreferent(in)?") then Jugendreferent
+    if Regex.IsMatch(v, "^(Obmann|Obfrau)$") then Obmann
+    elif Regex.IsMatch(v, "^Kapellmeister(in)?$") then Kapellmeister
+    elif Regex.IsMatch(v, "^Jugendorchesterleiter(in)?$") then Jugendorchesterleiter
+    elif Regex.IsMatch(v, "^Jugendreferent(in)?$") then Jugendreferent
     else Other v
 
 let private parseRoleEntry (row: Funktionaere.Row) =
