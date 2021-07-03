@@ -15,13 +15,13 @@ let private isMember groupId (m: DataModels.Member) =
         |> not
     match groupId with
     | "vorstandsteam" -> m.Roles |> List.isEmpty |> not
-    | "saxophon" -> hasAnyInstrument [ "Saxophon" ]
-    | "klarinette-und-fagott" -> hasAnyInstrument [ "B-Klarinette"; "Bass-Klarinette"; "Fagott" ]
+    | "saxophon" -> hasAnyInstrument [ "Saxophon Alt" ]
+    | "klarinette-und-fagott" -> hasAnyInstrument [ "Klarinette B"; "Klarinette Baß"; "Fagott" ]
     | "marketenderinnen" -> hasAnyInstrument [ "sonstiges Instrument" ]
-    | "tiefes-blech" -> hasAnyInstrument [ "Tenorhorn"; "Tuba"; "Posaune"; "Horn" ]
-    | "hohes-blech" -> hasAnyInstrument [ "Fl\u00fcgelhorn"; "Trompete" ]
+    | "tiefes-blech" -> hasAnyInstrument [ "Tenorhorn"; "Tuba B"; "Zugposaune"; "Waldhorn" ]
+    | "hohes-blech" -> hasAnyInstrument [ "Flügelhorn"; "Trompete" ]
     | "schlagzeug" -> hasAnyInstrument [ "Schlagzeug" ]
-    | "querfloete-und-oboe" -> hasAnyInstrument [ "Querfl\u00F6te"; "Oboe" ]
+    | "querfloete-und-oboe" -> hasAnyInstrument [ "Querflöte"; "Oboe" ]
     | _ -> false
 
 let getIndexed() =
