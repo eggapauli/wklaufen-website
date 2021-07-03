@@ -17,7 +17,7 @@ let private isMember groupId (m: DataModels.Member) =
     | "vorstandsteam" -> m.Roles |> List.isEmpty |> not
     | "saxophon" -> hasAnyInstrument [ "Saxophon Alt" ]
     | "klarinette-und-fagott" -> hasAnyInstrument [ "Klarinette B"; "Klarinette Baß"; "Fagott" ]
-    | "marketenderinnen" -> hasAnyInstrument [ "sonstiges Instrument" ]
+    | "marketenderinnen" -> hasAnyInstrument [ "Sonstiges Instrument" ]
     | "tiefes-blech" -> hasAnyInstrument [ "Tenorhorn"; "Tuba B"; "Zugposaune"; "Waldhorn" ]
     | "hohes-blech" -> hasAnyInstrument [ "Flügelhorn"; "Trompete" ]
     | "schlagzeug" -> hasAnyInstrument [ "Schlagzeug" ]
