@@ -116,9 +116,11 @@ let private parseRole v =
     elif Regex.IsMatch(v, "^Jugendreferent(in)?$") then Jugendreferent
     else Other v
 
-let private parseRoleEntry (row: Funktionaere.Row) =
-    let memberId = (row.Vorname, row.Zuname, tryParseDateTime row.GebDat)
-    (memberId, parseRole row.Funktion)
+let private tryParseRoleEntry (row: Funktionaere.Row) =
+    if String.equalsIgnoreCase row.Funktion "sonstige Funktion" then None
+    else
+        let memberId = (row.Vorname, row.Zuname, tryParseDateTime row.GebDat)
+        Some (memberId, parseRole row.Funktion)
 
 let private parseInstrumentEntry (row: MitgliederInstrumente.Row) =
     let memberId = (row.Vorname, row.Zuname, tryParseDateTime row.GebDat)
@@ -192,7 +194,7 @@ let getMembers (httpClient: HttpClient) = async {
         }
         return
             (Funktionaere.Parse responseContent).Rows
-            |> Seq.map parseRoleEntry
+            |> Seq.choose tryParseRoleEntry
             |> Seq.groupBy fst
             |> Seq.map (fun (key, value) -> key, value |> Seq.map snd |> Seq.toList)
             |> Map.ofSeq
