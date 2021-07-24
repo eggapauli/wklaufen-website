@@ -24,8 +24,8 @@ let private menuItem page =
   | MitgliedWerden -> Some ((2, 2), render Images.mitglied_werden_w150h100 "Mitglied werden")
   | Wertungen -> Some ((2, 3), render Images.wertungen_w150h100 "Wertungen")
   | Jugend -> Some ((2, 4), render Images.jugend_w150h100 "Jugend")
-  | Floetenkids -> Some ((2, 5), render Images.floetenkids_w150h100 "Flötenkids")
   | Impressum -> None
+  | Floetenkids -> Some ((2, 5), render Images.floetenkids_w150h100 "Laufenten-Club")
 
 let private pages =
   Microsoft.FSharp.Reflection.FSharpType.GetUnionCases typeof<Page>
