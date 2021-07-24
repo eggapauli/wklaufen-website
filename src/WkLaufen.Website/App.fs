@@ -38,6 +38,7 @@ let view model dispatch =
     | Jugend -> Jugend.View.root
     | Floetenkids -> Floetenkids.View.root
     | Impressum -> Impressum.View.root
+    | Instrumentenfindung -> Instrumentenfindung.View.root
 
   div [] [
     yield pageHtml model.CurrentPage
