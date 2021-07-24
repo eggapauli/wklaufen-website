@@ -37,6 +37,8 @@ let private login (driver: IWebDriver) (userName, password) =
     let wait = WebDriverWait(driver, TimeSpan.FromSeconds(5.))
     wait.Until(fun d -> d.FindElement(By.Name "GoogleCaptchaToken").GetAttribute("value") <> "")|> ignore
 
+    System.Threading.Thread.Sleep(5000)
+
     driver.FindElement(By.TagName "form").Submit()
 
     driver.Manage().Cookies.GetCookieNamed("BMVOnline")
