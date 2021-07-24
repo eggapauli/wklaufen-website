@@ -20,9 +20,6 @@ let private baseUrl = Uri("https://bmv.ooe-bv.at")
 let private createWebDriver chromeLocation =
     let options = ChromeOptions()
     options.BinaryLocation <- chromeLocation
-    #if !DEBUG
-    options.AddArgument("headless")
-    #endif
     let driver = new ChromeDriver(options) :> IWebDriver
     driver.Manage().Timeouts().ImplicitWait <- TimeSpan.FromSeconds(30.)
     driver
