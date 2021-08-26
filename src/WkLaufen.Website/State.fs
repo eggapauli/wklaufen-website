@@ -21,7 +21,6 @@ let pageParser: Parser<Page->Page,Page> =
     map Jugend (s "jugend")
     map Floetenkids (s "floetenkids")
     map Impressum (s "impressum")
-    map Instrumentenfindung (s "finde-dein-instrument")
   ]
 
 let updateWindowTitle page dispatch =
@@ -40,7 +39,6 @@ let updateWindowTitle page dispatch =
     | Jugend -> "Jugend"
     | Floetenkids -> "Flötenkids"
     | Impressum -> "Impressum"
-    | Instrumentenfindung -> "Finde dein Instrument"
     |> sprintf "%s - WK Laufen"
   Browser.Dom.document.title <- title
 

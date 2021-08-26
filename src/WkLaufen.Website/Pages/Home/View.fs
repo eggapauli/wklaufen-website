@@ -24,9 +24,8 @@ let private menuItem page =
   | MitgliedWerden -> Some ((2, 2), render Images.mitglied_werden_w150h100 "Mitglied werden")
   | Wertungen -> Some ((2, 3), render Images.wertungen_w150h100 "Wertungen")
   | Jugend -> Some ((2, 4), render Images.jugend_w150h100 "Jugend")
+  | Impressum -> None
   | Floetenkids -> Some ((2, 5), render Images.floetenkids_w150h100 "Laufenten-Club")
-  | Impressum
-  | Instrumentenfindung -> None
 
 let private pages =
   Microsoft.FSharp.Reflection.FSharpType.GetUnionCases typeof<Page>
@@ -49,23 +48,6 @@ let root =
     [
       ul [ Id "top-menu"; ClassName "menu" ] topMenuItems
       Heading.h1 [ Heading.Is3 ] [ str "Willkommen bei der"; br []; str "Werkskapelle Laufen Gmunden-Engelhof" ]
-      a
-        [ Href (toLink Instrumentenfindung)
-          Style
-            [ Display DisplayOptions.InlineBlock
-              Position PositionOptions.Absolute
-              Right "30px"
-              Transform "rotate(-5deg)"
-              Padding "10px"
-              Margin "-20px"
-              Background "rgba(255,255,255,0.8)"
-              BorderRadius "10px"
-              Border "5px double darkgoldenrod"
-              TextDecoration "none"
-              LineHeight "0" ] ]
-        [
-          img [ Src "images/instrumentenfindung.jpg" ]
-        ]
       div [ Id "bottom-menu-container" ] [
         ul [ Id "bottom-menu"; ClassName "menu" ] bottomMenuItems
       ]

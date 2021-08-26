@@ -426,19 +426,7 @@ strong
     box-sizing: border-box
     overflow-y: auto
 
-#instrumentenfindung
-  .flyer
-    position: absolute
-    top: 0
-    right: 0
-    width: 600px
-    height: 100%
-
-    object
-      width: 100%
-      height: 100%
-
-$pages: home, contacts, activities, member-groups, members, support, about-us, become-member, contests, youths, recorder-kids, impressum, concert, instrumentenfindung
+$pages: home, contacts, activities, member-groups, members, support, about-us, become-member, contests, youths, recorder-kids, impressum, concert
 @each $page in $pages
   @keyframes page-load-#{$page}
     from
